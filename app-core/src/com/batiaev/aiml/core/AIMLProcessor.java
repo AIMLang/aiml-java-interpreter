@@ -1,5 +1,7 @@
 package com.batiaev.aiml.core;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -28,18 +30,19 @@ public class AIMLProcessor {
     int sraiNodes = 0;
     int sraixNodes = 0;
     int thinkNodes = 0;
+    private static final Logger LOG = LogManager.getLogger(AIMLProcessor.class);
 
     void loadFiles(File aimlDir) {
         File[] files = aimlDir.listFiles();
         for (File file : files != null ? files : new File[0]) loadFile(file.getAbsolutePath());
-        System.out.println(getStat());
+        LOG.info(getStat());
     }
 
     void loadFile(String path) {
         File aimlFile = new File(path);
 
         if (!aimlFile.exists()) {
-            System.out.println(path + " not found");
+            LOG.warn(path + " not found");
             return;
         }
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -57,35 +60,42 @@ public class AIMLProcessor {
         doc.getDocumentElement().normalize();
         Element aimlRoot = doc.getDocumentElement();
         if (!aimlRoot.getNodeName().equals(AIMLTag.aiml)) {
-            System.out.println(aimlFile.getName() + " is not AIML file");
+            LOG.warn(aimlFile.getName() + " is not AIML file");
             return;
         }
         String aimlVersion = aimlRoot.getAttribute("version");
-        System.out.println("Load aiml \t\t" + aimlFile.getName() + (aimlVersion.isEmpty() ? "" : " [v." + aimlRoot.getAttribute("version") + "]"));
+        LOG.debug("Load aiml \t\t" + aimlFile.getName() + (aimlVersion.isEmpty() ? "" : " [v." + aimlRoot.getAttribute("version") + "]"));
 
         NodeList childNodes = doc.getChildNodes();
-        for (int i = 0; i < childNodes.getLength(); ++i) aimlParser(childNodes.item(i));
-    }
-
-    void aimlParser(Node node) {
-        String nodeName = node.getNodeName();
-        if (nodeName.equals(AIMLTag.topic))
-            ++topicNodes;
-        else if (nodeName.equals(AIMLTag.category))
-            ++categoryNodes;
-        else if (nodeName.equals(AIMLTag.srai))
-            ++sraiNodes;
-        else if (nodeName.equals(AIMLTag.sraix))
-            ++sraixNodes;
-        else if (nodeName.equals(AIMLTag.think))
-            ++thinkNodes;
-
-        NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) aimlParser(childNodes.item(i));
     }
 
     public String getStat() {
         return "Brain contain: " + topicNodes + " topics, " + categoryNodes + " categories, "
                 + sraiNodes + " links, " + sraixNodes + " external links.";
+    }
+
+    void aimlParser(Node node) {
+        String nodeName = node.getNodeName();
+        switch (nodeName) {
+            case AIMLTag.topic:
+                ++topicNodes;
+                break;
+            case AIMLTag.category:
+                ++categoryNodes;
+                break;
+            case AIMLTag.srai:
+                ++sraiNodes;
+                break;
+            case AIMLTag.sraix:
+                ++sraixNodes;
+                break;
+            case AIMLTag.think:
+                ++thinkNodes;
+                break;
+        }
+
+        NodeList childNodes = node.getChildNodes();
+        for (int i = 0; i < childNodes.getLength(); ++i) aimlParser(childNodes.item(i));
     }
 }

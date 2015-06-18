@@ -1,5 +1,8 @@
 package com.batiaev.aiml.core;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.util.HashMap;
 
@@ -12,6 +15,7 @@ import java.util.HashMap;
 */
 public class AIMLSubstitution extends HashMap<String, String> {
     public String  susbstitutionName;
+    private static final Logger LOG = LogManager.getLogger(AIMLSubstitution.class);
 
     public AIMLSubstitution() {
     }
@@ -25,14 +29,14 @@ public class AIMLSubstitution extends HashMap<String, String> {
         susbstitutionName = file.getName();
 
         if (!file.exists()) {
-            System.out.println(path + " not found");
+            LOG.warn(path + " not found");
             return;
         }
 
         try {
             FileInputStream fstream = new FileInputStream(path);
             int cnt = loadFromInputStream(fstream);
-            System.out.println("Load substitution \t\t" + susbstitutionName + " [" + cnt + "]");
+            LOG.debug("Load substitution \t\t" + susbstitutionName + " [" + cnt + "]");
             fstream.close();
         } catch (IOException e) {
             e.printStackTrace();

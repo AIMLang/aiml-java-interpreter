@@ -9,8 +9,8 @@ import com.batiaev.utils.IOUtils;
  */
 public class Chat {
     private String nickname = "Human";
-
-    Bot bot = null;
+    private Bot bot = null;
+    ChatState state;
 
     public Chat(Bot bot) {
         this.bot = bot;
@@ -19,6 +19,7 @@ public class Chat {
     public void start() {
         System.out.print("Write your nickname: ");
         nickname = IOUtils.read();
+        state = new ChatState(nickname);
         System.out.println("Hello " + nickname + "! Welcome to chat with " + bot.name() + ".");
 
         String textLine;
@@ -31,9 +32,11 @@ public class Chat {
                 case "/q":
                     System.exit(0);
                 case "/stat":
+                case "/s":
                     write(bot.getBrainStats());
                     break;
                 case "/reload":
+                case "/r":
                     bot.reload();
                     break;
                 case "/connect russian":
@@ -47,7 +50,8 @@ public class Chat {
                     bot.reload();
                     break;
                 default:
-                    String response = AIMLConst.default_bot_response + " " + AIMLConst.error_bot_response;
+                    String response = bot.multisentenceRespond(textLine, state);
+                    state.newState(textLine, response);
                     write(response);
                     break;
             }

@@ -8,4 +8,5 @@ public class AIMLCategory {
     String pattern = "";
     String template = "";
     String think = "";
+    String that = "";
 }

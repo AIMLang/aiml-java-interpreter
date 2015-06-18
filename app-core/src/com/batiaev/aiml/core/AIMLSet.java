@@ -1,5 +1,8 @@
 package com.batiaev.aiml.core;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.util.HashSet;
 
@@ -8,6 +11,7 @@ import java.util.HashSet;
  */
 public class AIMLSet extends HashSet<String> {
     public String setName;
+    private static final Logger LOG = LogManager.getLogger(AIMLSet.class);
 
     public AIMLSet() {
     }
@@ -21,14 +25,14 @@ public class AIMLSet extends HashSet<String> {
         setName = file.getName();
 
         if (!file.exists()) {
-            System.out.println(path + " not found");
+            LOG.warn(path + " not found");
             return;
         }
 
         try {
             FileInputStream fstream = new FileInputStream(path);
             int cnt = loadFromInputStream(fstream);
-            System.out.println("Load set \t\t" + setName + " [" + cnt + "]");
+            LOG.debug("Load set \t\t" + setName + " [" + cnt + "]");
             fstream.close();
         } catch (IOException e) {
             e.printStackTrace();

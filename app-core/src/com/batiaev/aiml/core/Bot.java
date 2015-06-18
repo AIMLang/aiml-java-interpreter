@@ -1,7 +1,8 @@
 package com.batiaev.aiml.core;
 
+import com.batiaev.aiml.chat.ChatState;
+
 import java.io.File;
-import java.util.HashMap;
 
 
 /**
@@ -51,5 +52,16 @@ public class Bot {
         skills_path = bot_name_path + File.separator + "skills";
         sets_path = bot_name_path + File.separator + "sets";
         maps_path = bot_name_path + File.separator + "maps";
+    }
+
+    public String multisentenceRespond(String request, ChatState state) {
+        String[] sentences = brain.sentenceSplit(request);
+        String response = AIMLConst.error_bot_response;
+        for (String sentence : sentences) response += " " + respond(sentence, state);
+        return response;
+    }
+
+    public String respond(String request, ChatState state) {
+        return brain.respond(request, state.topic(), state.that(), state.respond());
     }
 }

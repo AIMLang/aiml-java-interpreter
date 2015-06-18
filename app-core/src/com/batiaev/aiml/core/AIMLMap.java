@@ -1,5 +1,8 @@
 package com.batiaev.aiml.core;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.*;
 import java.util.HashMap;
 
@@ -12,6 +15,7 @@ import java.util.HashMap;
 */
 public class AIMLMap extends HashMap<String, String> {
     public String  mapName;
+    private static final Logger LOG = LogManager.getLogger(AIMLMap.class);
 
     public AIMLMap() {
     }
@@ -25,14 +29,14 @@ public class AIMLMap extends HashMap<String, String> {
         mapName = file.getName();
 
         if (!file.exists()) {
-            System.out.println(path + " not found");
+            LOG.warn(path + " not found");
             return;
         }
 
         try {
             FileInputStream fstream = new FileInputStream(path);
             int cnt = loadFromInputStream(fstream);
-            System.out.println("Load map \t\t" + mapName + " [" + cnt + "]");
+            LOG.debug("Load map \t\t" + mapName + " [" + cnt + "]");
             fstream.close();
         } catch (IOException e) {
             e.printStackTrace();
