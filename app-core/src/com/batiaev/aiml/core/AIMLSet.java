@@ -9,6 +9,13 @@ import java.util.HashSet;
 public class AIMLSet extends HashSet<String> {
     public String setName;
 
+    public AIMLSet() {
+    }
+
+    public AIMLSet(String path) {
+        loadFile(path);
+    }
+
     void loadFile(String path) {
         File file = new File(path);
         setName = file.getName();

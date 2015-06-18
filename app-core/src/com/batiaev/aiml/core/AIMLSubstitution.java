@@ -13,6 +13,13 @@ import java.util.HashMap;
 public class AIMLSubstitution extends HashMap<String, String> {
     public String  susbstitutionName;
 
+    public AIMLSubstitution() {
+    }
+
+    public AIMLSubstitution(String path) {
+        loadFile(path);
+    }
+
     void loadFile(String path) {
         File file = new File(path);
         susbstitutionName = file.getName();

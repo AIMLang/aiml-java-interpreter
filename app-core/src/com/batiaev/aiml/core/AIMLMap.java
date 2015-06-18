@@ -13,6 +13,13 @@ import java.util.HashMap;
 public class AIMLMap extends HashMap<String, String> {
     public String  mapName;
 
+    public AIMLMap() {
+    }
+
+    public AIMLMap(String path) {
+        loadFile(path);
+    }
+
     void loadFile(String path) {
         File file = new File(path);
         mapName = file.getName();

@@ -10,6 +10,7 @@ public class AIMLTag {
 
     public static String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     public static String aiml = "aiml";
+    public static String topic = "topic";
     public static String pattern = "pattern";
     public static String template = "template";
     public static String random = "random";

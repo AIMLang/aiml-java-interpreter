@@ -1,5 +1,0 @@
-https://playground.pandorabots.com/en/tutorial/
-http://blog.pandorabots.com/aiaas-aiml-2-0-support/
-http://www.alicebot.org/documentation/aiml101.html
-http://itc.ua/articles/kvest_tyuringa_7667/
-http://www.eblong.com/zarf/markov/chan.c
