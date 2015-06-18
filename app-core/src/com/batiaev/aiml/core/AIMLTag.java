@@ -10,6 +10,7 @@ public class AIMLTag {
 
     public static String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     public static String aiml = "aiml";
+    public static String category = "category";
     public static String topic = "topic";
     public static String pattern = "pattern";
     public static String template = "template";
@@ -25,7 +26,7 @@ public class AIMLTag {
     public static String map = "map";
     public static String that = "that";
     public static String condition = "condition";
-    public static String loop = "condition";
+    public static String loop = "loop";
     public static String learn = "learn";
     public static String learnf = "learnf";
     public static String eval = "eval";

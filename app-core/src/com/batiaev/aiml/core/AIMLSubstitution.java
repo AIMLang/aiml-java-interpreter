@@ -20,7 +20,7 @@ public class AIMLSubstitution extends HashMap<String, String> {
         loadFile(path);
     }
 
-    void loadFile(String path) {
+    public void loadFile(String path) {
         File file = new File(path);
         susbstitutionName = file.getName();
 

@@ -7,10 +7,7 @@
  * user guide available at http://gradle.org/docs/2.2.1/userguide/tutorial_java_projects.html
  */
 
-apply plugin: 'java'
 apply plugin: 'idea'
-apply plugin: 'application'
-
 
 idea {
     project {
@@ -20,13 +17,13 @@ idea {
     }
 }
 
-/*
 repositories {
-    // Use 'jcenter' for resolving your dependencies.
-    // You can declare any Maven/Ivy/file repository here.
     jcenter()
+    mavenLocal()
+    mavenCentral()
 }
 
+/*
 // In this section you declare the dependencies for your production and test code
 dependencies {
     // The production code uses the SLF4J logging API at compile time
