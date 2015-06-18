@@ -18,11 +18,16 @@ public class GraphMaster {
     public HashMap<String, AIMLSet> setMap = new HashMap<String, AIMLSet>();
     public HashMap<String, AIMLMap> mapMap = new HashMap<String, AIMLMap>();
     public HashMap<String, AIMLSubstitution> substitutionMap = new HashMap<String, AIMLSubstitution>();
+    private AIMLProcessor processor = null;
 
     public GraphMaster() {}
 
     public GraphMaster(Bot bot) {
         this.bot = bot;
+    }
+
+    public String getStat() {
+        return processor.getStat();
     }
 
     public void wakeUp() {
@@ -66,7 +71,7 @@ public class GraphMaster {
     }
 
     void loadAimlFiles() {
-        AIMLProcessor processor = new AIMLProcessor();
+        processor = new AIMLProcessor();
         File aimls = new File(bot.aiml_path);
         processor.loadFiles(aimls);
     }

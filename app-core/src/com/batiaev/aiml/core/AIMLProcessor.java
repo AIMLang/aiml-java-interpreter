@@ -32,8 +32,7 @@ public class AIMLProcessor {
     void loadFiles(File aimlDir) {
         File[] files = aimlDir.listFiles();
         for (File file : files != null ? files : new File[0]) loadFile(file.getAbsolutePath());
-        System.out.println("Brain contain: " + topicNodes + " topics, " + categoryNodes + " categories, "
-                + sraiNodes + " links, " + sraixNodes + " external links.");
+        System.out.println(getStat());
     }
 
     void loadFile(String path) {
@@ -83,5 +82,10 @@ public class AIMLProcessor {
 
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) aimlParser(childNodes.item(i));
+    }
+
+    public String getStat() {
+        return "Brain contain: " + topicNodes + " topics, " + categoryNodes + " categories, "
+                + sraiNodes + " links, " + sraixNodes + " external links.";
     }
 }
