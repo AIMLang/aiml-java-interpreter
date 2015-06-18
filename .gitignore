@@ -19,4 +19,10 @@ hs_err_pid*
 .Trashes
 ehthumbs.db
 Thumbs.db
-out
+aiml-java-interpreter.ipr
+aiml-java-interpreter.iml
+aiml-java-interpreter.iws
+app-core/build
+app-core/app-core.iml
+.gradle
+.idea
