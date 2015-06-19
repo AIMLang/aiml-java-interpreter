@@ -106,6 +106,6 @@ public class GraphMaster {
     }
 
     public String respond(String input, String topic, String that, String respond) {
-        return AIMLConst.default_bot_response;
+        return processor.match(input);
     }
 }

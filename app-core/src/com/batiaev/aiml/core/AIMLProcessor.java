@@ -2,16 +2,20 @@ package com.batiaev.aiml.core;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 import java.io.*;
+import java.util.HashMap;
 
 /**
  * The core AIML parser and interpreter.
@@ -30,6 +34,7 @@ public class AIMLProcessor {
     int sraiNodes = 0;
     int sraixNodes = 0;
     int thinkNodes = 0;
+    private HashMap<String, HashMap<String, Node>> topics = null; // { topic : { pattern : <category>..</category> } }
     private static final Logger LOG = LogManager.getLogger(AIMLProcessor.class);
 
     void loadFiles(File aimlDir) {
@@ -43,6 +48,10 @@ public class AIMLProcessor {
 
         if (!aimlFile.exists()) {
             LOG.warn(path + " not found");
+            return;
+        }
+        if (!aimlFile.getName().contains(AIMLConst.aiml_file_suffix)) {
+            LOG.warn(aimlFile.getName() + " is not AIML file");
             return;
         }
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -71,7 +80,7 @@ public class AIMLProcessor {
     }
 
     public String getStat() {
-        return "Brain contain: " + topicNodes + " topics, " + categoryNodes + " categories, "
+        return "Brain contain: " + topicNodes + " topics, " + categoryNodes + " patterns, "
                 + sraiNodes + " links, " + sraixNodes + " external links.";
     }
 
@@ -80,9 +89,11 @@ public class AIMLProcessor {
         switch (nodeName) {
             case AIMLTag.topic:
                 ++topicNodes;
+                parseTopic(node);
                 break;
             case AIMLTag.category:
                 ++categoryNodes;
+                parseCategory(node);
                 break;
             case AIMLTag.srai:
                 ++sraiNodes;
@@ -97,5 +108,72 @@ public class AIMLProcessor {
 
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) aimlParser(childNodes.item(i));
+    }
+
+    private void parseTopic(Node node) {
+        NodeList childNodes = node.getChildNodes();
+        for (int i = 0; i < childNodes.getLength(); ++i) {
+            Node childNode = childNodes.item(i);
+            if (childNode.getNodeName().equals(AIMLTag.category)) parseCategory(childNode);
+        }
+    }
+
+    private String getTopicValue(Node node) {
+        return node.getAttributes().getNamedItem("name").getNodeValue();
+    }
+
+    int count = 0;
+    private void parseCategory(Node node) {
+        if (topics == null)
+            topics = new HashMap<String, HashMap<String, Node> >();
+        NodeList childNodes = node.getChildNodes();
+        for (int i = 0; i < childNodes.getLength(); ++i) {
+            String childNodeName = childNodes.item(i).getNodeName();
+            if (childNodeName.equals(AIMLTag.pattern)) {
+                String topicName = node.getParentNode().getNodeName().equals(AIMLTag.topic)
+                        ? getTopicValue(node.getParentNode())
+                        : AIMLConst.default_topic;
+                if (topics.containsKey(topicName)) {
+                    if (topics.get(topicName).put(node2String(childNodes.item(i)), node) != null) {
+                        ++count;
+                        LOG.debug("### DUBLICATE CATEGORY!! " + topicName + " !! " + node2String(childNodes.item(i)));
+                    }
+                }
+                else {
+                    HashMap<String, Node> category = new HashMap<String, Node>();
+                    if (category.put(node2String(childNodes.item(i)), node) != null) {
+                        ++count;
+                        LOG.debug("### DUBLICATE CATEGORY!! " + topicName + " !! " + node2String(childNodes.item(i)));
+                    }
+                    if (topics.put(topicName, category) != null) {
+                        ++count;
+                        LOG.debug("### DUBLICATE TOPIC!! " + topicName + " !! " + node2String(childNodes.item(i)));
+                    }
+                }
+            }
+        }
+    }
+
+    public String match(String pattern) {
+        String tmpPattern = pattern.toUpperCase();
+        int total = 0;
+        topics.keySet().forEach(s -> LOG.debug("#TOPIC: " + s + " " + topics.get(s).size()));
+        for (String key : topics.keySet()) total += topics.get(key).size();
+        LOG.info("#Total patterns: " + total);
+        LOG.info("#Total dublicates: " + count);
+        return AIMLConst.default_bot_response;
+    }
+
+    private String node2String(Node node) {
+        StringWriter sw = new StringWriter();
+        try {
+            Transformer t = TransformerFactory.newInstance().newTransformer();
+            t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+            t.setOutputProperty(OutputKeys.INDENT, "yes");
+            t.transform(new DOMSource(node), new StreamResult(sw));
+        } catch (TransformerException te) {
+            System.out.println("nodeToString Transformer Exception");
+        }
+        return sw.toString().replaceAll("(\r\n|\n\r|\r|\n)", " ").replaceAll("> ", ">").replaceFirst("<pattern>", "").replaceFirst("</pattern>", "");
     }
 }

@@ -30,21 +30,4 @@ public class AIMLTag {
     public static final String learn = "learn";
     public static final String learnf = "learnf";
     public static final String eval = "eval";
-
-    public static String startTag(String name) {
-        return "<" + name + ">";
-    }
-
-    public static String endTag(String name) {
-        return "</" + name + ">";
-    }
-
-    public static String singleTag(String name) {
-        return "<" + name + "/>";
-    }
-
-    public static String doubleTag(String name, String value) {
-        return startTag(name) + value + endTag(name);
-    }
-
 }
