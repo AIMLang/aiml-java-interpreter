@@ -1,5 +1,7 @@
 package com.batiaev.aiml.chat;
 
+import com.batiaev.aiml.core.AIMLConst;
+
 import java.util.UUID;
 
 /**
@@ -12,8 +14,7 @@ public class ChatState {
     private UUID chatUid;
     private ChatHistory history;
     private String request = "";
-    private String respond = "";
-    private String topic = "";
+    private String topic = AIMLConst.default_topic;
     private String that = "";
 
     public ChatState(String userName) {
@@ -23,9 +24,9 @@ public class ChatState {
 
     public void newState(String request, String respond) {
         this.request = request;
-        this.respond = respond;
+        this.that = respond;
         history.addRequest(this.request);
-        history.addRespond(this.respond);
+        history.addRespond(this.that);
     }
 
     public String topic() {
@@ -41,6 +42,6 @@ public class ChatState {
     }
 
     public String respond() {
-        return respond;
+        return that;
     }
 }

@@ -56,12 +56,12 @@ public class Bot {
 
     public String multisentenceRespond(String request, ChatState state) {
         String[] sentences = brain.sentenceSplit(request);
-        String response = AIMLConst.error_bot_response;
+        String response = "";
         for (String sentence : sentences) response += " " + respond(sentence, state);
-        return response;
+        return response.isEmpty() ? AIMLConst.error_bot_response : response;
     }
 
     public String respond(String request, ChatState state) {
-        return brain.respond(request, state.topic(), state.that(), state.respond());
+        return brain.respond(request, state.topic(), state.that(), state.request());
     }
 }

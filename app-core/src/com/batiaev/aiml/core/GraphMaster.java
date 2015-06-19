@@ -105,7 +105,7 @@ public class GraphMaster {
         return result;
     }
 
-    public String respond(String input, String topic, String that, String respond) {
-        return processor.match(input);
+    public String respond(String input, String topic, String that, String request) {
+        return processor.match(input, topic, that, request);
     }
 }

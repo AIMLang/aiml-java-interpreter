@@ -30,4 +30,5 @@ public class AIMLTag {
     public static final String learn = "learn";
     public static final String learnf = "learnf";
     public static final String eval = "eval";
+    public static final String text = "#text";
 }
