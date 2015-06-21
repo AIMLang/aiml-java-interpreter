@@ -1,7 +1,5 @@
 package com.batiaev.aiml.core;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -13,7 +11,6 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
 
@@ -29,32 +26,22 @@ import java.util.Set;
  * http://www.eblong.com/zarf/markov/chan.c
  */
 public class AIMLProcessor {
-    int topicNodes = 0;
-    int categoryNodes = 0;
-    int sraiNodes = 0;
-    int sraixNodes = 0;
-    int thinkNodes = 0;
-    private HashMap<String, HashMap<String, Node>> topics = null; // { topic : { pattern : <category>..</category> } }
-    private static final Logger LOG = LogManager.getLogger(AIMLProcessor.class);
+    private CategoryList categoryList = null;
 
-    void setTopics(HashMap<String, HashMap<String, Node>> topics) {
-        this.topics = topics;
+    void setCategoryList(CategoryList categories) {
+        categoryList = categories;
     }
 
     public String getStat() {
-        int total = 0;
-        for (String key : topics.keySet()) total += topics.get(key).size();
-        return "Brain contain " + topics.size() + " topics " + total + " categories";
-//        return "Brain contain: " + topicNodes + " topics, " + categoryNodes + " patterns, "
-//                + sraiNodes + " links, " + sraixNodes + " external links.";
+        return "Brain contain " + categoryList.topicCount() + " topics " + categoryList.size() + " categories";
     }
 
     public String match(String input, String topic, String that, String request) {
         String result = AIMLConst.default_bot_response;
-        Set<String> patterns = topics.get(topic).keySet();
+        Set<String> patterns = categoryList.patterns(topic);
         for (String pattern : patterns) {
             if (isMatching(input.toUpperCase(), pattern))
-                result = getCategoryValue(topics.get(topic).get(pattern));
+                result = getCategoryValue(categoryList.category(topic, pattern).node);
         }
         return result;
     }
@@ -106,7 +93,7 @@ public class AIMLProcessor {
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) {
             if (childNodes.item(i).getNodeName().equals(AIMLTag.template))
-                result = recurseParse(childNodes.item(i));
+                result = getTemplateValue(childNodes.item(i));
         }
         return result.isEmpty() ? AIMLConst.default_bot_response : result;
     }
@@ -134,8 +121,8 @@ public class AIMLProcessor {
     }
 
     private String sraiParse(Node node) {
-        Node sraiNode = topics.get(AIMLConst.default_topic).get(node2String(node));
-        return getCategoryValue(sraiNode);
+        Category category = categoryList.category(AIMLConst.default_topic, node2String(node));
+        return category != null ? getCategoryValue(category.node) : AIMLConst.error_bot_response;
     }
 
     private String randomParse(Node node) {

@@ -79,7 +79,7 @@ public class GraphMaster {
         processor = new AIMLProcessor();
         AIMLLoader loader = new AIMLLoader();
         CategoryList categories = loader.loadFiles(bot.aiml_path);
-        processor.setTopics(categories.toTopicMap());
+        processor.setCategoryList(categories);
         LOG.info(getStat());
     }
 
