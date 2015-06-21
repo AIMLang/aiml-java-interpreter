@@ -41,13 +41,14 @@ public class AIMLLoader {
         File aimls = new File(aimlDir);
         File[] files = aimls.listFiles();
         if (files == null) {
-            LOG.warn("Not files in folder");
+            LOG.warn("Not files in folder: " + aimls.getAbsolutePath());
             return null;
         }
         categoryList = new CategoryList();
         int countNotAimlFiles = 0;
         for (File file : files) {
-            if (file.getName().endsWith(AIMLConst.aiml_file_suffix)) loadFile(file);
+            if (file.getName().endsWith(AIMLConst.aiml_file_suffix))
+                loadFile(file);
             else ++countNotAimlFiles;
         }
         if (countNotAimlFiles != 0) LOG.warn("Founded " + countNotAimlFiles + " not aiml files in folder " + aimlDir);
