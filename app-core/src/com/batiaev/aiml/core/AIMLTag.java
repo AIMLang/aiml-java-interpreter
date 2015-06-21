@@ -31,4 +31,7 @@ public class AIMLTag {
     public static final String learnf = "learnf";
     public static final String eval = "eval";
     public static final String text = "#text";
+    public static final String comment = "#comment";
+    //Attributes
+    public static final String name = "name";
 }

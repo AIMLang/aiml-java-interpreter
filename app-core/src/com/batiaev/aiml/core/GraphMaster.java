@@ -77,8 +77,10 @@ public class GraphMaster {
 
     void loadAimlFiles() {
         processor = new AIMLProcessor();
-        File aimls = new File(bot.aiml_path);
-        processor.loadFiles(aimls);
+        AIMLLoader loader = new AIMLLoader();
+        CategoryList categories = loader.loadFiles(bot.aiml_path);
+        processor.setTopics(categories.toTopicMap());
+        LOG.info(getStat());
     }
 
     void loadSystemConfigs() {

@@ -1,0 +1,47 @@
+<aiml>
+	<topic>
+		<category></category>
+	</topic>
+	<category>
+		<pattern>
+			WORD
+			$WORD
+			_
+			*
+			^
+			#
+			<set></set>
+			<bot><name>PROPERTY_NAME</name><bot/>
+			<bot name="PROPERTY_NAME" /><bot/>
+		</pattern>
+		<that>equal pattern</that>
+		<topic>equal pattern</topic>
+		<template>
+			<random></random>
+			<srai></srai>
+			<sraix></sraix>
+			<loop/>
+			<get name="WORD"/>
+			<get><name>TEMPLATE_EXPRESSION</name></get>
+			<get var=”WORD”>
+			<get><var>WORD</var></get>
+			<set name="WORD">TEMPLATE_EXPRESSION</set>
+			<set><name>TEMPLATE_EXPRESSION</name>TEMPLATE_EXPRESSION</set>
+			<set var="WORD">TEMPLATE_EXPRESSION</set>
+			<set><var>TEMPLATE_EXPRESSION</var>TEMPLATE_EXPRESSION</set>
+			<map name="WORD">TEMPLATE_EXPRESSION</map>
+			<map><name>TEMPLATE_EXPRESSION</name>TEMPLATE_EXPRESSION</map>
+			<bot name="PROPERTY"/>
+			<bot><name>TEMPLATE_EXPRESSION</name></bot>
+			<date( (format="LISP_DATE_FORMAT") | (jformat="JAVA DATE FORMAT"))*/>
+			<date( (format="LISP_DATE_FORMAT") | (jformat="JAVA DATE FORMAT"))*/>
+			<date>(DATE_ATTRIBUTE_TAG)</date>
+			<request></request>
+			<respond></respond>
+			<learn></learn>
+			<learnf></learnf>
+			<think></think>
+			<star></star>
+		</template>
+	</category>
+</aiml>
