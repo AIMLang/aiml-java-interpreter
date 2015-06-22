@@ -2,7 +2,7 @@ package com.batiaev.aiml.core;
 
 public class AIMLConst {
 
-    public static String root_path = "./";
+    public static String root_path = ".";
     public static String default_bot_name = "russian";
     public static String aiml_file_suffix = ".aiml";
     public static String default_language = "en_US";

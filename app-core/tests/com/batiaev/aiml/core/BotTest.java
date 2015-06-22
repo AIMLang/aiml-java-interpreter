@@ -2,7 +2,6 @@ package com.batiaev.aiml.core;
 
 import com.batiaev.aiml.chat.ChatState;
 import org.junit.Assert;
-import org.junit.Ignore;
 import org.junit.Test;
 
 /**
@@ -13,16 +12,28 @@ import org.junit.Test;
  */
 public class BotTest extends Assert {
 
-    @Ignore
     @Test
-    public void testRespond() throws Exception {
-        AIMLConst.setRootPath("./app-core");
+    public void testMultisentenceRespond() throws Exception {
+        AIMLConst.setRootPath(".");
         Bot bot = new Bot();
-        String nickname = "Human";
-        ChatState state = new ChatState(nickname);
         String request = "Как дела?";
         String correctRequest = "отлично";
-        String respond = bot.respond(request, state);
+        String respond = bot.multisentenceRespond(request, new ChatState("Human")).trim();
         assertTrue("Request = " + request + ", Respond = " + respond, respond.equals(correctRequest));
+    }
+
+    @Test
+    public void testMultisentenceRespond2() throws Exception {
+        AIMLConst.setRootPath(".");
+        Bot bot = new Bot();
+        String request = "Привет";
+        String respond = bot.multisentenceRespond(request, new ChatState("Human")).trim();
+        String[] answers = "Здравствуй;Здравствуйте;Мое почтение!;Здарова;Приветствую;Привет;Доброго времени суток".split(";");
+        boolean result = false;
+        for (String answer : answers) {
+            if (respond.equals(answer))
+                result = true;
+        }
+        assertTrue("Request = " + request + ", Respond = " + respond, result);
     }
 }
