@@ -23,7 +23,13 @@ public class CategoryList {
         for (String topic : topics.keySet()) total += topics.get(topic).size();
         return total;
     }
+
     public Set<String> patterns(String topic) {
+        HashMap<String, Category> topicMap = topics.get(topic);
+        if (topicMap == null) {
+            HashMap<String, Category> pattern = new HashMap<>();
+            topics.put(topic, pattern);
+        }
         return topics.get(topic).keySet();
     }
 
