@@ -15,7 +15,7 @@ public class ChatState {
     private ChatHistory history;
     private String request = "";
     private String topic = AIMLConst.default_topic;
-    private String that = "";
+    private String that = AIMLConst.default_that;
 
     public ChatState(String userName) {
         chatUid = UUID.randomUUID();
@@ -43,5 +43,17 @@ public class ChatState {
 
     public String respond() {
         return that;
+    }
+
+    public void setTopic(String topic) {
+        this.topic = topic;
+    }
+
+    public void setRespond(String respond) {
+        this.that = respond;
+    }
+
+    public void setRequest(String request) {
+        this.request = request;
     }
 }

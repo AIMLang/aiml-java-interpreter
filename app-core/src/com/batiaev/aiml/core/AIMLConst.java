@@ -9,6 +9,7 @@ public class AIMLConst {
     public static String error_bot_response = "Something is wrong with my brain.";
     public static String default_bot_response = "I have no answer for that.";
     public static String default_topic = "unknown";
+    public static String default_that = "unknown";
     public static String null_input = "#NORESP";
 
     public static void setRootPath(String newRootPath) {

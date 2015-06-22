@@ -33,6 +33,8 @@ public class AIMLProcessor {
     }
 
     public String getStat() {
+        if (categoryList == null)
+            categoryList = new CategoryList();
         return "Brain contain " + categoryList.topicCount() + " topics " + categoryList.size() + " categories";
     }
 
