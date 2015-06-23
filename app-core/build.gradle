@@ -10,6 +10,28 @@
 apply plugin: 'java'
 apply plugin: 'application'
 apply plugin: 'groovy'
+apply plugin: "jacoco"
+
+jacoco {
+    toolVersion = "0.7.5.201505241946"
+    reportsDir = file("$buildDir/jacoco/report")
+}
+
+jacocoTestReport {
+    reports {
+        xml.enabled false
+        csv.enabled false
+        html.destination "${buildDir}/jacoco/htmlReport"
+    }
+}
+
+test {
+    jacoco {
+        append = false
+        destinationFile = file("$buildDir/jacoco/test/jacocoTest.exec")
+        classDumpFile = file("$buildDir/jacoco/test/classpathdumps")
+    }
+}
 
 sourceSets {
     test {
