@@ -33,6 +33,10 @@ test {
     }
 }
 
+run {
+    standardInput = System.in
+}
+
 sourceSets {
     test {
         java {

@@ -1,11 +1,10 @@
 import com.batiaev.aiml.chat.Chat;
-import com.batiaev.aiml.core.AIMLConst;
 import com.batiaev.aiml.core.Bot;
 
 public class Main {
 
     public static void main(String[] args) {
-        AIMLConst.setRootPath("./app-core");
+//        AIMLConst.setRootPath("./app-core");
         mainFunction(args);
     }
 

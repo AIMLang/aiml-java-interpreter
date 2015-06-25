@@ -11,6 +11,8 @@ public class AIMLConst {
     public static String default_topic = "unknown";
     public static String default_that = "unknown";
     public static String null_input = "#NORESP";
+    public static boolean debug = false;
+    public static int loopLimit = 20;
 
     public static void setRootPath(String newRootPath) {
         root_path = newRootPath;
