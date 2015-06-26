@@ -46,12 +46,13 @@ public class Bot {
 
     private void reloadPaths() {
         bot_name_path = bot_path + File.separator  + name;
-        substitutions_path = bot_name_path + File.separator + "substitutions";
-        aiml_path = bot_name_path + File.separator + "aiml";
-        system_path = bot_name_path + File.separator + "system";
-        skills_path = bot_name_path + File.separator + "skills";
-        sets_path = bot_name_path + File.separator + "sets";
-        maps_path = bot_name_path + File.separator + "maps";
+        String prefix = bot_name_path + File.separator;
+        substitutions_path = prefix + "substitutions";
+        aiml_path = prefix + "aiml";
+        system_path = prefix + "system";
+        skills_path = prefix + "skills";
+        sets_path = prefix + "sets";
+        maps_path = prefix + "maps";
     }
 
     public String multisentenceRespond(String request, ChatState state) {
@@ -62,6 +63,7 @@ public class Bot {
     }
 
     public String respond(String request, ChatState state) {
-        return brain.respond(request, state.topic(), state.that(), state.request());
+        String pattern = brain.match(request, state.topic(), state.that());
+        return brain.respond(pattern, state.topic(), state.that());
     }
 }

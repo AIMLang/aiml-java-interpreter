@@ -18,13 +18,6 @@ public class Chat {
 
     public void start() {
         System.out.print("Write your nickname: ");
-        String respond = null;
-        int counter = 0;
-        while (respond == null) {
-            respond = IOUtils.read();
-            if (++counter > AIMLConst.loopLimit)
-                System.exit(0);
-        }
         nickname = IOUtils.read();
         state = new ChatState(nickname);
         System.out.println("Hello " + nickname + "! Welcome to chat with " + bot.name() + ".");

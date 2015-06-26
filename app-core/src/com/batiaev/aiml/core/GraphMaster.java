@@ -107,7 +107,11 @@ public class GraphMaster {
         return result;
     }
 
-    public String respond(String input, String topic, String that, String request) {
-        return processor.match(input, topic, that, request);
+    public String respond(String pattern, String topic, String that) {
+        return processor.template(pattern, topic, that);
+    }
+
+    public String match(String request, String topic, String that) {
+        return processor.match(request, topic, that);
     }
 }

@@ -38,14 +38,13 @@ public class AIMLProcessor {
         return "Brain contain " + categoryList.topicCount() + " topics " + categoryList.size() + " categories";
     }
 
-    public String match(String input, String topic, String that, String request) {
-        String result = AIMLConst.default_bot_response;
+    public String match(String input, String topic, String that) {
         Set<String> patterns = categoryList.patterns(topic);
         for (String pattern : patterns) {
             if (isMatching(input.toUpperCase(), pattern))
-                result = getCategoryValue(categoryList.category(topic, pattern).node);
+                return pattern;
         }
-        return result;
+        return WildCard.sumbol_1more;
     }
 
     private boolean isMatching(String input, String pattern) {
@@ -91,6 +90,9 @@ public class AIMLProcessor {
     }
 
     public String getCategoryValue(Node node) {
+        if (node == null)
+            return AIMLConst.default_bot_response;
+
         String result = "";
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) {
@@ -137,5 +139,12 @@ public class AIMLProcessor {
         Random rn = new Random();
         int index = rn.nextInt(values.size());
         return values.get(index);
+    }
+
+    public String template(String pattern, String topic, String that) {
+        Category category = categoryList.category(topic, pattern);
+        if (category == null)
+            category = categoryList.category(AIMLConst.default_topic, WildCard.sumbol_1more);
+        return category == null ? AIMLConst.default_bot_response : getCategoryValue(category.node);
     }
 }
