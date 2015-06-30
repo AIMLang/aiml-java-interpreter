@@ -2,6 +2,9 @@ import com.batiaev.aiml.chat.Chat;
 import com.batiaev.aiml.core.AIMLConst;
 import com.batiaev.aiml.core.Bot;
 
+/**
+ * @author batiaev
+ */
 public class Main {
 
     public static void main(String[] args) {

@@ -7,6 +7,7 @@ import java.io.*;
 import java.util.HashSet;
 
 /**
+ * @author batiaev
  * implements AIML Sets
  */
 public class AIMLSet extends HashSet<String> {

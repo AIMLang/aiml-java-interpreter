@@ -1,5 +1,12 @@
 package com.batiaev.aiml.core;
 
+/**
+ * @author batiaev
+ * Created by batyaev on 6/17/15.
+ * ---
+ * Copyright © 2015. Anton Batiaev. All Rights Reserved.
+ * www.batiaev.com
+ */
 public class AIMLConst {
 
     public static String root_path = ".";

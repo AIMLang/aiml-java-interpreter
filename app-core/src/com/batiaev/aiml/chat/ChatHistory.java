@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
+ * @author batiaev
  * Created by anton on 18/06/15.
  * ---
  * Copyright © 2015. Anton Batiaev. All Rights Reserved.

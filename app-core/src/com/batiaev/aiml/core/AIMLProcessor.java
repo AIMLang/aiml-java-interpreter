@@ -15,6 +15,7 @@ import java.util.Random;
 import java.util.Set;
 
 /**
+ * @author batiaev
  * The core AIML parser and interpreter.
  * Implements the AIML 2.0 specification as described in
  * AIML 2.0 Working Draft document

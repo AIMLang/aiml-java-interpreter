@@ -7,6 +7,7 @@ import java.io.File;
 import java.util.HashMap;
 
 /**
+ * @author batiaev
  * The AIML Pattern matching algorithm and data structure.
  * Brain of bot.
  *

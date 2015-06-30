@@ -1,6 +1,7 @@
 package com.batiaev.aiml.chat;
 
 /**
+ * @author batiaev
  * Created by anton on 25/06/15.
  * ---
  * Copyright © 2015. Anton Batiaev. All Rights Reserved.

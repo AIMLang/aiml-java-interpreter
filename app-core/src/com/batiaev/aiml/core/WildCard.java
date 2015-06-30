@@ -1,7 +1,8 @@
 package com.batiaev.aiml.core;
 
 /**
- * Created by anton on 19/06/15.
+ * @author batiaev
+ * Created by batiaev on 19/06/15.
  * ---
  * Copyright © 2015. Anton Batiaev. All Rights Reserved.
  * www.batiaev.com

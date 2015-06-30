@@ -6,7 +6,11 @@ import java.io.File;
 
 
 /**
+ * @author batiaev
  * Class representing the AIML bot
+ * ---
+ * Copyright © 2015. Anton Batiaev. All Rights Reserved.
+ * www.batiaev.com
  */
 public class Bot {
     private GraphMaster brain = null;

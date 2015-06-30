@@ -5,7 +5,11 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
+ * @author batiaev
  * Created by batyaev on 6/18/15.
+ * ---
+ * Copyright © 2015. Anton Batiaev. All Rights Reserved.
+ * www.batiaev.com
  */
 public class IOUtils {
     public static String read() {

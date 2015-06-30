@@ -22,6 +22,7 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 /**
+ * @author batiaev
  * Created by anton on 21/06/15.
  * ---
  * Copyright © 2015. Anton Batiaev. All Rights Reserved.

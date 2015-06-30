@@ -4,7 +4,8 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
- * Created by batyaev on 6/18/15.
+ * @author batiaev
+ * Created by batiaev on 6/18/15.
  */
 public class CategoryList {
 

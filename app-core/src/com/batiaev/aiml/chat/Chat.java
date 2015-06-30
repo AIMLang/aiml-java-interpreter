@@ -5,7 +5,11 @@ import com.batiaev.aiml.core.Bot;
 import com.batiaev.utils.IOUtils;
 
 /**
+ * @author batiaev
  * Created by batyaev on 6/18/15.
+ * ---
+ * Copyright © 2015. Anton Batiaev. All Rights Reserved.
+ * www.batiaev.com
  */
 public class Chat {
     private String nickname = "Human";
