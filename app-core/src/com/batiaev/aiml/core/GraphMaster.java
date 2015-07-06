@@ -4,7 +4,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.HashMap;
+import java.util.Properties;
 
 /**
  * @author batiaev
@@ -87,9 +91,40 @@ public class GraphMaster {
     void loadSystemConfigs() {
         File maps = new File(bot.system_path);
         File[] files = maps.listFiles();
-        for (File file : files != null ? files : new File[0])
-            LOG.debug("Load system config \t" + file.getName());
+        for (File file : files != null ? files : new File[0]) {
+            LOG.debug("Load system config: " + file.getName());
+            if (file.getName().equals(Bot.PROPERTIES)) {
+                loadBotInfo(file.getAbsolutePath());
+            }
+        }
         if (files != null) LOG.info("Loaded " + files.length + " system config files.");
+    }
+
+    private void loadBotInfo(String path) {
+        Properties prop = new Properties();
+        try {
+            FileInputStream in = new FileInputStream(path);
+            prop.load(in);
+            BotInfo info = new BotInfo();
+            info.setFirstname(prop.getProperty("firstname"));
+            info.setLastname(prop.getProperty("lastname"));
+            info.setLanguage(prop.getProperty("language"));
+            info.setEmail(prop.getProperty("email"));
+            info.setGender(prop.getProperty("gender"));
+            info.setVersion(prop.getProperty("version"));
+            info.setBirthplace(prop.getProperty("birthplace"));
+            info.setJob(prop.getProperty("job"));
+            info.setSpecies(prop.getProperty("species"));
+            info.setBirthday(prop.getProperty("birthday"));
+            info.setBirthdate(prop.getProperty("birthdate"));
+            info.setSign(prop.getProperty("sign"));
+            info.setReligion(prop.getProperty("religion"));
+            info.setBotmaster(prop.getProperty("botmaster"));
+            bot.setBotInfo(info);
+            in.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

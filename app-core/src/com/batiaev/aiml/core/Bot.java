@@ -15,6 +15,10 @@ import java.io.File;
 public class Bot {
     private GraphMaster brain = null;
 
+    private BotInfo botInfo;
+
+    public static final String PROPERTIES = "bot.properties";
+
     private String name = AIMLConst.default_bot_name;
     public String root_path = AIMLConst.root_path;
     public String bot_path = root_path + File.separator + "bots";
@@ -27,8 +31,17 @@ public class Bot {
     public String maps_path = bot_name_path + File.separator + "maps";
 
     public Bot() {
+        botInfo = new BotInfo();
         brain = new GraphMaster(this);
         brain.wakeUp();
+    }
+
+    public BotInfo botInfo() {
+        return botInfo;
+    }
+
+    public void setBotInfo(BotInfo botInfo) {
+        this.botInfo = botInfo;
     }
 
     public String name() {
