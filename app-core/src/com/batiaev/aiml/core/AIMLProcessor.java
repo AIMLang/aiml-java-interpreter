@@ -29,8 +29,9 @@ import java.util.Set;
  * http://www.eblong.com/zarf/markov/chan.c
  * ---
  * @author Marco
- * Implementation <SET></SET> tag processing on 19/08/2016
+ * Implementation SET tag processing on 19/08/2016
  * Topic managment improvement on 20/08/2016
+ * Parsing THINK tag
  */
 public class AIMLProcessor {
     private CategoryList categoryList = null;
@@ -135,6 +136,9 @@ public class AIMLProcessor {
                 return sraiParse(node);
             case AIMLTag.set:
                 setParse(node);
+                return "";
+            case AIMLTag.think:
+                getTemplateValue(node);
                 return "";
         }
         return "";
