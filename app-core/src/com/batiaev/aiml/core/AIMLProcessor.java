@@ -30,6 +30,7 @@ import java.util.Set;
  * ---
  * @author Marco
  * Implementation <SET></SET> tag processing on 19/08/2016
+ * Topic managment improvement on 20/08/2016
  */
 public class AIMLProcessor {
     private CategoryList categoryList = null;
@@ -47,6 +48,11 @@ public class AIMLProcessor {
 
     public String match(String input, String topic, String that) {
         Set<String> patterns = categoryList.patterns(topic);
+        for (String pattern : patterns) {
+            if (isMatching(input.toUpperCase(), pattern))
+                return pattern;
+        }
+        patterns = categoryList.patterns(AIMLConst.default_topic);
         for (String pattern : patterns) {
             if (isMatching(input.toUpperCase(), pattern))
                 return pattern;
