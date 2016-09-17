@@ -2,14 +2,18 @@ package com.batiaev.aiml.chat;
 
 import com.batiaev.aiml.core.AIMLConst;
 
+import java.util.HashMap;
 import java.util.UUID;
 
 /**
  * @author batiaev
- * Created by anton on 18/06/15.
- * ---
- * Copyright © 2015. Anton Batiaev. All Rights Reserved.
- * www.batiaev.com
+ *         Created by anton on 18/06/15.
+ *         ---
+ * @author Marco Piovesan
+ *         Added predicates on 29/08/16
+ *         ---
+ *         Copyright © 2015. Anton Batiaev. All Rights Reserved.
+ *         www.batiaev.com
  */
 public class ChatState {
     private UUID chatUid;
@@ -17,6 +21,8 @@ public class ChatState {
     private String request = "";
     private String topic = AIMLConst.default_topic;
     private String that = AIMLConst.default_that;
+    private HashMap<String, String> predicates = new HashMap<String, String>();
+
 
     public ChatState(String userName) {
         chatUid = UUID.randomUUID();
@@ -31,6 +37,9 @@ public class ChatState {
     }
 
     public String topic() {
+        if (predicates.containsKey("topic")) {
+            setTopic(predicates.get("topic"));
+        }
         return topic;
     }
 
@@ -57,4 +66,7 @@ public class ChatState {
     public void setRequest(String request) {
         this.request = request;
     }
+
+    public HashMap<String, String> getPredicates(){ return predicates; }
+
 }

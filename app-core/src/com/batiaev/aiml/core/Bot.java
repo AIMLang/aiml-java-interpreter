@@ -9,6 +9,9 @@ import java.io.File;
  * @author batiaev
  * Class representing the AIML bot
  * ---
+ * @author Marco Piovesan
+ * Predicates are passed to brain  29/08/16
+ * ---
  * Copyright © 2015. Anton Batiaev. All Rights Reserved.
  * www.batiaev.com
  */
@@ -81,6 +84,6 @@ public class Bot {
 
     public String respond(String request, ChatState state) {
         String pattern = brain.match(request, state.topic(), state.that());
-        return brain.respond(pattern, state.topic(), state.that());
+        return brain.respond(pattern, state.topic(), state.that(), state.getPredicates());
     }
 }

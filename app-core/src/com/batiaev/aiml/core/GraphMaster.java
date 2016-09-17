@@ -14,6 +14,9 @@ import java.util.Properties;
  * @author batiaev
  * The AIML Pattern matching algorithm and data structure.
  * Brain of bot.
+ * ---
+ * @author Marco
+ * Predicates are passed to AIMLProcessor
  *
  */
 public class GraphMaster {
@@ -143,8 +146,8 @@ public class GraphMaster {
         return result;
     }
 
-    public String respond(String pattern, String topic, String that) {
-        return processor.template(pattern, topic, that);
+    public String respond(String pattern, String topic, String that, HashMap<String, String> predicates) {
+        return processor.template(pattern, topic, that, predicates);
     }
 
     public String match(String request, String topic, String that) {
