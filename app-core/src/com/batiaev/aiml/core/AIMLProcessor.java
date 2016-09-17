@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * @author batiaev
@@ -32,6 +33,7 @@ import java.util.Set;
  * Implementation SET tag processing on 19/08/2016
  * Topic managment improvement on 20/08/2016
  * Parsing THINK tag
+ * Reimplemented isMatching method
  */
 public class AIMLProcessor {
     private CategoryList categoryList = null;
@@ -63,29 +65,13 @@ public class AIMLProcessor {
 
     private boolean isMatching(String input, String pattern) {
         input = input.trim();
-        pattern = pattern.trim();
-        if (pattern.contains(WildCard.sumbol_1more_higest) || pattern.contains(WildCard.sumbol_1more)
-                || pattern.contains(WildCard.sumbol_0more_higest) || pattern.contains(WildCard.sumbol_0more)) {
-            String[] inputWords = input.split(" ");
-            String[] patternWords = pattern.split(" ");
-            int inputIndex = 0;
-            boolean tempValue = false;
-            for (String patternWord : patternWords) {
-                if (patternWord.equals(WildCard.sumbol_1more) || patternWord.equals(WildCard.sumbol_1more_higest)) {
-                    ++inputIndex;
-                } else if (patternWord.equals(WildCard.sumbol_0more) || patternWord.equals(WildCard.sumbol_0more_higest)) {
-                    //
-                } else {
-                    tempValue = false;
-                    for (int i = inputIndex; i < inputWords.length; ++i) {
-                        tempValue = patternWord.equals(inputWords[i]);
-                        if (tempValue) inputIndex = i;
-                    }
-                }
-            }
-            return tempValue;
-        }
-        else return pattern.equals(input);
+        String regex_pattern = pattern.trim();
+        regex_pattern = regex_pattern.replace(WildCard.sumbol_1more, ".+");
+        regex_pattern = regex_pattern.replace(WildCard.sumbol_1more_higest, ".+");
+        regex_pattern = regex_pattern.replace(WildCard.sumbol_0more, ".*");
+        regex_pattern = regex_pattern.replace(WildCard.sumbol_0more_higest, ".*");
+        regex_pattern = regex_pattern.replace(" ", "\\s*");
+        return Pattern.matches(regex_pattern, input);
     }
 
     private String node2String(Node node) {
