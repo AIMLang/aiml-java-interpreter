@@ -1,5 +1,6 @@
 package com.batiaev.aiml.core;
 
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -11,8 +12,10 @@ import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.StringWriter;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 /**
  * @author batiaev
@@ -25,9 +28,16 @@ import java.util.Set;
  * http://www.alicebot.org/documentation/aiml101.html
  * http://itc.ua/articles/kvest_tyuringa_7667/
  * http://www.eblong.com/zarf/markov/chan.c
+ * ---
+ * @author Marco
+ * Implementation SET tag processing on 19/08/2016
+ * Topic managment improvement on 20/08/2016
+ * Parsing THINK tag
+ * Reimplemented isMatching method
  */
 public class AIMLProcessor {
     private CategoryList categoryList = null;
+    private HashMap<String, String> predicates = new HashMap<String, String>();
 
     void setCategoryList(CategoryList categories) {
         categoryList = categories;
@@ -45,34 +55,23 @@ public class AIMLProcessor {
             if (isMatching(input.toUpperCase(), pattern))
                 return pattern;
         }
+        patterns = categoryList.patterns(AIMLConst.default_topic);
+        for (String pattern : patterns) {
+            if (isMatching(input.toUpperCase(), pattern))
+                return pattern;
+        }
         return WildCard.sumbol_1more;
     }
 
     private boolean isMatching(String input, String pattern) {
         input = input.trim();
-        pattern = pattern.trim();
-        if (pattern.contains(WildCard.sumbol_1more_higest) || pattern.contains(WildCard.sumbol_1more)
-                || pattern.contains(WildCard.sumbol_0more_higest) || pattern.contains(WildCard.sumbol_0more)) {
-            String[] inputWords = input.split(" ");
-            String[] patternWords = pattern.split(" ");
-            int inputIndex = 0;
-            boolean tempValue = false;
-            for (String patternWord : patternWords) {
-                if (patternWord.equals(WildCard.sumbol_1more) || patternWord.equals(WildCard.sumbol_1more_higest)) {
-                    ++inputIndex;
-                } else if (patternWord.equals(WildCard.sumbol_0more) || patternWord.equals(WildCard.sumbol_0more_higest)) {
-                    //
-                } else {
-                    tempValue = false;
-                    for (int i = inputIndex; i < inputWords.length; ++i) {
-                        tempValue = patternWord.equals(inputWords[i]);
-                        if (tempValue) inputIndex = i;
-                    }
-                }
-            }
-            return tempValue;
-        }
-        else return pattern.equals(input);
+        String regex_pattern = pattern.trim();
+        regex_pattern = regex_pattern.replace(WildCard.sumbol_1more, ".+");
+        regex_pattern = regex_pattern.replace(WildCard.sumbol_1more_higest, ".+");
+        regex_pattern = regex_pattern.replace(WildCard.sumbol_0more, ".*");
+        regex_pattern = regex_pattern.replace(WildCard.sumbol_0more_higest, ".*");
+        regex_pattern = regex_pattern.replace(" ", "\\s*");
+        return Pattern.matches(regex_pattern, input);
     }
 
     private String node2String(Node node) {
@@ -121,8 +120,25 @@ public class AIMLProcessor {
                 return randomParse(node);
             case AIMLTag.srai:
                 return sraiParse(node);
+            case AIMLTag.set:
+                setParse(node);
+                return "";
+            case AIMLTag.think:
+                getTemplateValue(node);
+                return "";
         }
         return "";
+    }
+
+    private void setParse(Node node) {
+        NamedNodeMap attributes = node.getAttributes();
+        if (attributes.getLength() > 0) {
+            Node node1 = attributes.getNamedItem("name");
+            String key = node1.getNodeValue();
+            String value = getTemplateValue(node);
+            predicates.put(key, value);
+        }
+        return;
     }
 
     private String sraiParse(Node node) {
@@ -142,7 +158,8 @@ public class AIMLProcessor {
         return values.get(index);
     }
 
-    public String template(String pattern, String topic, String that) {
+    public String template(String pattern, String topic, String that, HashMap<String, String> predicates) {
+        this.predicates = predicates;
         Category category = categoryList.category(topic, pattern);
         if (category == null)
             category = categoryList.category(AIMLConst.default_topic, WildCard.sumbol_1more);
