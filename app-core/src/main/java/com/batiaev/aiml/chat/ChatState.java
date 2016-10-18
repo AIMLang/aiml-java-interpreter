@@ -6,14 +6,11 @@ import java.util.HashMap;
 import java.util.UUID;
 
 /**
- * @author batiaev
- *         Created by anton on 18/06/15.
- *         ---
+ * Created by anbat on 18/06/15.
+ *
+ * @author anbat
  * @author Marco Piovesan
  *         Added predicates on 29/08/16
- *         ---
- *         Copyright © 2015. Anton Batiaev. All Rights Reserved.
- *         www.batiaev.com
  */
 public class ChatState {
     private UUID chatUid;
@@ -67,6 +64,8 @@ public class ChatState {
         this.request = request;
     }
 
-    public HashMap<String, String> getPredicates(){ return predicates; }
+    public HashMap<String, String> getPredicates() {
+        return predicates;
+    }
 
 }

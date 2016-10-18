@@ -7,8 +7,9 @@ import java.io.*;
 import java.util.HashSet;
 
 /**
- * @author batiaev
- * implements AIML Sets
+ * Implements AIML Sets
+ *
+ * @author anbat
  */
 public class AIMLSet extends HashSet<String> {
     public String setName;
@@ -46,7 +47,7 @@ public class AIMLSet extends HashSet<String> {
         String strLine;
         int cnt = 0;
         try {
-            while ((strLine = br.readLine()) != null  && strLine.length() > 0) {
+            while ((strLine = br.readLine()) != null && strLine.length() > 0) {
                 cnt++;
                 strLine = strLine.toUpperCase().trim();
                 add(strLine);

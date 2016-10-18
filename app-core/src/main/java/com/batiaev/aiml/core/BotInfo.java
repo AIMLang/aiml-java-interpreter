@@ -3,8 +3,8 @@ package com.batiaev.aiml.core;
 import java.io.Serializable;
 
 /**
- * @author batiaev
- * Created by batiaev on 7/6/15.
+ * Created by anbat on 7/6/15.
+ * @author anbat
  */
 public class BotInfo implements Serializable {
     private String firstname;

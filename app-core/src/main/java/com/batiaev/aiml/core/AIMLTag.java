@@ -1,11 +1,9 @@
 package com.batiaev.aiml.core;
 
 /**
- * @author batiaev
- * Created by batiaev on 13/06/15.
- * ---
- * Copyright © 2015. Anton Batiaev. All Rights Reserved.
- * www.batiaev.com
+ * Created by anbat on 13/06/15.
+ *
+ * @author anbat
  */
 public class AIMLTag {
 

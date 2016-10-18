@@ -6,18 +6,16 @@ import org.apache.logging.log4j.Logger;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Properties;
 
 /**
- * @author batiaev
  * The AIML Pattern matching algorithm and data structure.
  * Brain of bot.
- * ---
- * @author Marco
- * Predicates are passed to AIMLProcessor
  *
+ * @author anbat
+ * @author Marco
+ *         Predicates are passed to AIMLProcessor
  */
 public class GraphMaster {
 
@@ -37,16 +35,33 @@ public class GraphMaster {
         return processor.getStat();
     }
 
-    public void wakeUp() {
+    private boolean validate() {
+        File sets = new File(bot.bot_path);
+        if (!sets.exists()) {
+            LOG.warn("Bot data not found in " + bot.bot_path + " folder!");
+            return false;
+        }
+        return true;
+    }
+
+    public boolean wakeUp() {
+        if (!validate())
+            return false;
         loadSets();
         loadMaps();
         loadAimlFiles();
         loadSubstitutions();
         loadSystemConfigs();
+        return true;
     }
-    void loadSets() {
-        setMap = new HashMap<String, AIMLSet>();
+
+    private void loadSets() {
+        setMap = new HashMap<>();
         File sets = new File(bot.sets_path);
+        if (!sets.exists()) {
+            LOG.warn("Sets not found!");
+            return;
+        }
         File[] files = sets.listFiles();
         if (files == null || files.length == 0) return;
         int count = 0;
@@ -57,9 +72,13 @@ public class GraphMaster {
         LOG.info("Loaded " + count + " set records from " + files.length + " files.");
     }
 
-    void loadMaps() {
-        mapMap = new HashMap<String, AIMLMap>();
+    private void loadMaps() {
+        mapMap = new HashMap<>();
         File maps = new File(bot.maps_path);
+        if (!maps.exists()) {
+            LOG.warn("Maps not found!");
+            return;
+        }
         File[] files = maps.listFiles();
         if (files == null || files.length == 0) return;
         int count = 0;
@@ -70,8 +89,8 @@ public class GraphMaster {
         LOG.info("Loaded " + count + " map records from " + files.length + " files.");
     }
 
-    void loadSubstitutions() {
-        substitutionMap = new HashMap<String, AIMLSubstitution>();
+    private void loadSubstitutions() {
+        substitutionMap = new HashMap<>();
         File substitutions = new File(bot.substitutions_path);
         File[] files = substitutions.listFiles();
         if (files == null || files.length == 0) return;
@@ -83,7 +102,7 @@ public class GraphMaster {
         LOG.info("Loaded " + count + " substitutions from " + files.length + " files.");
     }
 
-    void loadAimlFiles() {
+    private void loadAimlFiles() {
         processor = new AIMLProcessor();
         AIMLLoader loader = new AIMLLoader();
         CategoryList categories = loader.loadFiles(bot.aiml_path);
@@ -91,7 +110,7 @@ public class GraphMaster {
         LOG.info(getStat());
     }
 
-    void loadSystemConfigs() {
+    private void loadSystemConfigs() {
         File maps = new File(bot.system_path);
         File[] files = maps.listFiles();
         for (File file : files != null ? files : new File[0]) {
@@ -133,13 +152,13 @@ public class GraphMaster {
     /**
      * Split an input into an array of sentences based on sentence-splitting characters.
      *
-     * @param line   input text
-     * @return       array of sentences
+     * @param line input text
+     * @return array of sentences
      */
     public String[] sentenceSplit(String line) {
-        line = line.replace("。",".");
-        line = line.replace("？","?");
-        line = line.replace("！","!");
+        line = line.replace("。", ".");
+        line = line.replace("？", "?");
+        line = line.replace("！", "!");
         line = line.replaceAll("(\r\n|\n\r|\r|\n)", " ");
         String[] result = line.split("[\\.!\\?]");
         for (int i = 0; i < result.length; i++) result[i] = result[i].trim();

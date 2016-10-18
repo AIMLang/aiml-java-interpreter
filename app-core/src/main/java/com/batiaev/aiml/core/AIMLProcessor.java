@@ -18,7 +18,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 /**
- * @author batiaev
  * The core AIML parser and interpreter.
  * Implements the AIML 2.0 specification as described in
  * AIML 2.0 Working Draft document
@@ -28,12 +27,13 @@ import java.util.regex.Pattern;
  * http://www.alicebot.org/documentation/aiml101.html
  * http://itc.ua/articles/kvest_tyuringa_7667/
  * http://www.eblong.com/zarf/markov/chan.c
- * ---
+ *
+ * @author anbat
  * @author Marco
- * Implementation SET tag processing on 19/08/2016
- * Topic managment improvement on 20/08/2016
- * Parsing THINK tag
- * Reimplemented isMatching method
+ *         Implementation SET tag processing on 19/08/2016
+ *         Topic managment improvement on 20/08/2016
+ *         Parsing THINK tag
+ *         Reimplemented isMatching method
  */
 public class AIMLProcessor {
     private CategoryList categoryList = null;

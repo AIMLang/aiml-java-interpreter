@@ -1,21 +1,23 @@
 package com.batiaev.aiml.core;
 
 import com.batiaev.aiml.chat.ChatState;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 
 
 /**
- * @author batiaev
  * Class representing the AIML bot
- * ---
+ *
+ * @author anbat
  * @author Marco Piovesan
- * Predicates are passed to brain  29/08/16
- * ---
- * Copyright © 2015. Anton Batiaev. All Rights Reserved.
- * www.batiaev.com
+ *         Predicates are passed to brain  29/08/16
  */
 public class Bot {
+
+    private static final Logger LOG = LogManager.getLogger(Bot.class);
+
     private GraphMaster brain = null;
 
     private BotInfo botInfo;
@@ -24,8 +26,8 @@ public class Bot {
 
     private String name = AIMLConst.default_bot_name;
     public String root_path = AIMLConst.root_path;
-    public String bot_path = root_path + File.separator + "aiml-bots" + File.separator + "bots";
-    public String bot_name_path = bot_path + File.separator  + name;
+    public String bot_path = root_path + File.separator + "bots";
+    public String bot_name_path = bot_path + File.separator + name;
     public String substitutions_path = bot_name_path + File.separator + "substitutions";
     public String aiml_path = bot_name_path + File.separator + "aiml";
     public String system_path = bot_name_path + File.separator + "system";
@@ -36,7 +38,6 @@ public class Bot {
     public Bot() {
         botInfo = new BotInfo();
         brain = new GraphMaster(this);
-        brain.wakeUp();
     }
 
     public BotInfo botInfo() {
@@ -65,7 +66,7 @@ public class Bot {
     }
 
     private void reloadPaths() {
-        bot_name_path = bot_path + File.separator  + name;
+        bot_name_path = bot_path + File.separator + name;
         String prefix = bot_name_path + File.separator;
         substitutions_path = prefix + "substitutions";
         aiml_path = prefix + "aiml";
@@ -86,4 +87,9 @@ public class Bot {
         String pattern = brain.match(request, state.topic(), state.that());
         return brain.respond(pattern, state.topic(), state.that(), state.getPredicates());
     }
+
+    public boolean wakeUp() {
+        return brain.wakeUp();
+    }
+
 }

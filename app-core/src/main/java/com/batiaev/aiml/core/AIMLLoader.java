@@ -22,11 +22,9 @@ import java.io.IOException;
 import java.io.StringWriter;
 
 /**
- * @author batiaev
- * Created by anton on 21/06/15.
- * ---
- * Copyright © 2015. Anton Batiaev. All Rights Reserved.
- * www.batiaev.com
+ * Created by anbat on 21/06/15.
+ *
+ * @author anbat
  */
 public class AIMLLoader {
     private static final Logger LOG = LogManager.getLogger(AIMLLoader.class);
@@ -59,6 +57,7 @@ public class AIMLLoader {
 
     /**
      * Loading single aiml file
+     *
      * @param aimlFile aiml file
      */
     void loadFile(File aimlFile) {

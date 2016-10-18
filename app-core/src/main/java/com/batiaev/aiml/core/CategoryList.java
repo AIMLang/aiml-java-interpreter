@@ -4,12 +4,13 @@ import java.util.HashMap;
 import java.util.Set;
 
 /**
- * @author batiaev
  * Created by batiaev on 6/18/15.
+ *
+ * @author batiaev
  */
 public class CategoryList {
 
-    HashMap<String, HashMap<String, Category>> topics;
+    private HashMap<String, HashMap<String, Category>> topics;
 
     public int topicCount() {
         return topics.size();

@@ -2,80 +2,97 @@ package com.batiaev.aiml.chat;
 
 import com.batiaev.aiml.core.AIMLConst;
 import com.batiaev.aiml.core.Bot;
-import com.batiaev.aiml.IOUtils;
+import com.batiaev.aiml.providers.Provider;
 
 /**
- * @author batiaev
- * Created by batyaev on 6/18/15.
- * ---
- * Copyright © 2015. Anton Batiaev. All Rights Reserved.
- * www.batiaev.com
+ * Created by anbat on 6/18/15.
+ *
+ * @author anbat
  */
 public class Chat {
-    private String nickname = "Human";
+    private static String DEFAULT_NICKNAME = "Human";
+    private String nickname = DEFAULT_NICKNAME;
     private Bot bot = null;
-    ChatState state;
+    private ChatState state;
+    private Provider provider;
+    private String nickName;
 
-    public Chat(Bot bot) {
+    public Chat(Bot bot, Provider provider) {
         this.bot = bot;
+        this.provider = provider;
     }
 
     public void start() {
-        System.out.print("Write your nickname: ");
-        nickname = IOUtils.read();
+        nickname = getNickName();
         state = new ChatState(nickname);
-        System.out.println("Hello " + nickname + "! Welcome to chat with " + bot.name() + ".");
 
-        String textLine;
+        String message;
         while (true) {
-            textLine = read();
-            if (textLine == null || textLine.length() < 1)  textLine = AIMLConst.null_input;
-            switch (textLine) {
-                case "/exit":
-                case "/quit":
-                case "/q":
-                    System.exit(0);
-                case "/stat":
-                case "/s":
-                    write(bot.getBrainStats());
-                    break;
-                case "/reload":
-                case "/r":
-                    bot.reload();
-                    break;
-                case "/connect russian":
-                case "/c russian":
-                    bot.setName("russian");
-                    bot.reload();
-                    break;
-                case "/connect alice2":
-                case "/c alice2":
-                    bot.setName("alice2");
-                    bot.reload();
-                    break;
-                case "/debug on":
-                case "/debug true":
-                    AIMLConst.debug = true;
-                    break;
-                case "/debug off":
-                case "/debug false":
-                    AIMLConst.debug = false;
-                    break;
-                default:
-                    String response = bot.multisentenceRespond(textLine, state);
-                    state.newState(textLine, response);
-                    write(response);
-                    break;
+            message = read();
+            if (message.startsWith("/")) {
+                parseCommand(message);
+            } else {
+                String response = bot.multisentenceRespond(message, state);
+                state.newState(message, response);
+                write(response);
             }
         }
     }
 
-    public String read() {
-        System.out.print(nickname + ": ");
-        return IOUtils.read();
+    private void parseCommand(final String command) {
+        switch (command) {
+            case ChatCommand.exit:
+            case ChatCommand.quit:
+                System.exit(0);
+            case ChatCommand.stat:
+                write(bot.getBrainStats());
+                break;
+            case ChatCommand.reload:
+                bot.reload();
+                break;
+            case "/connect russian":
+            case "/c russian":
+                bot.setName("russian");
+                bot.reload();
+                break;
+            case "/connect alice2":
+            case "/c alice2":
+                bot.setName("alice2");
+                bot.reload();
+                break;
+            case "/debug on":
+            case "/debug true":
+                AIMLConst.debug = true;
+                break;
+            case "/debug off":
+            case "/debug false":
+                AIMLConst.debug = false;
+                break;
+            default:
+                String response = bot.multisentenceRespond(command, state);
+                state.newState(command, response);
+                write(response);
+                break;
+        }
     }
 
-    public void write(String message) {
-        IOUtils.write(bot.name() + ": " + message);
+    private String read() {
+        System.out.print(nickname + ": ");
+        String textLine = provider.read();
+        textLine = textLine == null || textLine.isEmpty() ? AIMLConst.null_input : textLine.trim();
+        return textLine;
+    }
+
+    private void write(String message) {
+        provider.write(bot.name() + ": " + message + "\n");
+    }
+
+    private String getNickName() {
+        provider.write("Write your nickname: ");
+        String nickname = provider.read();
+        if (nickname == null)
+            nickname = DEFAULT_NICKNAME;
+        provider.write("Hello " + nickname + "! Welcome to chat with " + bot.name() + ".\n");
+        return nickname;
     }
 }

@@ -5,7 +5,8 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Created by batyaev on 6/22/15.
+ * Created by anbat on 6/22/15.
+ * @author anbat
  */
 public class ChatStateTest extends Assert {
 

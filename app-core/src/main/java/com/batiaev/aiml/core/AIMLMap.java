@@ -7,14 +7,14 @@ import java.io.*;
 import java.util.HashMap;
 
 /**
- * @author batiaev
- * implements AIML Map
- *
+ * Implements AIML Map
  * A map is a function from one string set to another.
  * Elements of the domain are called keys and elements of the range are called values.
+ *
+ * @author anbat
  */
 public class AIMLMap extends HashMap<String, String> {
-    public String  mapName;
+    private String mapName;
     private static final Logger LOG = LogManager.getLogger(AIMLMap.class);
 
     public AIMLMap() {
@@ -49,7 +49,7 @@ public class AIMLMap extends HashMap<String, String> {
         String strLine;
         int cnt = 0;
         try {
-            while ((strLine = br.readLine()) != null  && strLine.length() > 0) {
+            while ((strLine = br.readLine()) != null && strLine.length() > 0) {
                 cnt++;
                 strLine = strLine.toUpperCase().trim();
                 String[] splitStr = strLine.split(":");
