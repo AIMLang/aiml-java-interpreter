@@ -1,4 +1,4 @@
-package com.batiaev.utils;
+package com.batiaev.aiml;
 
 import java.io.BufferedReader;
 import java.io.IOException;

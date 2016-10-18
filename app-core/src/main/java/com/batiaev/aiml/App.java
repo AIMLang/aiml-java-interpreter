@@ -1,3 +1,5 @@
+package com.batiaev.aiml;
+
 import com.batiaev.aiml.chat.Chat;
 import com.batiaev.aiml.core.AIMLConst;
 import com.batiaev.aiml.core.Bot;
@@ -5,7 +7,7 @@ import com.batiaev.aiml.core.Bot;
 /**
  * @author batiaev
  */
-public class Main {
+public class App {
 
     public static void main(String[] args) {
         AIMLConst.setRootPath("./app-core");

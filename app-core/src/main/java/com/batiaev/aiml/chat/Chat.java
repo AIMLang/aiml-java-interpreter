@@ -2,7 +2,7 @@ package com.batiaev.aiml.chat;
 
 import com.batiaev.aiml.core.AIMLConst;
 import com.batiaev.aiml.core.Bot;
-import com.batiaev.utils.IOUtils;
+import com.batiaev.aiml.IOUtils;
 
 /**
  * @author batiaev
