@@ -1,7 +1,7 @@
 package com.batiaev.aiml.chat;
 
 import com.batiaev.aiml.core.AIMLConst;
-import com.batiaev.aiml.core.Bot;
+import com.batiaev.aiml.bot.Bot;
 import com.batiaev.aiml.providers.Provider;
 
 /**
@@ -84,7 +84,7 @@ public class Chat {
     }
 
     private void write(String message) {
-        provider.write(bot.name() + ": " + message + "\n");
+        provider.write(bot.getName() + ": " + message + "\n");
     }
 
     private String getNickName() {
@@ -92,7 +92,7 @@ public class Chat {
         String nickname = provider.read();
         if (nickname == null)
             nickname = DEFAULT_NICKNAME;
-        provider.write("Hello " + nickname + "! Welcome to chat with " + bot.name() + ".\n");
+        provider.write("Hello " + nickname + "! Welcome to chat with " + bot.getName() + ".\n");
         return nickname;
     }
 }

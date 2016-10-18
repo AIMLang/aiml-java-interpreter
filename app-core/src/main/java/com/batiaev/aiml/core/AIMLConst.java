@@ -1,5 +1,7 @@
 package com.batiaev.aiml.core;
 
+import java.io.File;
+
 /**
  * Created by anbat on 6/17/15.
  *
@@ -7,7 +9,7 @@ package com.batiaev.aiml.core;
  */
 public class AIMLConst {
 
-    public static String root_path = ".";
+    private static String root_path = System.getProperty("user.dir") + File.separator + "bots/";
     public static final String default_bot_name = "russian";
     public static final String aiml_file_suffix = ".aiml";
     public static final String default_language = "en_US";
@@ -19,11 +21,11 @@ public class AIMLConst {
     public static boolean debug = false;
     public static int loopLimit = 20;
 
-    public static void setRootPath(String newRootPath) {
-        root_path = newRootPath;
+    public static String getRootPath() {
+        return root_path;
     }
 
-    public static void setRootPath() {
-        setRootPath(System.getProperty("user.dir"));
+    public static void setRootPath(String newRootPath) {
+        root_path = newRootPath;
     }
 }

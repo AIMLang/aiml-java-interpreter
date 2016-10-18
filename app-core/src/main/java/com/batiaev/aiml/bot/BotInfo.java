@@ -1,9 +1,10 @@
-package com.batiaev.aiml.core;
+package com.batiaev.aiml.bot;
 
 import java.io.Serializable;
 
 /**
  * Created by anbat on 7/6/15.
+ *
  * @author anbat
  */
 public class BotInfo implements Serializable {

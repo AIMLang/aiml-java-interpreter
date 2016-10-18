@@ -12,17 +12,20 @@ public class CategoryList {
 
     private HashMap<String, HashMap<String, Category>> topics;
 
+    public CategoryList() {
+        topics = new HashMap<>();
+    }
+
     public int topicCount() {
         return topics.size();
     }
 
-    public CategoryList() {
-        topics = new HashMap<String, HashMap<String, Category>>();
-    }
-
     public int size() {
         int total = 0;
-        for (String topic : topics.keySet()) total += topics.get(topic).size();
+        if (topics.isEmpty())
+            return total;
+        for (String topic : topics.keySet())
+            total += topics.get(topic).size();
         return total;
     }
 

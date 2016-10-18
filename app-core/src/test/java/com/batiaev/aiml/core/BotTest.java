@@ -1,8 +1,10 @@
 package com.batiaev.aiml.core;
 
+import com.batiaev.aiml.bot.Bot;
+import com.batiaev.aiml.bot.BotRepository;
 import com.batiaev.aiml.chat.ChatState;
 import org.junit.Assert;
-import org.junit.Ignore;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -10,13 +12,18 @@ import org.junit.Test;
  *
  * @author anbat
  */
-@Ignore
 public class BotTest extends Assert {
+    private Bot bot;
+
+    @Before
+    public void setUp() throws Exception {
+        AIMLConst.setRootPath(System.getProperty("user.dir") + "/app-core/aiml-bots/bots");
+        bot = BotRepository.get();
+        assertTrue(bot.wakeUp());
+    }
 
     @Test
     public void testMultisentenceRespond() throws Exception {
-        AIMLConst.setRootPath(".");
-        Bot bot = new Bot();
         String request = "Как дела?";
         String correctRequest = "отлично";
         String respond = bot.multisentenceRespond(request, new ChatState("Human")).trim();
@@ -25,8 +32,6 @@ public class BotTest extends Assert {
 
     @Test
     public void testMultisentenceRespondWithRandom() throws Exception {
-        AIMLConst.setRootPath(".");
-        Bot bot = new Bot();
         String request = "Привет";
         String respond = bot.multisentenceRespond(request, new ChatState("Human")).trim();
         String[] answers = "Здравствуй;Здравствуйте;Мое почтение!;Здарова;Приветствую;Привет;Доброго времени суток".split(";");
@@ -40,8 +45,6 @@ public class BotTest extends Assert {
 
     @Test
     public void testMultisentenceRespondWithSrai() throws Exception {
-        AIMLConst.setRootPath(".");
-        Bot bot = new Bot();
         String request = "Здравствуй";
         String respond = bot.multisentenceRespond(request, new ChatState("Human")).trim();
         String[] answers = "Здравствуй;Здравствуйте;Мое почтение!;Здарова;Приветствую;Привет;Доброго времени суток".split(";");

@@ -28,7 +28,11 @@ import java.io.StringWriter;
  */
 public class AIMLLoader {
     private static final Logger LOG = LogManager.getLogger(AIMLLoader.class);
-    CategoryList categoryList = null;
+    private CategoryList categoryList;
+
+    public AIMLLoader() {
+        categoryList = new CategoryList();
+    }
 
     /**
      * Loading all aiml files from folder
@@ -43,7 +47,6 @@ public class AIMLLoader {
             LOG.warn("Not files in folder: " + aimls.getAbsolutePath());
             return null;
         }
-        categoryList = new CategoryList();
         int countNotAimlFiles = 0;
         for (File file : files) {
             if (file.getName().endsWith(AIMLConst.aiml_file_suffix))
@@ -60,7 +63,7 @@ public class AIMLLoader {
      *
      * @param aimlFile aiml file
      */
-    void loadFile(File aimlFile) {
+    private void loadFile(File aimlFile) {
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
         Document doc = null;

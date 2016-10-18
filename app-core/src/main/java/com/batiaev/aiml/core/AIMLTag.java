@@ -32,5 +32,5 @@ public class AIMLTag {
     public static final String text = "#text";
     public static final String comment = "#comment";
     //Attributes
-    public static final String name = "name";
+    public static final String name = "getName";
 }

@@ -36,16 +36,17 @@ import java.util.regex.Pattern;
  *         Reimplemented isMatching method
  */
 public class AIMLProcessor {
-    private CategoryList categoryList = null;
-    private HashMap<String, String> predicates = new HashMap<String, String>();
+    private CategoryList categoryList;
+    private HashMap<String, String> predicates;
+    private AIMLLoader loader;
 
-    void setCategoryList(CategoryList categories) {
-        categoryList = categories;
+    public AIMLProcessor(AIMLLoader loader) {
+        this.predicates = new HashMap<>();
+        this.categoryList = new CategoryList();
+        this.loader = loader;
     }
 
     public String getStat() {
-        if (categoryList == null)
-            categoryList = new CategoryList();
         return "Brain contain " + categoryList.topicCount() + " topics " + categoryList.size() + " categories";
     }
 
@@ -133,12 +134,11 @@ public class AIMLProcessor {
     private void setParse(Node node) {
         NamedNodeMap attributes = node.getAttributes();
         if (attributes.getLength() > 0) {
-            Node node1 = attributes.getNamedItem("name");
+            Node node1 = attributes.getNamedItem("getName");
             String key = node1.getNodeValue();
             String value = getTemplateValue(node);
             predicates.put(key, value);
         }
-        return;
     }
 
     private String sraiParse(Node node) {
@@ -164,5 +164,11 @@ public class AIMLProcessor {
         if (category == null)
             category = categoryList.category(AIMLConst.default_topic, WildCard.sumbol_1more);
         return category == null ? AIMLConst.default_bot_response : getCategoryValue(category.node);
+    }
+
+    public void loadCategories(String aimlFolder) {
+        categoryList = loader.loadFiles(aimlFolder);
+        if (categoryList == null)
+            categoryList = new CategoryList();
     }
 }
