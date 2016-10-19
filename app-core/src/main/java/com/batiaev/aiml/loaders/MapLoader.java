@@ -33,7 +33,7 @@ public class MapLoader<T extends AIMLMap> implements Loader<T> {
 
         final AIMLMap data = new AIMLMap(file.getName(), loadFile(file));
 
-        LOG.info("Loaded {} records from {}", data.size(), file.getAbsolutePath());
+        LOG.info("Loaded {} records from {}", data.size(), file.getName());
         return (T) data;
     }
 

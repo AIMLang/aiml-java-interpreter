@@ -15,7 +15,6 @@ public class Chat {
     private Bot bot = null;
     private ChatState state;
     private Provider provider;
-    private String nickName;
 
     public Chat(Bot bot, Provider provider) {
         this.bot = bot;
@@ -23,7 +22,7 @@ public class Chat {
     }
 
     public void start() {
-        nickname = getNickName();
+        provider.write("Hello! Welcome to chat with " + bot.getName() + ".\n");
         state = new ChatState(nickname);
 
         String message;
@@ -79,20 +78,10 @@ public class Chat {
     private String read() {
         provider.write(nickname + ": ");
         String textLine = provider.read();
-        textLine = textLine == null || textLine.isEmpty() ? AIMLConst.null_input : textLine.trim();
-        return textLine;
+        return textLine == null || textLine.isEmpty() ? AIMLConst.null_input : textLine.trim();
     }
 
     private void write(String message) {
         provider.write(bot.getName() + ": " + message + "\n");
-    }
-
-    private String getNickName() {
-        provider.write("Write your nickname: ");
-        String nickname = provider.read();
-        if (nickname == null)
-            nickname = DEFAULT_NICKNAME;
-        provider.write("Hello " + nickname + "! Welcome to chat with " + bot.getName() + ".\n");
-        return nickname;
     }
 }

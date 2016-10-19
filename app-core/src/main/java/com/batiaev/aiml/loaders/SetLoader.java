@@ -36,7 +36,7 @@ public class SetLoader implements Loader<AIMLSet> {
 
         final AIMLSet data = new AIMLSet(file.getName(), loadFile(file));
 
-        LOG.info("Loaded {} records from {}", data.size(), file.getAbsolutePath());
+        LOG.info("Loaded {} records from {}", data.size(), file.getName());
         return data;
     }
 

@@ -18,7 +18,7 @@ public class BotTest extends Assert {
 
     @Before
     public void setUp() throws Exception {
-        AIMLConst.setRootPath(System.getProperty("user.dir") + "/app-core/aiml-bots/bots");
+        AIMLConst.setRootPath(System.getProperty("user.dir") + "/aiml-bots/bots");
         bot = BotRepository.get();
         assertTrue(bot.wakeUp());
     }

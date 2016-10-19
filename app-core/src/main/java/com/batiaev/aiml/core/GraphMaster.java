@@ -23,20 +23,27 @@ public class GraphMaster {
     private static final Logger LOG = LoggerFactory.getLogger(GraphMaster.class);
 
     private Map<String, AIMLSet> sets;
-    private Map<String, AIMLMap> mapMap;
+    private Map<String, AIMLMap> maps;
     private Map<String, AIMLSubstitution> substitutions;
     private AIMLProcessor processor;
 
     public GraphMaster(CategoryList categories, Map<String, AIMLSet> sets, Map<String, AIMLMap> maps,
                        Map<String, AIMLSubstitution> substitutions) {
         this.sets = sets;
-        this.mapMap = maps;
+        this.maps = maps;
         this.substitutions = substitutions;
         this.processor = new AIMLProcessor(categories);
     }
 
     public String getStat() {
-        return processor.getStat();
+        int topicCount = processor.getTopicCount();
+        int categoriesCount = processor.getCategoriesCount();
+        return "Brain contain "
+                + topicCount + " topics, "
+                + categoriesCount + " categories, "
+                + sets.size() + " sets, "
+                + maps.size() + " maps, "
+                + substitutions.size() + " substitutions.";
     }
 
     /**

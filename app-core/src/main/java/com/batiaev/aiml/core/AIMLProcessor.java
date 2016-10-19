@@ -49,10 +49,6 @@ public class AIMLProcessor {
         this.categoryList = categories;
     }
 
-    public String getStat() {
-        return "Brain contain " + categoryList.topicCount() + " topics " + categoryList.size() + " categories";
-    }
-
     public String match(String input, String topic, String that) {
         Set<String> patterns = categoryList.patterns(topic);
         for (String pattern : patterns) {
@@ -168,5 +164,13 @@ public class AIMLProcessor {
         if (category == null)
             category = categoryList.category(AIMLConst.default_topic, WildCard.sumbol_1more);
         return category == null ? AIMLConst.default_bot_response : getCategoryValue(category.node);
+    }
+
+    public int getTopicCount() {
+        return categoryList.topicCount();
+    }
+
+    public int getCategoriesCount() {
+        return categoryList.size();
     }
 }
