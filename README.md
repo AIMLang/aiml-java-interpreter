@@ -8,7 +8,8 @@ gradle clean build
 https://github.com/AIML-Bots/aiml-bots.git
 
 ## Dependencies
-- Log4j (2.7)
+- Logback (1.1.7)
+- Slf4j (1.7.21)
 - Gradle (3.1)
 - JUnit (4.12)
 - JaCoCo (0.7.7.201606060606)
