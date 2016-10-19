@@ -1,7 +1,7 @@
 package com.batiaev.aiml.core;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.HashSet;
@@ -13,7 +13,7 @@ import java.util.HashSet;
  */
 public class AIMLSet extends HashSet<String> {
     public String setName;
-    private static final Logger LOG = LogManager.getLogger(AIMLSet.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AIMLSet.class);
 
     public AIMLSet() {
     }

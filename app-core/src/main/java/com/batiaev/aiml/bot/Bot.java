@@ -3,8 +3,8 @@ package com.batiaev.aiml.bot;
 import com.batiaev.aiml.chat.ChatState;
 import com.batiaev.aiml.core.AIMLConst;
 import com.batiaev.aiml.core.GraphMaster;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,7 +24,7 @@ import java.util.Properties;
  */
 public class Bot {
 
-    private static final Logger LOG = LogManager.getLogger(Bot.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Bot.class);
 
     private static final String PROPERTIES = "bot.properties";
 

@@ -18,7 +18,7 @@ public class ChatState {
     private String request = "";
     private String topic = AIMLConst.default_topic;
     private String that = AIMLConst.default_that;
-    private HashMap<String, String> predicates = new HashMap<String, String>();
+    private HashMap<String, String> predicates = new HashMap<>();
 
 
     public ChatState(String userName) {

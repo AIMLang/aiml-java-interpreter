@@ -1,8 +1,8 @@
 package com.batiaev.aiml.core;
 
 import com.batiaev.aiml.bot.Bot;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.util.HashMap;
@@ -17,7 +17,7 @@ import java.util.HashMap;
  */
 public class GraphMaster {
 
-    private static final Logger LOG = LogManager.getLogger(GraphMaster.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GraphMaster.class);
 
     private Bot bot;
     private HashMap<String, AIMLSet> setMap;

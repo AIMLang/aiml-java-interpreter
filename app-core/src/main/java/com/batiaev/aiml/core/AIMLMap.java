@@ -1,7 +1,7 @@
 package com.batiaev.aiml.core;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class AIMLMap extends HashMap<String, String> {
     private String mapName;
-    private static final Logger LOG = LogManager.getLogger(AIMLMap.class);
+    private static final Logger LOG = LoggerFactory.getLogger(AIMLMap.class);
 
     public AIMLMap() {
     }
