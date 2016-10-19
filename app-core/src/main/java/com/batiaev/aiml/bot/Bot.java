@@ -1,8 +1,13 @@
 package com.batiaev.aiml.bot;
 
 import com.batiaev.aiml.chat.ChatState;
-import com.batiaev.aiml.core.AIMLConst;
-import com.batiaev.aiml.core.GraphMaster;
+import com.batiaev.aiml.consts.AIMLConst;
+import com.batiaev.aiml.core.*;
+import com.batiaev.aiml.entity.AIMLMap;
+import com.batiaev.aiml.entity.AIMLSet;
+import com.batiaev.aiml.entity.AIMLSubstitution;
+import com.batiaev.aiml.entity.CategoryList;
+import com.batiaev.aiml.loaders.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,17 +17,16 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.Map;
 import java.util.Properties;
-
 
 /**
  * Class representing the AIML bot
  *
  * @author anbat
- * @author Marco Piovesan
- *         Predicates are passed to brain  29/08/16
  */
-public class Bot {
+public class Bot implements Named {
 
     private static final Logger LOG = LoggerFactory.getLogger(Bot.class);
 
@@ -37,37 +41,10 @@ public class Bot {
         this.name = name;
         this.rootDir = rootDir;
         botInfo = new BotInfo();
-        brain = new GraphMaster(this);
+        brain = new GraphMaster(loadAiml(), loadSets(), loadMaps(), loadSubstitutions());
     }
 
-    private String getRootDir() {
-        return rootDir;
-    }
-
-    public String getAimlFolder() {
-        return getRootDir() + "aiml";
-    }
-
-    public String getSubstitutionsFolder() {
-        return getRootDir() + "substitutions";
-    }
-
-    public String getSetsFolder() {
-        return getRootDir() + "sets";
-    }
-
-    public String getMapsFolder() {
-        return getRootDir() + "maps";
-    }
-
-    public String getSkillsFolder() {
-        return getRootDir() + "skills";
-    }
-
-    public String getSystemFolder() {
-        return getRootDir() + "system";
-    }
-
+    @Override
     public String getName() {
         return name;
     }
@@ -78,10 +55,6 @@ public class Bot {
 
     public String getBrainStats() {
         return brain.getStat();
-    }
-
-    public void reload() {
-        wakeUp();
     }
 
     public String multisentenceRespond(String request, ChatState state) {
@@ -97,12 +70,74 @@ public class Bot {
     }
 
     public boolean wakeUp() {
-        if (!validate(getRootDir()) || !validate(getAimlFolder()))
-            return false;
-        loadSystemConfigs();
-        return brain.wakeUp();
+        return !(!validate(getRootDir()) || !validate(getAimlFolder())) && loadSystemConfigs();
     }
 
+    private CategoryList loadAiml() {
+        AIMLLoader loader = new AIMLLoader();
+        return loader.loadFiles(getAimlFolder());
+    }
+
+    private Map<String, AIMLSet> loadSets() {
+
+        File sets = new File(getSetsFolder());
+        if (!sets.exists()) {
+            LOG.warn("Sets not found!");
+            return Collections.emptyMap();
+        }
+        File[] files = sets.listFiles();
+        if (files == null || files.length == 0)
+            return Collections.emptyMap();
+
+        Loader<AIMLSet> loader = new SetLoader();
+
+        final Map<String, AIMLSet> data = loader.loadAll(files);
+        int count = data.keySet().stream().mapToInt(s -> data.get(s).size()).sum();
+
+        LOG.info("Loaded " + count + " set records from " + files.length + " files.");
+        return data;
+    }
+
+    private Map<String, AIMLMap> loadMaps() {
+
+        File maps = new File(getMapsFolder());
+        if (!maps.exists()) {
+            LOG.warn("Maps not found!");
+            return Collections.emptyMap();
+        }
+        File[] files = maps.listFiles();
+        if (files == null || files.length == 0) return Collections.emptyMap();
+
+
+        Loader<AIMLMap> loader = new MapLoader<>();
+
+        final Map<String, AIMLMap> data = loader.loadAll(files);
+        int count = data.keySet().stream().mapToInt(s -> data.get(s).size()).sum();
+
+        LOG.info("Loaded " + count + " map records from " + files.length + " files.");
+        return data;
+    }
+
+    private Map<String, AIMLSubstitution> loadSubstitutions() {
+
+        File maps = new File(getSubstitutionsFolder());
+        if (!maps.exists()) {
+            LOG.warn("Maps not found!");
+            return Collections.emptyMap();
+        }
+        File[] files = maps.listFiles();
+        if (files == null || files.length == 0)
+            return Collections.emptyMap();
+
+
+        Loader<AIMLSubstitution> loader = new SubstitutionLoader();
+
+        final Map<String, AIMLSubstitution> data = loader.loadAll(files);
+        int count = data.keySet().stream().mapToInt(s -> data.get(s).size()).sum();
+
+        LOG.info("Loaded " + count + " substitutions from " + files.length + " files.");
+        return data;
+    }
 
     private boolean loadSystemConfigs() {
         if (!validate(getSystemFolder()))
@@ -153,5 +188,33 @@ public class Bot {
             return false;
         }
         return true;
+    }
+
+    private String getRootDir() {
+        return rootDir;
+    }
+
+    private String getAimlFolder() {
+        return getRootDir() + "aiml";
+    }
+
+    private String getSubstitutionsFolder() {
+        return getRootDir() + "substitutions";
+    }
+
+    private String getSetsFolder() {
+        return getRootDir() + "sets";
+    }
+
+    private String getMapsFolder() {
+        return getRootDir() + "maps";
+    }
+
+    private String getSkillsFolder() {
+        return getRootDir() + "skills";
+    }
+
+    private String getSystemFolder() {
+        return getRootDir() + "system";
     }
 }

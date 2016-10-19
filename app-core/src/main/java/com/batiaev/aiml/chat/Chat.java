@@ -1,6 +1,6 @@
 package com.batiaev.aiml.chat;
 
-import com.batiaev.aiml.core.AIMLConst;
+import com.batiaev.aiml.consts.AIMLConst;
 import com.batiaev.aiml.bot.Bot;
 import com.batiaev.aiml.providers.Provider;
 
@@ -48,17 +48,17 @@ public class Chat {
                 write(bot.getBrainStats());
                 break;
             case ChatCommand.reload:
-                bot.reload();
+                bot.wakeUp();
                 break;
             case "/connect russian":
             case "/c russian":
                 bot.setName("russian");
-                bot.reload();
+                bot.wakeUp();
                 break;
             case "/connect alice2":
             case "/c alice2":
                 bot.setName("alice2");
-                bot.reload();
+                bot.wakeUp();
                 break;
             case "/debug on":
             case "/debug true":
@@ -77,7 +77,7 @@ public class Chat {
     }
 
     private String read() {
-        System.out.print(nickname + ": ");
+        provider.write(nickname + ": ");
         String textLine = provider.read();
         textLine = textLine == null || textLine.isEmpty() ? AIMLConst.null_input : textLine.trim();
         return textLine;

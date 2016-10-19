@@ -1,6 +1,6 @@
 package com.batiaev.aiml.bot;
 
-import com.batiaev.aiml.core.AIMLConst;
+import com.batiaev.aiml.consts.AIMLConst;
 
 import java.io.File;
 

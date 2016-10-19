@@ -1,12 +1,12 @@
-package com.batiaev.aiml.core;
+package com.batiaev.aiml.entity;
 
 import java.util.HashMap;
 import java.util.Set;
 
 /**
- * Created by batiaev on 6/18/15.
+ * Created by anbat on 6/18/15.
  *
- * @author batiaev
+ * @author anton
  */
 public class CategoryList {
 
@@ -43,7 +43,7 @@ public class CategoryList {
     }
 
     public boolean add(Category category) {
-        boolean result = false;
+        boolean result;
         if (topics.containsKey(category.topic))
             result = topics.get(category.topic).put(category.pattern, category) == null;
         else {

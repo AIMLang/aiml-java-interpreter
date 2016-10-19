@@ -1,6 +1,6 @@
 package com.batiaev.aiml.chat;
 
-import com.batiaev.aiml.core.AIMLConst;
+import com.batiaev.aiml.consts.AIMLConst;
 
 import java.util.HashMap;
 import java.util.UUID;

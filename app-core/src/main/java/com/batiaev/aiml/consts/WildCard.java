@@ -1,4 +1,4 @@
-package com.batiaev.aiml.core;
+package com.batiaev.aiml.consts;
 
 /**
  * Created by batiaev on 19/06/15.

@@ -3,6 +3,7 @@ package com.batiaev.aiml.core;
 import com.batiaev.aiml.bot.Bot;
 import com.batiaev.aiml.bot.BotRepository;
 import com.batiaev.aiml.chat.ChatState;
+import com.batiaev.aiml.consts.AIMLConst;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;

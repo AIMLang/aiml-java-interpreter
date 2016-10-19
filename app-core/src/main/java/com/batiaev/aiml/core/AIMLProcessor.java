@@ -1,5 +1,10 @@
 package com.batiaev.aiml.core;
 
+import com.batiaev.aiml.consts.AIMLConst;
+import com.batiaev.aiml.consts.AIMLTag;
+import com.batiaev.aiml.consts.WildCard;
+import com.batiaev.aiml.entity.Category;
+import com.batiaev.aiml.entity.CategoryList;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -28,7 +33,7 @@ import java.util.regex.Pattern;
  * http://itc.ua/articles/kvest_tyuringa_7667/
  * http://www.eblong.com/zarf/markov/chan.c
  *
- * @author anbat
+ * @author anton
  * @author Marco
  *         Implementation SET tag processing on 19/08/2016
  *         Topic managment improvement on 20/08/2016
@@ -38,12 +43,10 @@ import java.util.regex.Pattern;
 public class AIMLProcessor {
     private CategoryList categoryList;
     private HashMap<String, String> predicates;
-    private AIMLLoader loader;
 
-    public AIMLProcessor(AIMLLoader loader) {
+    public AIMLProcessor(CategoryList categories) {
         this.predicates = new HashMap<>();
-        this.categoryList = new CategoryList();
-        this.loader = loader;
+        this.categoryList = categories;
     }
 
     public String getStat() {
@@ -150,7 +153,8 @@ public class AIMLProcessor {
         ArrayList<String> values = new ArrayList<>();
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) {
-            if (childNodes.item(i).getNodeName().equals(AIMLTag.li)) values.add(node2String(childNodes.item(i)));
+            if (childNodes.item(i).getNodeName().equals(AIMLTag.li))
+                values.add(node2String(childNodes.item(i)));
         }
 
         Random rn = new Random();
@@ -164,11 +168,5 @@ public class AIMLProcessor {
         if (category == null)
             category = categoryList.category(AIMLConst.default_topic, WildCard.sumbol_1more);
         return category == null ? AIMLConst.default_bot_response : getCategoryValue(category.node);
-    }
-
-    public void loadCategories(String aimlFolder) {
-        categoryList = loader.loadFiles(aimlFolder);
-        if (categoryList == null)
-            categoryList = new CategoryList();
     }
 }

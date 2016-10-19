@@ -1,4 +1,4 @@
-package com.batiaev.aiml.core;
+package com.batiaev.aiml.consts;
 
 import java.io.File;
 
