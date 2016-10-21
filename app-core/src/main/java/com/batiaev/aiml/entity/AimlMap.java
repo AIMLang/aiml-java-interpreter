@@ -1,6 +1,6 @@
 package com.batiaev.aiml.entity;
 
-import com.batiaev.aiml.consts.AIMLTag;
+import com.batiaev.aiml.consts.AimlTag;
 import com.batiaev.aiml.core.Named;
 
 import java.util.HashMap;
@@ -14,7 +14,7 @@ import java.util.Map;
  * @author anton
  */
 public class AimlMap extends HashMap<String, String> implements Named, AimlElement {
-    protected String name;
+    protected final String name;
 
     public AimlMap(String name, Map<String, String> data) {
         super(data);
@@ -28,6 +28,6 @@ public class AimlMap extends HashMap<String, String> implements Named, AimlEleme
 
     @Override
     public String getType() {
-        return AIMLTag.map;
+        return AimlTag.map;
     }
 }

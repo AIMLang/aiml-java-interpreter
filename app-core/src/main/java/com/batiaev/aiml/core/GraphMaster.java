@@ -3,7 +3,7 @@ package com.batiaev.aiml.core;
 import com.batiaev.aiml.entity.AimlMap;
 import com.batiaev.aiml.entity.AimlSet;
 import com.batiaev.aiml.entity.AimlSubstitution;
-import com.batiaev.aiml.entity.Category;
+import com.batiaev.aiml.entity.AimlCategory;
 
 import java.util.List;
 import java.util.Map;
@@ -17,12 +17,12 @@ import java.util.Map;
  *         Predicates are passed to AIMLProcessor
  */
 public class GraphMaster {
-    private Map<String, AimlSet> sets;
-    private Map<String, AimlMap> maps;
-    private Map<String, AimlSubstitution> substitutions;
-    private AIMLProcessor processor;
+    private final Map<String, AimlSet> sets;
+    private final Map<String, AimlMap> maps;
+    private final Map<String, AimlSubstitution> substitutions;
+    private final AIMLProcessor processor;
 
-    public GraphMaster(List<Category> categories, Map<String, AimlSet> sets, Map<String, AimlMap> maps,
+    public GraphMaster(List<AimlCategory> categories, Map<String, AimlSet> sets, Map<String, AimlMap> maps,
                        Map<String, AimlSubstitution> substitutions) {
         this.sets = sets;
         this.maps = maps;

@@ -1,6 +1,6 @@
 package com.batiaev.aiml.bot;
 
-import com.batiaev.aiml.consts.AIMLConst;
+import com.batiaev.aiml.consts.AimlConst;
 
 import java.io.File;
 
@@ -10,14 +10,14 @@ import java.io.File;
  * @author anbat
  */
 public class BotRepository {
-    private static String rootDir = AIMLConst.getRootPath();
+    private static String rootDir = AimlConst.getRootPath();
 
     public static void setRootPath(String path) {
         rootDir = path;
     }
 
     public static Bot get() {
-        return get(AIMLConst.default_bot_name);
+        return get(AimlConst.default_bot_name);
     }
 
     public static Bot get(String name) {

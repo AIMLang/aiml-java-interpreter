@@ -5,13 +5,14 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
+ * Created by anbat on 18/06/15.
+ *
  * @author anbat
- *         Created by anbat on 18/06/15.
  */
 public class ChatHistory {
-    private UUID chatUid;
-    private Date startDate;
-    private String userName;
+    private final UUID chatUid;
+    private final Date startDate;
+    private final String userName;
     private ArrayList<String> requests;
     private ArrayList<String> responds;
 

@@ -1,9 +1,9 @@
 package com.batiaev.aiml.core;
 
-import com.batiaev.aiml.consts.AIMLConst;
-import com.batiaev.aiml.consts.AIMLTag;
+import com.batiaev.aiml.consts.AimlConst;
+import com.batiaev.aiml.consts.AimlTag;
 import com.batiaev.aiml.consts.WildCard;
-import com.batiaev.aiml.entity.Category;
+import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.utils.AppUtils;
 import com.batiaev.aiml.utils.XmlHelper;
 import org.w3c.dom.NamedNodeMap;
@@ -32,20 +32,20 @@ import java.util.regex.Pattern;
  *         Reimplemented isMatching method
  */
 public class AIMLProcessor {
-    private final List<Category> categories;
-    private Map<String, Map<String, Category>> topics;
+    private final List<AimlCategory> categories;
+    private final Map<String, Map<String, AimlCategory>> topics;
     private Map<String, String> predicates;
 
-    public AIMLProcessor(List<Category> categories) {
+    public AIMLProcessor(List<AimlCategory> categories) {
         this.predicates = new HashMap<>();
         this.topics = convert(categories);
         this.categories = categories;
     }
 
-    private Map<String, Map<String, Category>> convert(List<Category> categories) {
-        Map<String, Map<String, Category>> topics = new HashMap<>();
+    private Map<String, Map<String, AimlCategory>> convert(List<AimlCategory> categories) {
+        Map<String, Map<String, AimlCategory>> topics = new HashMap<>();
         categories.forEach(category -> {
-            Map<String, Category> topicCategories;
+            Map<String, AimlCategory> topicCategories;
             if (topics.containsKey(category.getTopic())) {
                 topicCategories = topics.get(category.getTopic());
             } else {
@@ -64,7 +64,7 @@ public class AIMLProcessor {
             if (isMatching(request, pattern))
                 return pattern;
         }
-        patterns = patterns(AIMLConst.default_topic);
+        patterns = patterns(AimlConst.default_topic);
         for (String pattern : patterns) {
             if (isMatching(request, pattern))
                 return pattern;
@@ -74,10 +74,10 @@ public class AIMLProcessor {
 
     public String template(String pattern, String topic, String that, Map<String, String> predicates) {
         this.predicates = predicates;
-        Category category = category(topic, pattern);
+        AimlCategory category = category(topic, pattern);
         if (category == null)
-            category = category(AIMLConst.default_topic, WildCard.OneMore.get());
-        return category == null ? AIMLConst.default_bot_response : getTemplateValue(category.getTemplate());
+            category = category(AimlConst.default_topic, WildCard.OneMore.get());
+        return category == null ? AimlConst.default_bot_response : getTemplateValue(category.getTemplate());
     }
 
     public int getTopicCount() {
@@ -91,10 +91,10 @@ public class AIMLProcessor {
     private boolean isMatching(String input, String pattern) {
         input = input.trim();
         String regex_pattern = pattern.trim();
-        regex_pattern = regex_pattern.replace(WildCard.OneMore.get(), ".+");
         regex_pattern = regex_pattern.replace(WildCard.OneMorePriority.get(), ".+");
-        regex_pattern = regex_pattern.replace(WildCard.ZeroMore.get(), ".*");
+        regex_pattern = regex_pattern.replace(WildCard.OneMore.get(), ".+");
         regex_pattern = regex_pattern.replace(WildCard.ZeroMorePriority.get(), ".*");
+        regex_pattern = regex_pattern.replace(WildCard.ZeroMore.get(), ".*");
         regex_pattern = regex_pattern.replace(" ", "\\s*");
         return Pattern.matches(regex_pattern, input);
     }
@@ -104,24 +104,24 @@ public class AIMLProcessor {
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i)
             result += recurseParse(childNodes.item(i));
-        return result.isEmpty() ? AIMLConst.default_bot_response : result;
+        return result.isEmpty() ? AimlConst.default_bot_response : result;
     }
 
     private String recurseParse(Node node) {
         String nodeName = node.getNodeName();
         switch (nodeName) {
-            case AIMLTag.text:
+            case AimlTag.text:
                 return textParse(node);
-            case AIMLTag.template:
+            case AimlTag.template:
                 return getTemplateValue(node);
-            case AIMLTag.random:
+            case AimlTag.random:
                 return randomParse(node);
-            case AIMLTag.srai:
+            case AimlTag.srai:
                 return sraiParse(node);
-            case AIMLTag.set:
+            case AimlTag.set:
                 setParse(node);
                 return "";
-            case AIMLTag.think:
+            case AimlTag.think:
                 getTemplateValue(node);
                 return "";
         }
@@ -143,15 +143,15 @@ public class AIMLProcessor {
     }
 
     private String sraiParse(Node node) {
-        Category category = category(AIMLConst.default_topic, XmlHelper.node2String(node));
-        return category != null ? getTemplateValue(category.getTemplate()) : AIMLConst.error_bot_response;
+        AimlCategory category = category(AimlConst.default_topic, XmlHelper.node2String(node));
+        return category != null ? getTemplateValue(category.getTemplate()) : AimlConst.error_bot_response;
     }
 
     private String randomParse(Node node) {
         List<String> values = new ArrayList<>();
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) {
-            if (childNodes.item(i).getNodeName().equals(AIMLTag.li))
+            if (childNodes.item(i).getNodeName().equals(AimlTag.li))
                 values.add(XmlHelper.node2String(childNodes.item(i)));
         }
 
@@ -167,7 +167,7 @@ public class AIMLProcessor {
         }
     }
 
-    private Category category(String topic, String pattern) {
+    private AimlCategory category(String topic, String pattern) {
         return topics.get(topic).get(pattern);
     }
 }

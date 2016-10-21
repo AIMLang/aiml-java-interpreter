@@ -1,6 +1,6 @@
 package com.batiaev.aiml.chat;
 
-import com.batiaev.aiml.consts.AIMLConst;
+import com.batiaev.aiml.consts.AimlConst;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,8 +17,8 @@ public class ChatState {
     private UUID chatUid;
     private ChatHistory history;
     private String request = "";
-    private String topic = AIMLConst.default_topic;
-    private String that = AIMLConst.default_that;
+    private String topic = AimlConst.default_topic;
+    private String that = AimlConst.default_that;
     private Map<String, String> predicates = new HashMap<>();
 
     public ChatState(String userName) {

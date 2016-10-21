@@ -1,6 +1,6 @@
 package com.batiaev.aiml.entity;
 
-import com.batiaev.aiml.consts.AIMLTag;
+import com.batiaev.aiml.consts.AimlTag;
 import com.batiaev.aiml.utils.AppUtils;
 
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.List;
  * @author anton
  */
 public class AimlRandom implements AimlElement {
-    private List<String> options;
+    private final List<String> options;
 
     public AimlRandom(List<String> options) {
         this.options = options;
@@ -19,7 +19,7 @@ public class AimlRandom implements AimlElement {
 
     @Override
     public String getType() {
-        return AIMLTag.random;
+        return AimlTag.random;
     }
 
     public String getValue() {

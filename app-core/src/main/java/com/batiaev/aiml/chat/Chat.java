@@ -1,7 +1,7 @@
 package com.batiaev.aiml.chat;
 
-import com.batiaev.aiml.consts.AIMLConst;
 import com.batiaev.aiml.bot.Bot;
+import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.providers.Provider;
 
 /**
@@ -10,11 +10,11 @@ import com.batiaev.aiml.providers.Provider;
  * @author anbat
  */
 public class Chat {
-    private static String DEFAULT_NICKNAME = "Human";
+    private final static String DEFAULT_NICKNAME = "Human";
+    private final Bot bot;
+    private final Provider provider;
     private String nickname = DEFAULT_NICKNAME;
-    private Bot bot = null;
     private ChatState state;
-    private Provider provider;
 
     public Chat(Bot bot, Provider provider) {
         this.bot = bot;
@@ -61,11 +61,11 @@ public class Chat {
                 break;
             case "/debug on":
             case "/debug true":
-                AIMLConst.debug = true;
+                AimlConst.debug = true;
                 break;
             case "/debug off":
             case "/debug false":
-                AIMLConst.debug = false;
+                AimlConst.debug = false;
                 break;
             default:
                 String response = bot.multisentenceRespond(command, state);
@@ -78,7 +78,7 @@ public class Chat {
     private String read() {
         provider.write(nickname + ": ");
         String textLine = provider.read();
-        return textLine == null || textLine.isEmpty() ? AIMLConst.null_input : textLine.trim();
+        return textLine == null || textLine.isEmpty() ? AimlConst.null_input : textLine.trim();
     }
 
     private void write(String message) {

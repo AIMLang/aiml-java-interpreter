@@ -1,13 +1,13 @@
 package com.batiaev.aiml.bot;
 
 import com.batiaev.aiml.chat.ChatState;
-import com.batiaev.aiml.consts.AIMLConst;
+import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.core.GraphMaster;
 import com.batiaev.aiml.core.Named;
 import com.batiaev.aiml.entity.AimlMap;
 import com.batiaev.aiml.entity.AimlSet;
 import com.batiaev.aiml.entity.AimlSubstitution;
-import com.batiaev.aiml.entity.Category;
+import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.loaders.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,7 +59,7 @@ public class Bot implements Named {
         String response = "";
         for (String sentence : sentences)
             response += " " + respond(sentence, state);
-        return response.isEmpty() ? AIMLConst.error_bot_response : response;
+        return response.isEmpty() ? AimlConst.error_bot_response : response;
     }
 
     public String respond(String request, ChatState state) {
@@ -71,7 +71,7 @@ public class Bot implements Named {
         return validate(getRootDir()) && validate(getAimlFolder());
     }
 
-    private List<Category> loadAiml() {
+    private List<AimlCategory> loadAiml() {
         AimlLoader loader = new AimlLoader();
         return loader.loadFiles(getAimlFolder());
     }

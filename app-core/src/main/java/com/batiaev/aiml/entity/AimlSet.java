@@ -1,6 +1,6 @@
 package com.batiaev.aiml.entity;
 
-import com.batiaev.aiml.consts.AIMLTag;
+import com.batiaev.aiml.consts.AimlTag;
 import com.batiaev.aiml.core.Named;
 
 import java.util.HashSet;
@@ -12,7 +12,7 @@ import java.util.Set;
  * @author anton
  */
 public class AimlSet extends HashSet<String> implements Named, AimlElement {
-    private String name;
+    private final String name;
 
     public AimlSet(String name, Set<String> data) {
         super(data);
@@ -26,6 +26,6 @@ public class AimlSet extends HashSet<String> implements Named, AimlElement {
 
     @Override
     public String getType() {
-        return AIMLTag.set;
+        return AimlTag.set;
     }
 }

@@ -1,6 +1,6 @@
 package com.batiaev.aiml.entity;
 
-import com.batiaev.aiml.consts.AIMLTag;
+import com.batiaev.aiml.consts.AimlTag;
 import org.w3c.dom.Node;
 
 /**
@@ -8,7 +8,7 @@ import org.w3c.dom.Node;
  *
  * @author anton
  */
-public class Category implements AimlElement {
+public class AimlCategory implements AimlElement {
     private String topic = "";
     private String pattern = "";
     private Node template = null;
@@ -48,6 +48,6 @@ public class Category implements AimlElement {
 
     @Override
     public String getType() {
-        return AIMLTag.category;
+        return AimlTag.category;
     }
 }

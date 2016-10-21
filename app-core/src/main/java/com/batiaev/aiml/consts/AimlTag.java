@@ -5,7 +5,7 @@ package com.batiaev.aiml.consts;
  *
  * @author anbat
  */
-public class AIMLTag {
+public class AimlTag {
 
     public static final String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
     public static final String aiml = "aiml";
