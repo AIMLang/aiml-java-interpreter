@@ -2,6 +2,7 @@
 AIML 2.0 Interpreter for Java
 
 ## Build
+cd ./scripts && ./checkout.sh && cd -
 gradle clean build
 
 ## Bots
