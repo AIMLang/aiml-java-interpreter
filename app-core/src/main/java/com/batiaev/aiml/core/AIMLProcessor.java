@@ -5,17 +5,11 @@ import com.batiaev.aiml.consts.AIMLTag;
 import com.batiaev.aiml.consts.WildCard;
 import com.batiaev.aiml.entity.Category;
 import com.batiaev.aiml.entity.CategoryList;
+import com.batiaev.aiml.utils.XmlHelper;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
@@ -74,21 +68,6 @@ public class AIMLProcessor {
         return Pattern.matches(regex_pattern, input);
     }
 
-    private String node2String(Node node) {
-        String nodeName = node.getNodeName();
-        StringWriter sw = new StringWriter();
-        try {
-            Transformer t = TransformerFactory.newInstance().newTransformer();
-            t.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-            t.setOutputProperty(OutputKeys.INDENT, "yes");
-            t.transform(new DOMSource(node), new StreamResult(sw));
-        } catch (TransformerException te) {
-            System.out.println("nodeToString Transformer Exception");
-        }
-        return sw.toString().replaceAll("(\r\n|\n\r|\r|\n)", " ").replaceAll("> ", ">")
-                .replaceFirst("<" + nodeName + ">", "").replaceFirst("</" + nodeName + ">", "");
-    }
-
     public String getCategoryValue(Node node) {
         if (node == null)
             return AIMLConst.default_bot_response;
@@ -141,8 +120,8 @@ public class AIMLProcessor {
     }
 
     private String sraiParse(Node node) {
-        Category category = categoryList.category(AIMLConst.default_topic, node2String(node));
-        return category != null ? getCategoryValue(category.node) : AIMLConst.error_bot_response;
+        Category category = categoryList.category(AIMLConst.default_topic, XmlHelper.node2String(node));
+        return category != null ? getCategoryValue(category.getNode()) : AIMLConst.error_bot_response;
     }
 
     private String randomParse(Node node) {
@@ -150,7 +129,7 @@ public class AIMLProcessor {
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) {
             if (childNodes.item(i).getNodeName().equals(AIMLTag.li))
-                values.add(node2String(childNodes.item(i)));
+                values.add(XmlHelper.node2String(childNodes.item(i)));
         }
 
         Random rn = new Random();
@@ -163,7 +142,7 @@ public class AIMLProcessor {
         Category category = categoryList.category(topic, pattern);
         if (category == null)
             category = categoryList.category(AIMLConst.default_topic, WildCard.sumbol_1more);
-        return category == null ? AIMLConst.default_bot_response : getCategoryValue(category.node);
+        return category == null ? AIMLConst.default_bot_response : getCategoryValue(category.getNode());
     }
 
     public int getTopicCount() {

@@ -44,12 +44,12 @@ public class CategoryList {
 
     public boolean add(Category category) {
         boolean result;
-        if (topics.containsKey(category.topic))
-            result = topics.get(category.topic).put(category.pattern, category) == null;
+        if (topics.containsKey(category.getTopic()))
+            result = topics.get(category.getTopic()).put(category.getPattern(), category) == null;
         else {
             HashMap<String, Category> pattern = new HashMap<>();
-            pattern.put(category.pattern, category);
-            result = topics.put(category.topic, pattern) == null;
+            pattern.put(category.getPattern(), category);
+            result = topics.put(category.getTopic(), pattern) == null;
         }
         return result;
     }

@@ -2,7 +2,8 @@ package com.batiaev.aiml.bot;
 
 import com.batiaev.aiml.chat.ChatState;
 import com.batiaev.aiml.consts.AIMLConst;
-import com.batiaev.aiml.core.*;
+import com.batiaev.aiml.core.GraphMaster;
+import com.batiaev.aiml.core.Named;
 import com.batiaev.aiml.entity.AIMLMap;
 import com.batiaev.aiml.entity.AIMLSet;
 import com.batiaev.aiml.entity.AIMLSubstitution;
@@ -12,14 +13,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Properties;
 
 /**
  * Class representing the AIML bot
@@ -30,8 +28,6 @@ public class Bot implements Named {
 
     private static final Logger LOG = LoggerFactory.getLogger(Bot.class);
 
-    private static final String PROPERTIES = "bot.properties";
-
     private GraphMaster brain;
     private BotInfo botInfo;
     private String rootDir;
@@ -40,7 +36,7 @@ public class Bot implements Named {
     public Bot(String name, String rootDir) {
         this.name = name;
         this.rootDir = rootDir;
-        botInfo = new BotInfo();
+        this.botInfo = new BotConfiguration(rootDir);
         brain = new GraphMaster(loadAiml(), loadSets(), loadMaps(), loadSubstitutions());
     }
 
@@ -70,7 +66,7 @@ public class Bot implements Named {
     }
 
     public boolean wakeUp() {
-        return !(!validate(getRootDir()) || !validate(getAimlFolder())) && loadSystemConfigs();
+        return validate(getRootDir()) && validate(getAimlFolder());
     }
 
     private CategoryList loadAiml() {
@@ -94,7 +90,7 @@ public class Bot implements Named {
         final Map<String, AIMLSet> data = loader.loadAll(files);
         int count = data.keySet().stream().mapToInt(s -> data.get(s).size()).sum();
 
-        LOG.info("Loaded " + count + " set records from " + files.length + " files.");
+        LOG.info("Loaded {} set records from {} files.", count, files.length);
         return data;
     }
 
@@ -139,46 +135,6 @@ public class Bot implements Named {
         return data;
     }
 
-    private boolean loadSystemConfigs() {
-        if (!validate(getSystemFolder()))
-            return false;
-        File system = new File(getSystemFolder());
-        File[] files = system.listFiles();
-        if (files == null || files.length < 1)
-            return false;
-        for (File file : files) {
-            LOG.debug("Load system config: " + file.getName());
-            if (file.getName().equals(Bot.PROPERTIES)) {
-                loadBotInfo(file.getAbsolutePath());
-            }
-        }
-        LOG.info("Loaded " + files.length + " system config files.");
-        return true;
-    }
-
-    private void loadBotInfo(String path) {
-        Properties prop = new Properties();
-        try (FileInputStream in = new FileInputStream(path)) {
-            prop.load(in);
-            botInfo.setFirstname(prop.getProperty("firstname"));
-            botInfo.setLastname(prop.getProperty("lastname"));
-            botInfo.setLanguage(prop.getProperty("language"));
-            botInfo.setEmail(prop.getProperty("email"));
-            botInfo.setGender(prop.getProperty("gender"));
-            botInfo.setVersion(prop.getProperty("version"));
-            botInfo.setBirthplace(prop.getProperty("birthplace"));
-            botInfo.setJob(prop.getProperty("job"));
-            botInfo.setSpecies(prop.getProperty("species"));
-            botInfo.setBirthday(prop.getProperty("birthday"));
-            botInfo.setBirthdate(prop.getProperty("birthdate"));
-            botInfo.setSign(prop.getProperty("sign"));
-            botInfo.setReligion(prop.getProperty("religion"));
-            botInfo.setBotmaster(prop.getProperty("botmaster"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
     private boolean validate(String folder) {
         if (folder == null || folder.isEmpty())
             return false;
@@ -212,9 +168,5 @@ public class Bot implements Named {
 
     private String getSkillsFolder() {
         return getRootDir() + "skills";
-    }
-
-    private String getSystemFolder() {
-        return getRootDir() + "system";
     }
 }

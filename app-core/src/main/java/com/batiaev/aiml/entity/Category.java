@@ -8,11 +8,11 @@ import org.w3c.dom.Node;
  * @author anton
  */
 public class Category {
-    public String topic = "";
-    public String pattern = "";
-    public String template = "";
-    public String that = "";
-    public Node node = null;
+    private String topic = "";
+    private String pattern = "";
+    private String template = "";
+    private String that = "";
+    private Node node = null;
 
     public String getTopic() {
         return topic;
