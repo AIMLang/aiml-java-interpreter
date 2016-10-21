@@ -36,7 +36,7 @@ public class AIMLLoader {
 
         File aimls = new File(aimlDir);
         File[] files = aimls.listFiles();
-        if (files == null) {
+        if (files == null || files.length == 0) {
             LOG.warn("Not files in folder {} ", aimls.getAbsolutePath());
             return categoryList;
         }
@@ -85,7 +85,7 @@ public class AIMLLoader {
                 break;
             case AIMLTag.category:
                 if (!categoryList.add(parseCategory(node)))
-                    System.out.println(XmlHelper.node2String(node));
+                    LOG.debug(XmlHelper.node2String(node));
                 break;
             default:
                 LOG.warn("Wrong structure: <aiml> tag contain " + nodeName + " tag");
@@ -101,12 +101,16 @@ public class AIMLLoader {
                 case AIMLTag.comment:
                     break;
                 case AIMLTag.category:
-                    categoryList.add(parseCategory(childNodes.item(i), node.getAttributes().getNamedItem(AIMLTag.name).getNodeValue()));
+                    categoryList.add(parseCategory(childNodes.item(i), getAttribute(node, AIMLTag.name)));
                     break;
                 default:
                     LOG.warn("Wrong structure: <topic> tag contain " + childNodeName + " tag");
             }
         }
+    }
+
+    private String getAttribute(Node node, String attributeName) {
+        return node.getAttributes().getNamedItem(attributeName).getNodeValue();
     }
 
     private Category parseCategory(Node node) {
@@ -116,7 +120,6 @@ public class AIMLLoader {
     private Category parseCategory(Node node, String topic) {
         Category category = new Category();
         category.setTopic(topic);
-        category.setNode(node);
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) {
             String childNodeName = childNodes.item(i).getNodeName();
@@ -128,7 +131,7 @@ public class AIMLLoader {
                     category.setPattern(XmlHelper.node2String(childNodes.item(i)));
                     break;
                 case AIMLTag.template:
-                    category.setTemplate(XmlHelper.node2String(childNodes.item(i)));
+                    category.setTemplate(childNodes.item(i));
                     break;
                 case AIMLTag.topic:
                     category.setTopic(XmlHelper.node2String(childNodes.item(i)));

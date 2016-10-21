@@ -7,7 +7,6 @@ import com.batiaev.aiml.entity.CategoryList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -63,7 +62,7 @@ public class GraphMaster {
         return result;
     }
 
-    public String respond(String pattern, String topic, String that, HashMap<String, String> predicates) {
+    public String respond(String pattern, String topic, String that, Map<String, String> predicates) {
         return processor.template(pattern, topic, that, predicates);
     }
 

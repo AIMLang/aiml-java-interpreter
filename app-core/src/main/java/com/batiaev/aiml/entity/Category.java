@@ -1,5 +1,6 @@
 package com.batiaev.aiml.entity;
 
+import com.batiaev.aiml.consts.AIMLTag;
 import org.w3c.dom.Node;
 
 /**
@@ -7,12 +8,11 @@ import org.w3c.dom.Node;
  *
  * @author anton
  */
-public class Category {
+public class Category implements AimlElement {
     private String topic = "";
     private String pattern = "";
-    private String template = "";
+    private Node template = null;
     private String that = "";
-    private Node node = null;
 
     public String getTopic() {
         return topic;
@@ -30,11 +30,11 @@ public class Category {
         this.pattern = pattern;
     }
 
-    public String getTemplate() {
+    public Node getTemplate() {
         return template;
     }
 
-    public void setTemplate(String template) {
+    public void setTemplate(Node template) {
         this.template = template;
     }
 
@@ -46,11 +46,8 @@ public class Category {
         this.that = that;
     }
 
-    public Node getNode() {
-        return node;
-    }
-
-    public void setNode(Node node) {
-        this.node = node;
+    @Override
+    public String getType() {
+        return AIMLTag.category;
     }
 }

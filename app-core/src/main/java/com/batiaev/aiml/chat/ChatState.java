@@ -3,6 +3,7 @@ package com.batiaev.aiml.chat;
 import com.batiaev.aiml.consts.AIMLConst;
 
 import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -18,8 +19,7 @@ public class ChatState {
     private String request = "";
     private String topic = AIMLConst.default_topic;
     private String that = AIMLConst.default_that;
-    private HashMap<String, String> predicates = new HashMap<>();
-
+    private Map<String, String> predicates = new HashMap<>();
 
     public ChatState(String userName) {
         chatUid = UUID.randomUUID();
@@ -64,7 +64,7 @@ public class ChatState {
         this.request = request;
     }
 
-    public HashMap<String, String> getPredicates() {
+    public Map<String, String> getPredicates() {
         return predicates;
     }
 

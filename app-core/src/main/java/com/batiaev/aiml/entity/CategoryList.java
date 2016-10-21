@@ -1,6 +1,8 @@
 package com.batiaev.aiml.entity;
 
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -10,7 +12,7 @@ import java.util.Set;
  */
 public class CategoryList {
 
-    private HashMap<String, HashMap<String, Category>> topics;
+    private Map<String, Map<String, Category>> topics;
 
     public CategoryList() {
         topics = new HashMap<>();
@@ -30,12 +32,12 @@ public class CategoryList {
     }
 
     public Set<String> patterns(String topic) {
-        HashMap<String, Category> topicMap = topics.get(topic);
-        if (topicMap == null) {
-            HashMap<String, Category> pattern = new HashMap<>();
-            topics.put(topic, pattern);
+        if (topics.containsKey(topic)) {
+            return topics.get(topic).keySet();
+        } else {
+            topics.put(topic, new HashMap<>());
+            return Collections.emptySet();
         }
-        return topics.get(topic).keySet();
     }
 
     public Category category(String topic, String pattern) {
@@ -44,12 +46,15 @@ public class CategoryList {
 
     public boolean add(Category category) {
         boolean result;
-        if (topics.containsKey(category.getTopic()))
-            result = topics.get(category.getTopic()).put(category.getPattern(), category) == null;
+        final String topic = category.getTopic();
+        final String pattern = category.getPattern();
+
+        if (topics.containsKey(topic))
+            result = topics.get(topic).put(pattern, category) == null;
         else {
-            HashMap<String, Category> pattern = new HashMap<>();
-            pattern.put(category.getPattern(), category);
-            result = topics.put(category.getTopic(), pattern) == null;
+            Map<String, Category> patterns = new HashMap<>();
+            patterns.put(pattern, category);
+            result = topics.put(topic, patterns) == null;
         }
         return result;
     }

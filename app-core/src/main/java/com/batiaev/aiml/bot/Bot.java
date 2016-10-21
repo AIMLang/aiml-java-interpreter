@@ -16,6 +16,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
@@ -56,7 +57,8 @@ public class Bot implements Named {
     public String multisentenceRespond(String request, ChatState state) {
         String[] sentences = brain.sentenceSplit(request);
         String response = "";
-        for (String sentence : sentences) response += " " + respond(sentence, state);
+        for (String sentence : sentences)
+            response += " " + respond(sentence, state);
         return response.isEmpty() ? AIMLConst.error_bot_response : response;
     }
 
