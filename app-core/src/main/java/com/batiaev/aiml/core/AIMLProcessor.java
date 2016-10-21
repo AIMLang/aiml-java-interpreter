@@ -4,7 +4,6 @@ import com.batiaev.aiml.consts.AIMLConst;
 import com.batiaev.aiml.consts.AIMLTag;
 import com.batiaev.aiml.consts.WildCard;
 import com.batiaev.aiml.entity.Category;
-import com.batiaev.aiml.entity.CategoryList;
 import com.batiaev.aiml.utils.AppUtils;
 import com.batiaev.aiml.utils.XmlHelper;
 import org.w3c.dom.NamedNodeMap;
@@ -33,52 +32,69 @@ import java.util.regex.Pattern;
  *         Reimplemented isMatching method
  */
 public class AIMLProcessor {
-    private CategoryList categoryList;
+    private final List<Category> categories;
+    private Map<String, Map<String, Category>> topics;
     private Map<String, String> predicates;
 
-    public AIMLProcessor(CategoryList categories) {
+    public AIMLProcessor(List<Category> categories) {
         this.predicates = new HashMap<>();
-        this.categoryList = categories;
+        this.topics = convert(categories);
+        this.categories = categories;
+    }
+
+    private Map<String, Map<String, Category>> convert(List<Category> categories) {
+        Map<String, Map<String, Category>> topics = new HashMap<>();
+        categories.forEach(category -> {
+            Map<String, Category> topicCategories;
+            if (topics.containsKey(category.getTopic())) {
+                topicCategories = topics.get(category.getTopic());
+            } else {
+                topicCategories = new HashMap<>();
+                topics.put(category.getTopic(), topicCategories);
+            }
+            topicCategories.put(category.getPattern(), category);
+        });
+        return topics;
     }
 
     public String match(final String input, String topic, String that) {
         String request = input.toUpperCase();
-        Set<String> patterns = categoryList.patterns(topic);
+        Set<String> patterns = patterns(topic);
         for (String pattern : patterns) {
             if (isMatching(request, pattern))
                 return pattern;
         }
-        patterns = categoryList.patterns(AIMLConst.default_topic);
+        patterns = patterns(AIMLConst.default_topic);
         for (String pattern : patterns) {
             if (isMatching(request, pattern))
                 return pattern;
         }
-        return WildCard.sumbol_1more;
+        return WildCard.OneMore.get();
     }
 
     public String template(String pattern, String topic, String that, Map<String, String> predicates) {
         this.predicates = predicates;
-        Category category = categoryList.category(topic, pattern);
+        Category category = category(topic, pattern);
         if (category == null)
-            category = categoryList.category(AIMLConst.default_topic, WildCard.sumbol_1more);
+            category = category(AIMLConst.default_topic, WildCard.OneMore.get());
         return category == null ? AIMLConst.default_bot_response : getTemplateValue(category.getTemplate());
     }
 
     public int getTopicCount() {
-        return categoryList.topicCount();
+        return topics.size();
     }
 
     public int getCategoriesCount() {
-        return categoryList.size();
+        return categories.size();
     }
 
     private boolean isMatching(String input, String pattern) {
         input = input.trim();
         String regex_pattern = pattern.trim();
-        regex_pattern = regex_pattern.replace(WildCard.sumbol_1more, ".+");
-        regex_pattern = regex_pattern.replace(WildCard.sumbol_1more_higest, ".+");
-        regex_pattern = regex_pattern.replace(WildCard.sumbol_0more, ".*");
-        regex_pattern = regex_pattern.replace(WildCard.sumbol_0more_higest, ".*");
+        regex_pattern = regex_pattern.replace(WildCard.OneMore.get(), ".+");
+        regex_pattern = regex_pattern.replace(WildCard.OneMorePriority.get(), ".+");
+        regex_pattern = regex_pattern.replace(WildCard.ZeroMore.get(), ".*");
+        regex_pattern = regex_pattern.replace(WildCard.ZeroMorePriority.get(), ".*");
         regex_pattern = regex_pattern.replace(" ", "\\s*");
         return Pattern.matches(regex_pattern, input);
     }
@@ -127,7 +143,7 @@ public class AIMLProcessor {
     }
 
     private String sraiParse(Node node) {
-        Category category = categoryList.category(AIMLConst.default_topic, XmlHelper.node2String(node));
+        Category category = category(AIMLConst.default_topic, XmlHelper.node2String(node));
         return category != null ? getTemplateValue(category.getTemplate()) : AIMLConst.error_bot_response;
     }
 
@@ -140,5 +156,18 @@ public class AIMLProcessor {
         }
 
         return AppUtils.getRandom(values);
+    }
+
+    private Set<String> patterns(String topic) {
+        if (topics.containsKey(topic)) {
+            return topics.get(topic).keySet();
+        } else {
+            topics.put(topic, new HashMap<>());
+            return Collections.emptySet();
+        }
+    }
+
+    private Category category(String topic, String pattern) {
+        return topics.get(topic).get(pattern);
     }
 }

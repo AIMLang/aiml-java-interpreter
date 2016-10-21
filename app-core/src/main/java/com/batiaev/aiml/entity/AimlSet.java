@@ -11,10 +11,10 @@ import java.util.Set;
  *
  * @author anton
  */
-public class AIMLSet extends HashSet<String> implements Named, AimlElement {
+public class AimlSet extends HashSet<String> implements Named, AimlElement {
     private String name;
 
-    public AIMLSet(String name, Set<String> data) {
+    public AimlSet(String name, Set<String> data) {
         super(data);
         this.name = name;
     }

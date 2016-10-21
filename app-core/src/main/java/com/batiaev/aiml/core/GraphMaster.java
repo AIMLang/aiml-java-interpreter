@@ -1,33 +1,29 @@
 package com.batiaev.aiml.core;
 
-import com.batiaev.aiml.entity.AIMLMap;
-import com.batiaev.aiml.entity.AIMLSet;
-import com.batiaev.aiml.entity.AIMLSubstitution;
-import com.batiaev.aiml.entity.CategoryList;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.batiaev.aiml.entity.AimlMap;
+import com.batiaev.aiml.entity.AimlSet;
+import com.batiaev.aiml.entity.AimlSubstitution;
+import com.batiaev.aiml.entity.Category;
 
+import java.util.List;
 import java.util.Map;
 
 /**
  * The AIML Pattern matching algorithm and data structure.
- * Brain of aimlFolder.
+ * Brain of bot.
  *
  * @author anton
  * @author Marco
  *         Predicates are passed to AIMLProcessor
  */
 public class GraphMaster {
-
-    private static final Logger LOG = LoggerFactory.getLogger(GraphMaster.class);
-
-    private Map<String, AIMLSet> sets;
-    private Map<String, AIMLMap> maps;
-    private Map<String, AIMLSubstitution> substitutions;
+    private Map<String, AimlSet> sets;
+    private Map<String, AimlMap> maps;
+    private Map<String, AimlSubstitution> substitutions;
     private AIMLProcessor processor;
 
-    public GraphMaster(CategoryList categories, Map<String, AIMLSet> sets, Map<String, AIMLMap> maps,
-                       Map<String, AIMLSubstitution> substitutions) {
+    public GraphMaster(List<Category> categories, Map<String, AimlSet> sets, Map<String, AimlMap> maps,
+                       Map<String, AimlSubstitution> substitutions) {
         this.sets = sets;
         this.maps = maps;
         this.substitutions = substitutions;
@@ -35,11 +31,9 @@ public class GraphMaster {
     }
 
     public String getStat() {
-        int topicCount = processor.getTopicCount();
-        int categoriesCount = processor.getCategoriesCount();
         return "Brain contain "
-                + topicCount + " topics, "
-                + categoriesCount + " categories, "
+                + processor.getTopicCount() + " topics, "
+                + processor.getCategoriesCount() + " categories, "
                 + sets.size() + " sets, "
                 + maps.size() + " maps, "
                 + substitutions.size() + " substitutions.";
@@ -52,11 +46,11 @@ public class GraphMaster {
      * @return array of sentences
      */
     public String[] sentenceSplit(String line) {
-        line = line.replace("。", ".");
-        line = line.replace("？", "?");
-        line = line.replace("！", "!");
-        line = line.replaceAll("(\r\n|\n\r|\r|\n)", " ");
-        String[] result = line.split("[\\.!\\?]");
+        line = line.replace("。", ".")
+                .replace("？", "?")
+                .replace("！", "!")
+                .replaceAll("(\r\n|\n\r|\r|\n)", " ");
+        String[] result = line.split("[.!?]");
         for (int i = 0; i < result.length; i++)
             result[i] = result[i].trim();
         return result;

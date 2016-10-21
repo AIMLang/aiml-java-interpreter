@@ -1,6 +1,6 @@
 package com.batiaev.aiml.loaders;
 
-import com.batiaev.aiml.entity.AIMLMap;
+import com.batiaev.aiml.entity.AimlMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  *
  * @author anton
  */
-public class MapLoader<T extends AIMLMap> implements Loader<T> {
+public class MapLoader<T extends AimlMap> implements Loader<T> {
     private static final Logger LOG = LoggerFactory.getLogger(MapLoader.class);
 
     @Override
@@ -31,7 +31,7 @@ public class MapLoader<T extends AIMLMap> implements Loader<T> {
             return null;
         }
 
-        final AIMLMap data = new AIMLMap(file.getName(), loadFile(file));
+        final AimlMap data = new AimlMap(file.getName(), loadFile(file));
 
         LOG.info("Loaded {} records from {}", data.size(), file.getName());
         return (T) data;
@@ -39,11 +39,11 @@ public class MapLoader<T extends AIMLMap> implements Loader<T> {
 
     @Override
     public Map<String, T> loadAll(File... files) {
-        Map<String, AIMLMap> data = new HashMap<>();
+        Map<String, T> data = new HashMap<>();
         for (File file : files)
             data.put(file.getName(), load(file));
         LOG.info("Loaded {} files", data.size());
-        return (Map<String, T>) data;
+        return data;
     }
 
     protected Map<String, String> loadFile(File file) {

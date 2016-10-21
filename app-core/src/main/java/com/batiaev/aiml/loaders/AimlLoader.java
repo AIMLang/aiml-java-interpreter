@@ -3,7 +3,6 @@ package com.batiaev.aiml.loaders;
 import com.batiaev.aiml.consts.AIMLConst;
 import com.batiaev.aiml.consts.AIMLTag;
 import com.batiaev.aiml.entity.Category;
-import com.batiaev.aiml.entity.CategoryList;
 import com.batiaev.aiml.utils.XmlHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,44 +11,44 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 /**
  * Created by anbat on 21/06/15.
  *
  * @author anton
  */
-public class AIMLLoader {
-    private static final Logger LOG = LoggerFactory.getLogger(AIMLLoader.class);
-    private CategoryList categoryList;
-
-    public AIMLLoader() {
-        categoryList = new CategoryList();
-    }
+public class AimlLoader {
+    private static final Logger LOG = LoggerFactory.getLogger(AimlLoader.class);
 
     /**
      * Loading all aiml files from folder
      *
      * @param aimlDir folder contain all aiml files
-     * @return categoryList
+     * @return list of loaded categories
      */
-    public CategoryList loadFiles(String aimlDir) {
+    public List<Category> loadFiles(String aimlDir) {
 
+        List<Category> categories = new ArrayList<>();
         File aimls = new File(aimlDir);
         File[] files = aimls.listFiles();
         if (files == null || files.length == 0) {
             LOG.warn("Not files in folder {} ", aimls.getAbsolutePath());
-            return categoryList;
+            return categories;
         }
         int countNotAimlFiles = 0;
         for (File file : files) {
             if (file.getName().endsWith(AIMLConst.aiml_file_suffix))
-                loadFile(file);
-            else ++countNotAimlFiles;
+                categories.addAll(loadFile(file));
+            else
+                ++countNotAimlFiles;
         }
         if (countNotAimlFiles != 0)
             LOG.warn("Founded {} not aiml files in folder {}", countNotAimlFiles, aimlDir);
-        LOG.info("Loaded {} categories", categoryList.size());
-        return categoryList;
+        LOG.info("Loaded {} categories", categories.size());
+        return categories;
     }
 
     /**
@@ -57,42 +56,47 @@ public class AIMLLoader {
      *
      * @param aimlFile aiml file
      */
-    private void loadFile(File aimlFile) {
+    private List<Category> loadFile(File aimlFile) {
         Element aimlRoot = XmlHelper.loadXml(aimlFile);
         if (aimlRoot == null)
-            return;
+            return Collections.emptyList();
 
         if (!aimlRoot.getNodeName().equals(AIMLTag.aiml)) {
             LOG.warn(aimlFile.getName() + " is not AIML file");
-            return;
+            return Collections.emptyList();
         }
         String aimlVersion = aimlRoot.getAttribute("version");
         LOG.debug("Load aiml " + aimlFile.getName() + (aimlVersion.isEmpty() ? "" : " [v." + aimlVersion + "]"));
 
-        NodeList childNodes = aimlRoot.getChildNodes();
-        for (int i = 0; i < childNodes.getLength(); ++i)
-            aimlParser(childNodes.item(i));
+        return aimlParser(aimlRoot.getChildNodes());
     }
 
-    private void aimlParser(Node node) {
-        String nodeName = node.getNodeName();
-        switch (nodeName) {
-            case AIMLTag.text:
-            case AIMLTag.comment:
-                break;
-            case AIMLTag.topic:
-                parseTopic(node);
-                break;
-            case AIMLTag.category:
-                if (!categoryList.add(parseCategory(node)))
-                    LOG.debug(XmlHelper.node2String(node));
-                break;
-            default:
-                LOG.warn("Wrong structure: <aiml> tag contain " + nodeName + " tag");
+    private List<Category> aimlParser(NodeList nodes) {
+        List<Category> categories = new ArrayList<>();
+        for (int i = 0; i < nodes.getLength(); ++i) {
+            Node node = nodes.item(i);
+
+            String nodeName = node.getNodeName();
+            switch (nodeName) {
+                case AIMLTag.text:
+                case AIMLTag.comment:
+                    break;
+                case AIMLTag.topic:
+                    categories.addAll(parseTopic(node));
+                    break;
+                case AIMLTag.category:
+                    if (!categories.add(parseCategory(node)))
+                        LOG.debug(XmlHelper.node2String(node));
+                    break;
+                default:
+                    LOG.warn("Wrong structure: <aiml> tag contain " + nodeName + " tag");
+            }
         }
+        return categories;
     }
 
-    private void parseTopic(Node node) {
+    private List<Category> parseTopic(Node node) {
+        List<Category> categories = new ArrayList<>();
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) {
             String childNodeName = childNodes.item(i).getNodeName();
@@ -101,12 +105,13 @@ public class AIMLLoader {
                 case AIMLTag.comment:
                     break;
                 case AIMLTag.category:
-                    categoryList.add(parseCategory(childNodes.item(i), getAttribute(node, AIMLTag.name)));
+                    categories.add(parseCategory(childNodes.item(i), getAttribute(node, AIMLTag.name)));
                     break;
                 default:
                     LOG.warn("Wrong structure: <topic> tag contain " + childNodeName + " tag");
             }
         }
+        return categories;
     }
 
     private String getAttribute(Node node, String attributeName) {

@@ -1,6 +1,6 @@
 package com.batiaev.aiml.loaders;
 
-import com.batiaev.aiml.entity.AIMLSubstitution;
+import com.batiaev.aiml.entity.AimlSubstitution;
 
 import java.io.File;
 import java.util.Map;
@@ -10,14 +10,14 @@ import java.util.Map;
  *
  * @author anton
  */
-public class SubstitutionLoader extends MapLoader<AIMLSubstitution> {
+public class SubstitutionLoader extends MapLoader<AimlSubstitution> {
     @Override
-    public AIMLSubstitution load(File file) {
+    public AimlSubstitution load(File file) {
         return super.load(file);
     }
 
     @Override
-    public Map<String, AIMLSubstitution> loadAll(File... files) {
+    public Map<String, AimlSubstitution> loadAll(File... files) {
         return super.loadAll(files);
     }
 

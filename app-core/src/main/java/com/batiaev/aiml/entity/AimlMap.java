@@ -13,10 +13,10 @@ import java.util.Map;
  *
  * @author anton
  */
-public class AIMLMap extends HashMap<String, String> implements Named, AimlElement {
+public class AimlMap extends HashMap<String, String> implements Named, AimlElement {
     protected String name;
 
-    public AIMLMap(String name, Map<String, String> data) {
+    public AimlMap(String name, Map<String, String> data) {
         super(data);
         this.name = name;
     }

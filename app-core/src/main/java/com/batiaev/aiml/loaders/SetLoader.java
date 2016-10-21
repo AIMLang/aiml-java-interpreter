@@ -1,6 +1,6 @@
 package com.batiaev.aiml.loaders;
 
-import com.batiaev.aiml.entity.AIMLSet;
+import com.batiaev.aiml.entity.AimlSet;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,11 +19,11 @@ import java.util.stream.Stream;
  *
  * @author anton
  */
-public class SetLoader implements Loader<AIMLSet> {
+public class SetLoader implements Loader<AimlSet> {
     private static final Logger LOG = LoggerFactory.getLogger(SetLoader.class);
 
     @Override
-    public AIMLSet load(File file) {
+    public AimlSet load(File file) {
 
         if (file == null) {
             LOG.error("File is null");
@@ -34,15 +34,15 @@ public class SetLoader implements Loader<AIMLSet> {
             return null;
         }
 
-        final AIMLSet data = new AIMLSet(file.getName(), loadFile(file));
+        final AimlSet data = new AimlSet(file.getName(), loadFile(file));
 
         LOG.info("Loaded {} records from {}", data.size(), file.getName());
         return data;
     }
 
     @Override
-    public Map<String, AIMLSet> loadAll(File... files) {
-        Map<String, AIMLSet> data = new HashMap<>();
+    public Map<String, AimlSet> loadAll(File... files) {
+        Map<String, AimlSet> data = new HashMap<>();
         for (File file : files)
             data.put(file.getName(), load(file));
         LOG.info("Loaded {} files", data.size());

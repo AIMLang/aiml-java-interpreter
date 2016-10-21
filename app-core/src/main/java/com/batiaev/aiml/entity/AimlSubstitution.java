@@ -10,9 +10,9 @@ import java.util.Map;
  *
  * @author anton
  */
-public class AIMLSubstitution extends AIMLMap {
+public class AimlSubstitution extends AimlMap {
 
-    public AIMLSubstitution(String name, Map<String, String> data) {
+    public AimlSubstitution(String name, Map<String, String> data) {
         super(name, data);
     }
 }
