@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  *
  * @author anton
  */
-public class MapLoader<T extends AimlMap> implements Loader<T> {
+public class MapLoader<T extends AimlMap> implements FileLoader<T> {
     private static final Logger LOG = LoggerFactory.getLogger(MapLoader.class);
 
     @Override

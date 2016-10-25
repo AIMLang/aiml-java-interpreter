@@ -1,15 +1,27 @@
 package com.batiaev.aiml.loaders;
 
-import java.io.File;
 import java.util.Map;
 
 /**
- * Created by anton on 19/10/16.
+ * Abstract interface for any types of loader specified by two types: type of source and type of results
+ * Created by anton on 25/10/16.
  *
+ * @param <S> source type of data
+ * @param <R> result type of data
  * @author anton
  */
-public interface Loader<T> {
-    T load(File file);
+public interface Loader<R, S> {
+    /**
+     * @param source of data
+     * @return data from ${source}
+     */
+    R load(S source);
 
-    Map<String, T> loadAll(File... files);
+    /**
+     * Load from collection of sources
+     *
+     * @param sources of data
+     * @return map with sources names as keys and result data as values
+     */
+    Map<String, R> loadAll(S... sources);
 }

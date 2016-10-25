@@ -19,7 +19,7 @@ import java.util.stream.Stream;
  *
  * @author anton
  */
-public class SetLoader implements Loader<AimlSet> {
+public class SetLoader implements FileLoader<AimlSet> {
     private static final Logger LOG = LoggerFactory.getLogger(SetLoader.class);
 
     @Override

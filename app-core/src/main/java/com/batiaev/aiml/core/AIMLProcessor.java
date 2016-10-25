@@ -5,7 +5,6 @@ import com.batiaev.aiml.consts.AimlTag;
 import com.batiaev.aiml.consts.WildCard;
 import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.utils.AppUtils;
-import com.batiaev.aiml.utils.XmlHelper;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -143,7 +142,7 @@ public class AIMLProcessor {
     }
 
     private String sraiParse(Node node) {
-        AimlCategory category = category(AimlConst.default_topic, XmlHelper.node2String(node));
+        AimlCategory category = category(AimlConst.default_topic, AppUtils.node2String(node));
         return category != null ? getTemplateValue(category.getTemplate()) : AimlConst.error_bot_response;
     }
 
@@ -152,7 +151,7 @@ public class AIMLProcessor {
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) {
             if (childNodes.item(i).getNodeName().equals(AimlTag.li))
-                values.add(XmlHelper.node2String(childNodes.item(i)));
+                values.add(AppUtils.node2String(childNodes.item(i)));
         }
 
         return AppUtils.getRandom(values);

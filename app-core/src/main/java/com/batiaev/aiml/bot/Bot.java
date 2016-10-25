@@ -87,7 +87,7 @@ public class Bot implements Named {
         if (files == null || files.length == 0)
             return Collections.emptyMap();
 
-        Loader<AimlSet> loader = new SetLoader();
+        FileLoader<AimlSet> loader = new SetLoader();
 
         final Map<String, AimlSet> data = loader.loadAll(files);
         int count = data.keySet().stream().mapToInt(s -> data.get(s).size()).sum();
@@ -107,7 +107,7 @@ public class Bot implements Named {
         if (files == null || files.length == 0) return Collections.emptyMap();
 
 
-        Loader<AimlMap> loader = new MapLoader<>();
+        FileLoader<AimlMap> loader = new MapLoader<>();
 
         final Map<String, AimlMap> data = loader.loadAll(files);
         int count = data.keySet().stream().mapToInt(s -> data.get(s).size()).sum();
@@ -128,7 +128,7 @@ public class Bot implements Named {
             return Collections.emptyMap();
 
 
-        Loader<AimlSubstitution> loader = new SubstitutionLoader();
+        FileLoader<AimlSubstitution> loader = new SubstitutionLoader();
 
         final Map<String, AimlSubstitution> data = loader.loadAll(files);
         int count = data.keySet().stream().mapToInt(s -> data.get(s).size()).sum();
