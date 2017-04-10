@@ -29,6 +29,7 @@ ext {
     logbackVersion = '1.2.3'
     slf4jVersion = '1.7.25'
     lombokVersion = '1.16.16'
+    jacocoVersion = '0.7.9'
 }
 
 configure(project(':app-core')) {
@@ -36,7 +37,7 @@ configure(project(':app-core')) {
     apply plugin: "jacoco"
 
     jacoco {
-        toolVersion = "0.7.7.201606060606"
+        toolVersion = jacocoVersion
         reportsDir = file("$buildDir/reports/jacoco")
     }
 

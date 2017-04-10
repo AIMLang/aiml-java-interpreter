@@ -4,13 +4,12 @@ import com.batiaev.aiml.chat.ChatContext;
 import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.core.GraphMaster;
 import com.batiaev.aiml.core.Named;
+import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.entity.AimlMap;
 import com.batiaev.aiml.entity.AimlSet;
 import com.batiaev.aiml.entity.AimlSubstitution;
-import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.loaders.*;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -25,9 +24,8 @@ import java.util.Map;
  *
  * @author anbat
  */
+@Slf4j
 public class Bot implements Named {
-
-    private static final Logger LOG = LoggerFactory.getLogger(Bot.class);
 
     private GraphMaster brain;
     private BotInfo botInfo;
@@ -80,7 +78,7 @@ public class Bot implements Named {
 
         File sets = new File(getSetsFolder());
         if (!sets.exists()) {
-            LOG.warn("Sets not found!");
+            log.warn("Sets not found!");
             return Collections.emptyMap();
         }
         File[] files = sets.listFiles();
@@ -92,7 +90,7 @@ public class Bot implements Named {
         final Map<String, AimlSet> data = loader.loadAll(files);
         int count = data.keySet().stream().mapToInt(s -> data.get(s).size()).sum();
 
-        LOG.info("Loaded {} set records from {} files.", count, files.length);
+        log.info("Loaded {} set records from {} files.", count, files.length);
         return data;
     }
 
@@ -100,7 +98,7 @@ public class Bot implements Named {
 
         File maps = new File(getMapsFolder());
         if (!maps.exists()) {
-            LOG.warn("Maps not found!");
+            log.warn("Maps not found!");
             return Collections.emptyMap();
         }
         File[] files = maps.listFiles();
@@ -112,7 +110,7 @@ public class Bot implements Named {
         final Map<String, AimlMap> data = loader.loadAll(files);
         int count = data.keySet().stream().mapToInt(s -> data.get(s).size()).sum();
 
-        LOG.info("Loaded " + count + " map records from " + files.length + " files.");
+        log.info("Loaded " + count + " map records from " + files.length + " files.");
         return data;
     }
 
@@ -120,7 +118,7 @@ public class Bot implements Named {
 
         File maps = new File(getSubstitutionsFolder());
         if (!maps.exists()) {
-            LOG.warn("Maps not found!");
+            log.warn("Maps not found!");
             return Collections.emptyMap();
         }
         File[] files = maps.listFiles();
@@ -133,7 +131,7 @@ public class Bot implements Named {
         final Map<String, AimlSubstitution> data = loader.loadAll(files);
         int count = data.keySet().stream().mapToInt(s -> data.get(s).size()).sum();
 
-        LOG.info("Loaded " + count + " substitutions from " + files.length + " files.");
+        log.info("Loaded " + count + " substitutions from " + files.length + " files.");
         return data;
     }
 
@@ -142,7 +140,7 @@ public class Bot implements Named {
             return false;
         Path botsFolder = Paths.get(folder);
         if (Files.notExists(botsFolder)) {
-            LOG.warn("Bot folder " + folder + " not found!");
+            log.warn("Bot folder " + folder + " not found!");
             return false;
         }
         return true;
