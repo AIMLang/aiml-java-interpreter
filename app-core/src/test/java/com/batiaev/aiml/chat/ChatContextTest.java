@@ -8,11 +8,11 @@ import org.junit.Test;
  * Created by anbat on 6/22/15.
  * @author anbat
  */
-public class ChatStateTest extends Assert {
+public class ChatContextTest extends Assert {
 
     @Test
     public void testTopic() throws Exception {
-        ChatState state = new ChatState("test");
+        ChatContext state = new ChatContext("test");
         assertTrue("Default Topic = unknown, result = " + state.topic(), state.topic().equals(AimlConst.default_topic));
         String newTopic = "new topic";
         state.setTopic(newTopic);
@@ -21,7 +21,7 @@ public class ChatStateTest extends Assert {
 
     @Test
     public void testThat() throws Exception {
-        ChatState state = new ChatState("test");
+        ChatContext state = new ChatContext("test");
         assertTrue("Default That = unknown, result = " + state.that(), state.that().equals(AimlConst.default_that));
         String newThat = "new topic";
         state.setTopic(newThat);
@@ -30,7 +30,7 @@ public class ChatStateTest extends Assert {
 
     @Test
     public void testNewState() throws Exception {
-        ChatState state = new ChatState("test");
+        ChatContext state = new ChatContext("test");
         String testRequest = "test request";
         String testRespond = "test respond";
         state.newState(testRequest, testRespond);
@@ -41,7 +41,7 @@ public class ChatStateTest extends Assert {
 
     @Test
     public void testRequest() throws Exception {
-        ChatState state = new ChatState("test");
+        ChatContext state = new ChatContext("test");
         assertTrue("Default Request = \"\", result = " + state.request(), state.request().equals(""));
         String newRequest = "new Request";
         state.setRequest(newRequest);
@@ -50,7 +50,7 @@ public class ChatStateTest extends Assert {
 
     @Test
     public void testRespond() throws Exception {
-        ChatState state = new ChatState("test");
+        ChatContext state = new ChatContext("test");
         assertTrue("Default Respond = unknown, result = " + state.respond(), state.respond().equals(AimlConst.default_that));
         String newRespond = "new Respond";
         state.setRespond(newRespond);
@@ -59,7 +59,7 @@ public class ChatStateTest extends Assert {
 
     @Test
     public void testSetTopic() throws Exception {
-        ChatState state = new ChatState("test");
+        ChatContext state = new ChatContext("test");
         String newTopic = "new topic";
         state.setTopic(newTopic);
         assertTrue("Set topic = " + newTopic + ", result = " + state.topic(), state.topic().equals(newTopic));
@@ -67,7 +67,7 @@ public class ChatStateTest extends Assert {
 
     @Test
     public void testSetRespond() throws Exception {
-        ChatState state = new ChatState("test");
+        ChatContext state = new ChatContext("test");
         String newRespond = "new respond";
         state.setRespond(newRespond);
         assertTrue("Set respond = " + newRespond + ", result = " + state.respond(), state.respond().equals(newRespond));
@@ -75,7 +75,7 @@ public class ChatStateTest extends Assert {
 
     @Test
     public void testSetRequest() throws Exception {
-        ChatState state = new ChatState("test");
+        ChatContext state = new ChatContext("test");
         String newRequest = "new request";
         state.setRequest(newRequest);
         assertTrue("Set request = " + newRequest + ", result = " + state.request(), state.request().equals(newRequest));

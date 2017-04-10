@@ -3,9 +3,10 @@ package com.batiaev.aiml.consts;
 import java.io.File;
 
 /**
- * Created by anbat on 6/17/15.
+ * Aiml constants
  *
  * @author anbat
+ * @since 6/17/15
  */
 public class AimlConst {
 

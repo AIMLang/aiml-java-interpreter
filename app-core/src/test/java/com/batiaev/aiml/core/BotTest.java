@@ -2,11 +2,14 @@ package com.batiaev.aiml.core;
 
 import com.batiaev.aiml.bot.Bot;
 import com.batiaev.aiml.bot.BotRepository;
-import com.batiaev.aiml.chat.ChatState;
+import com.batiaev.aiml.chat.ChatContext;
 import com.batiaev.aiml.consts.AimlConst;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * Created by anbat on 22/06/15.
@@ -26,15 +29,15 @@ public class BotTest extends Assert {
     @Test
     public void testMultisentenceRespond() throws Exception {
         String request = "Как дела?";
-        String correctRequest = "отлично";
-        String respond = bot.multisentenceRespond(request, new ChatState("Human")).trim();
-        assertTrue("Request = " + request + ", Respond = " + respond, respond.equals(correctRequest));
+        List<String> correctResponds = Arrays.asList("отлично", "восхитительно", "замечательно", "прекрасно", "превосходно", "изумительно");
+        String respond = bot.multisentenceRespond(request, new ChatContext("Human")).trim();
+        assertTrue("Request = " + request + ", Respond = " + respond, correctResponds.contains(respond));
     }
 
     @Test
     public void testMultisentenceRespondWithRandom() throws Exception {
         String request = "Привет";
-        String respond = bot.multisentenceRespond(request, new ChatState("Human")).trim();
+        String respond = bot.multisentenceRespond(request, new ChatContext("Human")).trim();
         String[] answers = "Здравствуй;Здравствуйте;Мое почтение!;Здарова;Приветствую;Привет;Доброго времени суток".split(";");
         boolean result = false;
         for (String answer : answers) {
@@ -47,7 +50,7 @@ public class BotTest extends Assert {
     @Test
     public void testMultisentenceRespondWithSrai() throws Exception {
         String request = "Здравствуй";
-        String respond = bot.multisentenceRespond(request, new ChatState("Human")).trim();
+        String respond = bot.multisentenceRespond(request, new ChatContext("Human")).trim();
         String[] answers = "Здравствуй;Здравствуйте;Мое почтение!;Здарова;Приветствую;Привет;Доброго времени суток".split(";");
         boolean result = false;
         for (String answer : answers) {

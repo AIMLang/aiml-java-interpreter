@@ -4,8 +4,7 @@ import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.consts.AimlTag;
 import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.utils.AppUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -16,13 +15,14 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by anbat on 21/06/15.
+ * Aiml loader
  *
  * @author anton
+ * @since 21/06/15
  */
+@Slf4j
 public class AimlLoader {
 
-    private static final Logger LOG = LoggerFactory.getLogger(AimlLoader.class);
     private final XmlLoader loader;
 
     public AimlLoader() {
@@ -41,7 +41,7 @@ public class AimlLoader {
         File aimls = new File(aimlDir);
         File[] files = aimls.listFiles();
         if (files == null || files.length == 0) {
-            LOG.warn("Not files in folder {} ", aimls.getAbsolutePath());
+            log.warn("Not files in folder {} ", aimls.getAbsolutePath());
             return categories;
         }
         int countNotAimlFiles = 0;
@@ -52,8 +52,8 @@ public class AimlLoader {
                 ++countNotAimlFiles;
         }
         if (countNotAimlFiles != 0)
-            LOG.warn("Founded {} not aiml files in folder {}", countNotAimlFiles, aimlDir);
-        LOG.info("Loaded {} categories", categories.size());
+            log.warn("Founded {} not aiml files in folder {}", countNotAimlFiles, aimlDir);
+        log.info("Loaded {} categories", categories.size());
         return categories;
     }
 
@@ -68,11 +68,11 @@ public class AimlLoader {
             return Collections.emptyList();
 
         if (!aimlRoot.getNodeName().equals(AimlTag.aiml)) {
-            LOG.warn(aimlFile.getName() + " is not AIML file");
+            log.warn(aimlFile.getName() + " is not AIML file");
             return Collections.emptyList();
         }
         String aimlVersion = aimlRoot.getAttribute("version");
-        LOG.debug("Load aiml " + aimlFile.getName() + (aimlVersion.isEmpty() ? "" : " [v." + aimlVersion + "]"));
+        log.debug("Load aiml " + aimlFile.getName() + (aimlVersion.isEmpty() ? "" : " [v." + aimlVersion + "]"));
 
         return aimlParser(aimlRoot.getChildNodes());
     }
@@ -92,10 +92,10 @@ public class AimlLoader {
                     break;
                 case AimlTag.category:
                     if (!categories.add(parseCategory(node)))
-                        LOG.debug(AppUtils.node2String(node));
+                        log.debug(AppUtils.node2String(node));
                     break;
                 default:
-                    LOG.warn("Wrong structure: <aiml> tag contain " + nodeName + " tag");
+                    log.warn("Wrong structure: <aiml> tag contain " + nodeName + " tag");
             }
         }
         return categories;
@@ -114,7 +114,7 @@ public class AimlLoader {
                     categories.add(parseCategory(childNodes.item(i), getAttribute(node, AimlTag.name)));
                     break;
                 default:
-                    LOG.warn("Wrong structure: <topic> tag contain " + childNodeName + " tag");
+                    log.warn("Wrong structure: <topic> tag contain " + childNodeName + " tag");
             }
         }
         return categories;
@@ -151,7 +151,7 @@ public class AimlLoader {
                     category.setThat(AppUtils.node2String(childNodes.item(i)));
                     break;
                 default:
-                    LOG.warn("Wrong structure: <category> tag contain " + childNodeName + " tag");
+                    log.warn("Wrong structure: <category> tag contain " + childNodeName + " tag");
             }
         }
         return category;

@@ -5,10 +5,10 @@ import java.util.Map;
 
 /**
  * File loader
- * Created by anton on 19/10/16.
  *
  * @param <T> type of result data
  * @author anton
+ * @since 19/10/16
  */
 public interface FileLoader<T> extends Loader<T, File> {
     T load(File file);

@@ -1,9 +1,9 @@
 package com.batiaev.aiml.core;
 
+import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.entity.AimlMap;
 import com.batiaev.aiml.entity.AimlSet;
 import com.batiaev.aiml.entity.AimlSubstitution;
-import com.batiaev.aiml.entity.AimlCategory;
 
 import java.util.List;
 import java.util.Map;

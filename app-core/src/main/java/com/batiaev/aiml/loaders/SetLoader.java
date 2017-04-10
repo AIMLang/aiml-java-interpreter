@@ -1,8 +1,7 @@
 package com.batiaev.aiml.loaders;
 
 import com.batiaev.aiml.entity.AimlSet;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,28 +14,29 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * Created by anton on 19/10/16.
+ * Set loader
  *
  * @author anton
+ * @since 19/10/16
  */
+@Slf4j
 public class SetLoader implements FileLoader<AimlSet> {
-    private static final Logger LOG = LoggerFactory.getLogger(SetLoader.class);
 
     @Override
     public AimlSet load(File file) {
 
         if (file == null) {
-            LOG.error("File is null");
+            log.error("File is null");
             return null;
         }
         if (!file.exists()) {
-            LOG.error("File {} is not exist", file.getAbsolutePath());
+            log.error("File {} is not exist", file.getAbsolutePath());
             return null;
         }
 
         final AimlSet data = new AimlSet(file.getName(), loadFile(file));
 
-        LOG.info("Loaded {} records from {}", data.size(), file.getName());
+        log.info("Loaded {} records from {}", data.size(), file.getName());
         return data;
     }
 
@@ -45,7 +45,7 @@ public class SetLoader implements FileLoader<AimlSet> {
         Map<String, AimlSet> data = new HashMap<>();
         for (File file : files)
             data.put(file.getName(), load(file));
-        LOG.info("Loaded {} files", data.size());
+        log.info("Loaded {} files", data.size());
         return data;
     }
 

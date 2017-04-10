@@ -1,7 +1,6 @@
 package com.batiaev.aiml.bot;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,12 +8,13 @@ import java.io.IOException;
 import java.util.Properties;
 
 /**
- * Created by anbat on 19/10/16.
+ * Bot configuration
  *
  * @author anbat
+ * @since 19/10/16
  */
+@Slf4j
 public class BotConfiguration implements BotInfo {
-    private static final Logger LOG = LoggerFactory.getLogger(Bot.class);
 
     private static final String PROPERTIES = "bot.properties";
 
@@ -97,7 +97,7 @@ public class BotConfiguration implements BotInfo {
     }
 
     private Properties loadBotInfo(String path) {
-        LOG.debug("Load system config: " + path);
+        log.debug("Load system config: " + path);
         Properties prop = new Properties();
         try (FileInputStream in = new FileInputStream(path)) {
             prop.load(in);

@@ -5,16 +5,17 @@ import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.providers.Provider;
 
 /**
- * Created by anbat on 6/18/15.
+ * Chat
  *
  * @author anbat
+ * @since 6/18/15
  */
 public class Chat {
     private final static String DEFAULT_NICKNAME = "Human";
     private final Bot bot;
     private final Provider provider;
     private String nickname = DEFAULT_NICKNAME;
-    private ChatState state;
+    private ChatContext state;
 
     public Chat(Bot bot, Provider provider) {
         this.bot = bot;
@@ -23,7 +24,7 @@ public class Chat {
 
     public void start() {
         provider.write("Hello! Welcome to chat with " + bot.getName() + ".\n");
-        state = new ChatState(nickname);
+        state = new ChatContext(nickname);
 
         String message;
         while (true) {

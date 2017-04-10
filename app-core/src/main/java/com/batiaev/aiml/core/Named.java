@@ -1,9 +1,10 @@
 package com.batiaev.aiml.core;
 
 /**
- * Created by anton on 19/10/16.
+ * Named
  *
  * @author anton
+ * @since 19/10/16
  */
 public interface Named {
     String getName();

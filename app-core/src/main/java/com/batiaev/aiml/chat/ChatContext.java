@@ -7,13 +7,14 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * Created by anbat on 18/06/15.
+ * Chat context
  *
  * @author anbat
  * @author Marco Piovesan
  *         Added predicates on 29/08/16
+ * @since 18/06/15
  */
-public class ChatState {
+public class ChatContext {
     private UUID chatUid;
     private ChatHistory history;
     private String request = "";
@@ -21,7 +22,7 @@ public class ChatState {
     private String that = AimlConst.default_that;
     private Map<String, String> predicates = new HashMap<>();
 
-    public ChatState(String userName) {
+    public ChatContext(String userName) {
         chatUid = UUID.randomUUID();
         history = new ChatHistory(chatUid, userName);
     }

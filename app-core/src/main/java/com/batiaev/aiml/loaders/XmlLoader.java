@@ -1,7 +1,6 @@
 package com.batiaev.aiml.loaders;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -16,12 +15,12 @@ import java.util.Map;
 
 /**
  * Load root element from xml file
- * Created by anbat on 25/10/16.
  *
  * @author anbat
+ * @since 25/10/16
  */
+@Slf4j
 public class XmlLoader implements FileLoader<Element> {
-    private static final Logger LOG = LoggerFactory.getLogger(XmlLoader.class);
 
     @Override
     public Element load(File file) {
@@ -46,7 +45,7 @@ public class XmlLoader implements FileLoader<Element> {
         Map<String, Element> data = new HashMap<>();
         for (File file : files)
             data.put(file.getName(), load(file));
-        LOG.info("Loaded {} files", data.size());
+        log.info("Loaded {} files", data.size());
         return data;
     }
 }

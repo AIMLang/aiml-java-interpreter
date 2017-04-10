@@ -1,10 +1,11 @@
 package com.batiaev.aiml.entity;
 
-import com.batiaev.aiml.consts.AimlTag;
 import com.batiaev.aiml.core.Named;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.batiaev.aiml.consts.AimlTag.map;
 
 /**
  * Implements AIML Map
@@ -12,6 +13,7 @@ import java.util.Map;
  * Elements of the domain are called keys and elements of the range are called values.
  *
  * @author anton
+ * @since 19/10/16
  */
 public class AimlMap extends HashMap<String, String> implements Named, AimlElement {
     protected final String name;
@@ -28,6 +30,6 @@ public class AimlMap extends HashMap<String, String> implements Named, AimlEleme
 
     @Override
     public String getType() {
-        return AimlTag.map;
+        return map;
     }
 }

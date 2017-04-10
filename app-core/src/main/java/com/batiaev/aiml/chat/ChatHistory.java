@@ -5,9 +5,10 @@ import java.util.Date;
 import java.util.UUID;
 
 /**
- * Created by anbat on 18/06/15.
+ * ChatHistory
  *
  * @author anbat
+ * @since 18/06/15
  */
 public class ChatHistory {
     private final UUID chatUid;

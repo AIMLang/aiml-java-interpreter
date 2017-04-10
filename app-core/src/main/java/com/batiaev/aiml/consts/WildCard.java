@@ -1,9 +1,10 @@
 package com.batiaev.aiml.consts;
 
 /**
- * Created by anbat on 19/06/15.
+ * Wildcards
  *
  * @author anbat
+ * @since 19/06/15
  */
 public enum WildCard {
     ZeroMore("^"),

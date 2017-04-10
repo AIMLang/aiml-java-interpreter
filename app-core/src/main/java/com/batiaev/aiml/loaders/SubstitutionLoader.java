@@ -6,9 +6,10 @@ import java.io.File;
 import java.util.Map;
 
 /**
- * Created by anton on 19/10/16.
+ * Substitution loader
  *
  * @author anton
+ * @since 19/10/16
  */
 public class SubstitutionLoader extends MapLoader<AimlSubstitution> {
     @Override

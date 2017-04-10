@@ -5,9 +5,10 @@ import com.batiaev.aiml.consts.AimlTag;
 import java.util.List;
 
 /**
- * Created by anton on 21/10/16.
+ * Aiml Topic
  *
  * @author anton
+ * @since 21/10/16
  */
 public class AimlTopic implements AimlElement {
     private List<AimlCategory> categories;

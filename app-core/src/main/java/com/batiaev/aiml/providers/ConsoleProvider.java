@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 
 /**
- * Created by anbat on 18/10/16.
+ * Console provider
  *
  * @author anbat
+ * @since 18/10/16
  */
 public class ConsoleProvider implements Provider {
 

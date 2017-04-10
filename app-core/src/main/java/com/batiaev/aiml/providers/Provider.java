@@ -1,9 +1,10 @@
 package com.batiaev.aiml.providers;
 
 /**
- * Created by anbat on 18/10/16.
+ * Communication channel
  *
  * @author anbat
+ * @since 18/10/16
  */
 public interface Provider {
     String read();

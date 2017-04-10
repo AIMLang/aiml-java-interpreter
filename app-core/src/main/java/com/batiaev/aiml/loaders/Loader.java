@@ -4,11 +4,11 @@ import java.util.Map;
 
 /**
  * Abstract interface for any types of loader specified by two types: type of source and type of results
- * Created by anton on 25/10/16.
  *
  * @param <S> source type of data
  * @param <R> result type of data
  * @author anton
+ * @since 25/10/16
  */
 public interface Loader<R, S> {
     /**

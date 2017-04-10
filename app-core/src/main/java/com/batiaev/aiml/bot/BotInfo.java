@@ -1,9 +1,10 @@
 package com.batiaev.aiml.bot;
 
 /**
- * Created by anbat on 7/6/15.
+ * Bot info
  *
  * @author anbat
+ * @since 7/6/15
  */
 public interface BotInfo {
 

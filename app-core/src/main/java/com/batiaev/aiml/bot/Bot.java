@@ -1,6 +1,6 @@
 package com.batiaev.aiml.bot;
 
-import com.batiaev.aiml.chat.ChatState;
+import com.batiaev.aiml.chat.ChatContext;
 import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.core.GraphMaster;
 import com.batiaev.aiml.core.Named;
@@ -54,7 +54,7 @@ public class Bot implements Named {
         return brain.getStat();
     }
 
-    public String multisentenceRespond(String request, ChatState state) {
+    public String multisentenceRespond(String request, ChatContext state) {
         String[] sentences = brain.sentenceSplit(request);
         String response = "";
         for (String sentence : sentences)
@@ -62,7 +62,7 @@ public class Bot implements Named {
         return response.isEmpty() ? AimlConst.error_bot_response : response;
     }
 
-    public String respond(String request, ChatState state) {
+    public String respond(String request, ChatContext state) {
         String pattern = brain.match(request, state.topic(), state.that());
         return brain.respond(pattern, state.topic(), state.that(), state.getPredicates());
     }

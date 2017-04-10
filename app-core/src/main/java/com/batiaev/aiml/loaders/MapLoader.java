@@ -1,6 +1,7 @@
 package com.batiaev.aiml.loaders;
 
 import com.batiaev.aiml.entity.AimlMap;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,28 +13,29 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 /**
- * Created by anton on 19/10/16.
+ * Map loader
  *
  * @author anton
+ * @since 19/10/16
  */
+@Slf4j
 public class MapLoader<T extends AimlMap> implements FileLoader<T> {
-    private static final Logger LOG = LoggerFactory.getLogger(MapLoader.class);
 
     @Override
     public T load(File file) {
 
         if (file == null) {
-            LOG.error("File is null");
+            log.error("File is null");
             return null;
         }
         if (!file.exists()) {
-            LOG.error("File {} is not exist", file.getAbsolutePath());
+            log.error("File {} is not exist", file.getAbsolutePath());
             return null;
         }
 
         final AimlMap data = new AimlMap(file.getName(), loadFile(file));
 
-        LOG.info("Loaded {} records from {}", data.size(), file.getName());
+        log.info("Loaded {} records from {}", data.size(), file.getName());
         return (T) data;
     }
 
@@ -42,7 +44,7 @@ public class MapLoader<T extends AimlMap> implements FileLoader<T> {
         Map<String, T> data = new HashMap<>();
         for (File file : files)
             data.put(file.getName(), load(file));
-        LOG.info("Loaded {} files", data.size());
+        log.info("Loaded {} files", data.size());
         return data;
     }
 

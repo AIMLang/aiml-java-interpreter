@@ -5,9 +5,10 @@ import com.batiaev.aiml.consts.AimlConst;
 import java.io.File;
 
 /**
- * Created by anbat on 19/10/16.
+ * Bot repository
  *
  * @author anbat
+ * @since 19/10/16
  */
 public class BotRepository {
     private static String rootDir = AimlConst.getRootPath();

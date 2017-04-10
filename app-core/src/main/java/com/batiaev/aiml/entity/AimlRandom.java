@@ -6,9 +6,10 @@ import com.batiaev.aiml.utils.AppUtils;
 import java.util.List;
 
 /**
- * Created by anton on 21/10/16.
+ * Aiml random tag
  *
  * @author anton
+ * @since 21/10/16
  */
 public class AimlRandom implements AimlElement {
     private final List<String> options;

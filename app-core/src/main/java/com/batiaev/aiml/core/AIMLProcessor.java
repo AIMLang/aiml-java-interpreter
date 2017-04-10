@@ -12,6 +12,8 @@ import org.w3c.dom.NodeList;
 import java.util.*;
 import java.util.regex.Pattern;
 
+import static com.batiaev.aiml.consts.AimlTag.*;
+
 /**
  * The core AIML parser and interpreter.
  * Implements the AIML 2.0 specification as described in
@@ -29,6 +31,7 @@ import java.util.regex.Pattern;
  *         Topic managment improvement on 20/08/2016
  *         Parsing THINK tag
  *         Reimplemented isMatching method
+ * @since 19/10/16
  */
 public class AIMLProcessor {
     private final List<AimlCategory> categories;
@@ -109,18 +112,18 @@ public class AIMLProcessor {
     private String recurseParse(Node node) {
         String nodeName = node.getNodeName();
         switch (nodeName) {
-            case AimlTag.text:
+            case text:
                 return textParse(node);
-            case AimlTag.template:
+            case template:
                 return getTemplateValue(node);
-            case AimlTag.random:
+            case random:
                 return randomParse(node);
-            case AimlTag.srai:
+            case srai:
                 return sraiParse(node);
-            case AimlTag.set:
+            case set:
                 setParse(node);
                 return "";
-            case AimlTag.think:
+            case think:
                 getTemplateValue(node);
                 return "";
         }

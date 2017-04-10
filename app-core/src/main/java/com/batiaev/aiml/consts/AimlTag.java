@@ -1,9 +1,10 @@
 package com.batiaev.aiml.consts;
 
 /**
- * Created by anbat on 13/06/15.
+ * Aiml tags
  *
  * @author anbat
+ * @since 13/06/15
  */
 public class AimlTag {
 

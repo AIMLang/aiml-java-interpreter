@@ -1,9 +1,10 @@
 package com.batiaev.aiml.entity;
 
 /**
- * Created by anton on 21/10/16.
+ * Abstract aiml element
  *
  * @author anton
+ * @since 21/10/16
  */
 public interface AimlElement {
     String getType();
