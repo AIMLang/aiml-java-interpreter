@@ -1,15 +1,18 @@
 package com.batiaev.aiml.bot;
 
 import com.batiaev.aiml.chat.ChatContext;
+import com.batiaev.aiml.chat.ChatContextStorage;
 import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.core.GraphMaster;
-import com.batiaev.aiml.core.Named;
 import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.entity.AimlMap;
 import com.batiaev.aiml.entity.AimlSet;
 import com.batiaev.aiml.entity.AimlSubstitution;
 import com.batiaev.aiml.loaders.*;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -25,14 +28,20 @@ import java.util.Map;
  * @author anbat
  */
 @Slf4j
-public class Bot implements Named {
+public class BotImpl implements Bot {
 
     private GraphMaster brain;
     private BotInfo botInfo;
     private String rootDir;
     private String name;
 
-    public Bot(String name, String rootDir) {
+    @Getter
+    @Autowired
+    private ChatContextStorage chatContextStorage;
+    @Setter
+    private ChatContext chatContext;
+
+    public BotImpl(String name, String rootDir) {
         this.name = name;
         this.rootDir = rootDir;
         this.botInfo = new BotConfiguration(rootDir);
@@ -140,7 +149,7 @@ public class Bot implements Named {
             return false;
         Path botsFolder = Paths.get(folder);
         if (Files.notExists(botsFolder)) {
-            log.warn("Bot folder " + folder + " not found!");
+            log.warn("BotImpl folder " + folder + " not found!");
             return false;
         }
         return true;
@@ -168,5 +177,10 @@ public class Bot implements Named {
 
     private String getSkillsFolder() {
         return getRootDir() + "skills";
+    }
+
+    @Override
+    public String getRespond(String phrase) {
+        return null;
     }
 }

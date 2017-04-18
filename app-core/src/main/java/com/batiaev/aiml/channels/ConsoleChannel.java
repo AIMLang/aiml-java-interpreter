@@ -1,8 +1,14 @@
-package com.batiaev.aiml.providers;
+package com.batiaev.aiml.channels;
+
+import com.batiaev.aiml.bot.Bot;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+
+import static com.batiaev.aiml.channels.ChannelType.CONSOLE;
 
 /**
  * Console provider
@@ -10,11 +16,15 @@ import java.io.InputStreamReader;
  * @author anbat
  * @since 18/10/16
  */
-public class ConsoleProvider implements Provider {
+public class ConsoleChannel implements Provider, Channel {
 
     private BufferedReader reader;
+    @Getter
+    private Bot bot;
 
-    public ConsoleProvider() {
+    @Autowired
+    public ConsoleChannel(Bot bot) {
+        this.bot = bot;
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
@@ -32,5 +42,15 @@ public class ConsoleProvider implements Provider {
     @Override
     public void write(String message) {
         System.out.print(message);
+    }
+
+    @Override
+    public ChannelType getType() {
+        return CONSOLE;
+    }
+
+    @Override
+    public ResponseHandler getResponseHandler() {
+        return System.out::println;
     }
 }

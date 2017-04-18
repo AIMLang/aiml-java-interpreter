@@ -1,5 +1,6 @@
-package com.batiaev.aiml.bot;
+package com.batiaev.aiml.channels;
 
+import com.batiaev.aiml.bot.Bot;
 import com.batiaev.aiml.exception.BotNotInitializedException;
 import com.batiaev.aiml.exception.ChatNotStartedException;
 import org.springframework.stereotype.Component;
@@ -12,9 +13,33 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public interface Channel {
-    void startChat(ResponseHandler handler, String userId);
 
-    void send(String phrase) throws ChatNotStartedException, BotNotInitializedException;
+    default void startChat(String userId) {
+        getBot().startChat(userId, getType());
+    }
+
+    Bot getBot();
+
+    default void send(String phrase) throws ChatNotStartedException, BotNotInitializedException {
+        if (getResponseHandler() == null)
+            throw new ChatNotStartedException("response handler is not set");
+        if (getBot() == null)
+            throw new BotNotInitializedException("Bot is not set");
+        getResponseHandler().respond(getBot().getRespond(phrase));
+    }
 
     ChannelType getType();
+
+    ResponseHandler getResponseHandler();
+
+    /**
+     * ResponseHandler
+     *
+     * @author anton
+     * @since 18/04/17
+     */
+    @FunctionalInterface
+    interface ResponseHandler {
+        void respond(String respond);
+    }
 }

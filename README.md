@@ -10,6 +10,7 @@ gradle clean build
 https://github.com/AIML-Bots/aiml-bots.git
 
 ## Dependencies
+- Spring Context (4.3.7.RELEASE)
 - Logback (1.2.3)
 - Slf4j (1.7.25)
 - Lombok (1.16.16)

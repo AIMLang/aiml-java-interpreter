@@ -6,6 +6,7 @@ import org.junit.Test;
 
 /**
  * Created by anbat on 6/22/15.
+ *
  * @author anbat
  */
 public class ChatContextTest extends Assert {
@@ -35,7 +36,7 @@ public class ChatContextTest extends Assert {
         String testRespond = "test respond";
         state.newState(testRequest, testRespond);
         assertTrue("New state {request = " + testRequest + ", respond = " + testRespond + "}, result: {request = "
-                + state.request() + ", respond = " + state.respond() + "}",
+                        + state.request() + ", respond = " + state.respond() + "}",
                 state.request().equals(testRequest) && state.respond().equals(testRespond));
     }
 

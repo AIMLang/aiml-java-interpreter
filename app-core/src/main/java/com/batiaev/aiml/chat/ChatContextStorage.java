@@ -1,7 +1,6 @@
-package com.batiaev.aiml.bot;
+package com.batiaev.aiml.chat;
 
 import com.batiaev.aiml.channels.ChannelType;
-import com.batiaev.aiml.chat.ChatContext;
 import org.springframework.stereotype.Repository;
 
 /**

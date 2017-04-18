@@ -1,8 +1,8 @@
 package com.batiaev.aiml.chat;
 
-import com.batiaev.aiml.bot.Bot;
+import com.batiaev.aiml.bot.BotImpl;
 import com.batiaev.aiml.consts.AimlConst;
-import com.batiaev.aiml.providers.Provider;
+import com.batiaev.aiml.channels.Provider;
 
 /**
  * Chat
@@ -12,12 +12,12 @@ import com.batiaev.aiml.providers.Provider;
  */
 public class Chat {
     private final static String DEFAULT_NICKNAME = "Human";
-    private final Bot bot;
+    private final BotImpl bot;
     private final Provider provider;
     private String nickname = DEFAULT_NICKNAME;
     private ChatContext state;
 
-    public Chat(Bot bot, Provider provider) {
+    public Chat(BotImpl bot, Provider provider) {
         this.bot = bot;
         this.provider = provider;
     }

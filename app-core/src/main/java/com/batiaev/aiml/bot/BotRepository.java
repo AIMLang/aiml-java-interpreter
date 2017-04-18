@@ -22,7 +22,7 @@ public class BotRepository {
     }
 
     public static Bot get(String name) {
-        return new Bot(name, getBotPath(name));
+        return new BotImpl(name, getBotPath(name));
     }
 
     private static String getBotPath(String name) {

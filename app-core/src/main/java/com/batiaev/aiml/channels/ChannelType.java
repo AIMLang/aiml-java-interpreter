@@ -1,4 +1,4 @@
-package com.batiaev.aiml.bot;
+package com.batiaev.aiml.channels;
 
 /**
  * ChannelType

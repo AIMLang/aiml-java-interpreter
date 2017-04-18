@@ -1,6 +1,6 @@
 package com.batiaev.aiml.core;
 
-import com.batiaev.aiml.bot.Bot;
+import com.batiaev.aiml.bot.BotImpl;
 import com.batiaev.aiml.bot.BotRepository;
 import com.batiaev.aiml.chat.ChatContext;
 import com.batiaev.aiml.consts.AimlConst;
@@ -17,12 +17,12 @@ import java.util.List;
  * @author anbat
  */
 public class BotTest extends Assert {
-    private Bot bot;
+    private BotImpl bot;
 
     @Before
     public void setUp() throws Exception {
         AimlConst.setRootPath(System.getProperty("user.dir") + "/aiml-bots/bots");
-        bot = BotRepository.get();
+        BotImpl bot = (BotImpl) BotRepository.get();
         assertTrue(bot.wakeUp());
     }
 

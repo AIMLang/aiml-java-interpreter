@@ -1,4 +1,4 @@
-package com.batiaev.aiml.bot;
+package com.batiaev.aiml.exception;
 
 /**
  * ChatNotStartedException
@@ -6,7 +6,7 @@ package com.batiaev.aiml.bot;
  * @author anton
  * @since 19/04/17
  */
-public class ChatNotStartedException extends Exception {
+public class ChatNotStartedException extends AimlExeption {
     public ChatNotStartedException(String s) {
         super(s);
     }

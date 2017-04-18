@@ -1,4 +1,4 @@
-package com.batiaev.aiml.providers;
+package com.batiaev.aiml.channels;
 
 /**
  * Communication channel
