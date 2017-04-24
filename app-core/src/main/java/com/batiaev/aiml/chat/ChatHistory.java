@@ -7,7 +7,7 @@ import java.util.UUID;
 /**
  * ChatHistory
  *
- * @author anbat
+ * @author batiaev
  * @since 18/06/15
  */
 public class ChatHistory {

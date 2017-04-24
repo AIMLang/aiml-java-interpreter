@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * Load root element from xml file
  *
- * @author anbat
+ * @author batiaev
  * @since 25/10/16
  */
 @Slf4j

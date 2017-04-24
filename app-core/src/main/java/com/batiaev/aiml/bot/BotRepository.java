@@ -7,7 +7,7 @@ import java.io.File;
 /**
  * Bot repository
  *
- * @author anbat
+ * @author batiaev
  * @since 19/10/16
  */
 public class BotRepository {

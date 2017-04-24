@@ -3,7 +3,7 @@ package com.batiaev.aiml.channels;
 /**
  * Communication channel
  *
- * @author anbat
+ * @author batiaev
  * @since 18/10/16
  */
 public interface Provider {

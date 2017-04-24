@@ -3,7 +3,7 @@ package com.batiaev.aiml.consts;
 /**
  * Aiml tags
  *
- * @author anbat
+ * @author batiaev
  * @since 13/06/15
  */
 public class AimlTag {

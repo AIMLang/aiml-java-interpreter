@@ -10,7 +10,8 @@ import com.batiaev.aiml.exception.BotNotInitializedException;
 import com.batiaev.aiml.exception.ChatNotStartedException;
 
 /**
- * @author anbat
+ * @author batiaev
+ * @since 30/06/15
  */
 public class App {
 

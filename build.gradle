@@ -1,3 +1,4 @@
+apply plugin: 'java'
 apply plugin: 'idea'
 
 idea {
@@ -8,20 +9,15 @@ idea {
     }
 }
 
-subprojects {
-    apply plugin: 'java'
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 
-    group = 'com.batiaev.aiml'
-    version = '1.0-SNAPSHOT'
+group = 'com.batiaev.aiml'
+version = '1.0-SNAPSHOT'
 
-    sourceCompatibility = 1.8
-    targetCompatibility = 1.8
-
-    repositories {
-        jcenter()
-        mavenLocal()
-        mavenCentral()
-    }
+repositories {
+    mavenLocal()
+    mavenCentral()
 }
 
 ext {
@@ -29,44 +25,20 @@ ext {
     logbackVersion = '1.2.3'
     slf4jVersion = '1.7.25'
     lombokVersion = '1.16.16'
-    jacocoVersion = '0.7.9'
     springVersion = '4.3.7.RELEASE'
 }
 
 configure(project(':app-core')) {
     apply plugin: 'application'
-    apply plugin: "jacoco"
-
-    jacoco {
-        toolVersion = jacocoVersion
-        reportsDir = file("$buildDir/reports/jacoco")
-    }
-
-    jacocoTestReport {
-        reports {
-            xml.enabled false
-            csv.enabled false
-            html.destination "${buildDir}/reports/jacoco/html"
-        }
-    }
-
-    test {
-        jacoco {
-            append = false
-            destinationFile = file("$buildDir/reports/jacoco/test/jacocoTest.exec")
-            classDumpFile = file("$buildDir/reports/jacoco/test/classpathdumps")
-        }
-    }
 
     mainClassName = "com.batiaev.aiml.App"
 
     jar {
-        manifest.attributes("Main-Class": mainClassName);
-        manifest.attributes("Manifest-Version": 1.0);
+        manifest.attributes("Main-Class": mainClassName)
+        manifest.attributes("Manifest-Version": 1.0)
     }
 
     dependencies {
-
         compile "org.springframework:spring-context:${springVersion}"
 
         compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"

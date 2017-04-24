@@ -1,9 +1,10 @@
 package com.batiaev.aiml.chat;
 
 /**
- * Created by anbat on 25/06/15.
+ * ChatCommand
  *
- * @author anbat
+ * @author batiaev
+ * @since 25/06/15
  */
 public class ChatCommand {
     public static final String exit = "/exit";

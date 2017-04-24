@@ -3,7 +3,7 @@ package com.batiaev.aiml.consts;
 /**
  * Wildcards
  *
- * @author anbat
+ * @author batiaev
  * @since 19/06/15
  */
 public enum WildCard {

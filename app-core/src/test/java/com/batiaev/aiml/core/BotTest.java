@@ -12,9 +12,10 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by anbat on 22/06/15.
+ * BotTest
  *
- * @author anbat
+ * @author batiaev
+ * @since 22/06/15
  */
 public class BotTest extends Assert {
     private BotImpl bot;

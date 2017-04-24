@@ -3,7 +3,7 @@ package com.batiaev.aiml.bot;
 /**
  * Bot info
  *
- * @author anbat
+ * @author batiaev
  * @since 7/6/15
  */
 public interface BotInfo {

@@ -10,7 +10,7 @@ import java.util.Properties;
 /**
  * Bot configuration
  *
- * @author anbat
+ * @author batiaev
  * @since 19/10/16
  */
 @Slf4j

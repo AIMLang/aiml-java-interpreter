@@ -9,7 +9,7 @@ import java.util.UUID;
 /**
  * Chat context
  *
- * @author anbat
+ * @author batiaev
  * @author Marco Piovesan
  *         Added predicates on 29/08/16
  * @since 18/06/15

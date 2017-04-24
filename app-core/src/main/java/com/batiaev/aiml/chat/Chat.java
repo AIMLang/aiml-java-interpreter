@@ -7,7 +7,7 @@ import com.batiaev.aiml.channels.Provider;
 /**
  * Chat
  *
- * @author anbat
+ * @author batiaev
  * @since 6/18/15
  */
 public class Chat {

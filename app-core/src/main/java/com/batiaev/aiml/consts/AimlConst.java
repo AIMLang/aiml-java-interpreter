@@ -5,7 +5,7 @@ import java.io.File;
 /**
  * Aiml constants
  *
- * @author anbat
+ * @author batiaev
  * @since 6/17/15
  */
 public class AimlConst {

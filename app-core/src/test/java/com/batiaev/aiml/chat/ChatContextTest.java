@@ -5,9 +5,10 @@ import org.junit.Assert;
 import org.junit.Test;
 
 /**
- * Created by anbat on 6/22/15.
+ * ChatContextTest
  *
- * @author anbat
+ * @author batiaev
+ * @since 6/22/15
  */
 public class ChatContextTest extends Assert {
 

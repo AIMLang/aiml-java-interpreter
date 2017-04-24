@@ -13,7 +13,7 @@ import static com.batiaev.aiml.channels.ChannelType.CONSOLE;
 /**
  * Console provider
  *
- * @author anbat
+ * @author batiaev
  * @since 18/10/16
  */
 public class ConsoleChannel implements Provider, Channel {

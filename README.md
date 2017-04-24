@@ -16,7 +16,6 @@ https://github.com/AIML-Bots/aiml-bots.git
 - Lombok (1.16.16)
 - Gradle (3.5)
 - JUnit (4.12)
-- JaCoCo (0.7.9)
 
 ## Contacts
 anton@batiaev.com

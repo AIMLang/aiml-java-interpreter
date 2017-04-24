@@ -25,7 +25,7 @@ import java.util.Map;
 /**
  * Class representing the AIML bot
  *
- * @author anbat
+ * @author batiaev
  */
 @Slf4j
 public class BotImpl implements Bot {
