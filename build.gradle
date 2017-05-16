@@ -15,11 +15,6 @@ targetCompatibility = 1.8
 group = 'com.batiaev.aiml'
 version = '1.0-SNAPSHOT'
 
-repositories {
-    mavenLocal()
-    mavenCentral()
-}
-
 ext {
     junitVersion = '4.12'
     logbackVersion = '1.2.3'
@@ -36,6 +31,11 @@ configure(project(':app-core')) {
     jar {
         manifest.attributes("Main-Class": mainClassName)
         manifest.attributes("Manifest-Version": 1.0)
+    }
+
+    repositories {
+        mavenLocal()
+        mavenCentral()
     }
 
     dependencies {
