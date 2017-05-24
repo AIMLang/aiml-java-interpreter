@@ -138,6 +138,7 @@ public class AIMLProcessor {
         NamedNodeMap attributes = node.getAttributes();
         if (attributes.getLength() > 0) {
             Node node1 = attributes.getNamedItem("getName");
+            if (node1 == null) return;
             String key = node1.getNodeValue();
             String value = getTemplateValue(node);
             predicates.put(key, value);

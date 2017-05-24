@@ -1,5 +1,6 @@
 package com.batiaev.aiml.loaders;
 
+import com.batiaev.aiml.entity.AimlMap;
 import com.batiaev.aiml.entity.AimlSubstitution;
 
 import java.io.File;
@@ -14,7 +15,8 @@ import java.util.Map;
 public class SubstitutionLoader extends MapLoader<AimlSubstitution> {
     @Override
     public AimlSubstitution load(File file) {
-        return super.load(file);
+        AimlMap map = super.load(file);
+        return new AimlSubstitution(map.getName(), map);
     }
 
     @Override
@@ -30,6 +32,7 @@ public class SubstitutionLoader extends MapLoader<AimlSubstitution> {
     @Override
     protected void parseRow(final Map<String, String> data, final String row) {
         String[] splitStr = row.toUpperCase().trim().split(",");
+        if (splitStr.length < 2) return;
         String first = splitStr[0];
         String second = splitStr[1];
         if (first.length() >= 2 && second.length() >= 2) data.put(removeBraces(first), removeBraces(second));

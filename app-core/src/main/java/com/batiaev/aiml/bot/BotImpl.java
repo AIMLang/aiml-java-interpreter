@@ -13,6 +13,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -22,12 +23,15 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static com.batiaev.aiml.channels.ChannelType.CONSOLE;
+
 /**
  * Class representing the AIML bot
  *
  * @author batiaev
  */
 @Slf4j
+@Component
 public class BotImpl implements Bot {
 
     private GraphMaster brain;
@@ -36,15 +40,17 @@ public class BotImpl implements Bot {
     private String name;
 
     @Getter
-    @Autowired
     private ChatContextStorage chatContextStorage;
     @Setter
     private ChatContext chatContext;
 
-    public BotImpl(String name, String rootDir) {
+    @Autowired
+    public BotImpl(String name, String rootDir, ChatContextStorage chatContextStorage) {
         this.name = name;
         this.rootDir = rootDir;
         this.botInfo = new BotConfiguration(rootDir);
+        this.chatContextStorage = chatContextStorage;
+        this.chatContext = this.chatContextStorage.getContext(name, CONSOLE);
         brain = new GraphMaster(loadAiml(), loadSets(), loadMaps(), loadSubstitutions());
     }
 
@@ -74,6 +80,7 @@ public class BotImpl implements Bot {
         return brain.respond(pattern, state.topic(), state.that(), state.getPredicates());
     }
 
+    @Override
     public boolean wakeUp() {
         return validate(getRootDir()) && validate(getAimlFolder());
     }
@@ -181,6 +188,6 @@ public class BotImpl implements Bot {
 
     @Override
     public String getRespond(String phrase) {
-        return null;
+        return multisentenceRespond(phrase, chatContext);
     }
 }

@@ -4,7 +4,6 @@ import com.batiaev.aiml.channels.ChannelType;
 import com.batiaev.aiml.chat.ChatContext;
 import com.batiaev.aiml.chat.ChatContextStorage;
 import com.batiaev.aiml.core.Named;
-import org.springframework.stereotype.Component;
 
 /**
  * Bot
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Component;
  * @author anton
  * @since 18/04/17
  */
-@Component
 public interface Bot extends Named {
     String getRespond(String phrase);
 
@@ -23,4 +21,6 @@ public interface Bot extends Named {
     ChatContextStorage getChatContextStorage();
 
     void setChatContext(ChatContext context);
+
+    boolean wakeUp();
 }

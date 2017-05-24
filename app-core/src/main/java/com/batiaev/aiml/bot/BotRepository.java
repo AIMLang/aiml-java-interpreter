@@ -1,6 +1,9 @@
 package com.batiaev.aiml.bot;
 
+import com.batiaev.aiml.chat.ChatContextStorage;
 import com.batiaev.aiml.consts.AimlConst;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.io.File;
 
@@ -10,22 +13,30 @@ import java.io.File;
  * @author batiaev
  * @since 19/10/16
  */
+@Repository
 public class BotRepository {
-    private static String rootDir = AimlConst.getRootPath();
+    private String rootDir = AimlConst.getRootPath();
 
-    public static void setRootPath(String path) {
+    private ChatContextStorage chatContextStorage;
+
+    @Autowired
+    public BotRepository(ChatContextStorage chatContextStorage) {
+        this.chatContextStorage = chatContextStorage;
+    }
+
+    public void setRootPath(String path) {
         rootDir = path;
     }
 
-    public static Bot get() {
+    public Bot get() {
         return get(AimlConst.default_bot_name);
     }
 
-    public static Bot get(String name) {
-        return new BotImpl(name, getBotPath(name));
+    public Bot get(String name) {
+        return new BotImpl(name, getBotPath(name), chatContextStorage);
     }
 
-    private static String getBotPath(String name) {
+    private String getBotPath(String name) {
         return rootDir + File.separator + name + File.separator;
     }
 }

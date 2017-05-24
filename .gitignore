@@ -26,3 +26,5 @@ app-core/build
 app-core/app-core.iml
 .gradle
 .idea
+/app-core/build/
+/build/

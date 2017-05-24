@@ -1,8 +1,8 @@
 package com.batiaev.aiml.chat;
 
 import com.batiaev.aiml.bot.BotImpl;
-import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.channels.Provider;
+import com.batiaev.aiml.consts.AimlConst;
 
 /**
  * Chat

@@ -20,7 +20,7 @@ ext {
     logbackVersion = '1.2.3'
     slf4jVersion = '1.7.25'
     lombokVersion = '1.16.16'
-    springVersion = '4.3.7.RELEASE'
+    springBootVersion = '1.5.3.RELEASE'
 }
 
 configure(project(':app-core')) {
@@ -39,7 +39,7 @@ configure(project(':app-core')) {
     }
 
     dependencies {
-        compile "org.springframework:spring-context:${springVersion}"
+        compile "org.springframework.boot:spring-boot-autoconfigure:${springBootVersion}"
 
         compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
         compile "ch.qos.logback:logback-classic:${logbackVersion}"

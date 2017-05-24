@@ -25,7 +25,8 @@ public interface Channel {
             throw new ChatNotStartedException("response handler is not set");
         if (getBot() == null)
             throw new BotNotInitializedException("Bot is not set");
-        getResponseHandler().respond(getBot().getRespond(phrase));
+        String respond = getBot().getRespond(phrase);
+        getResponseHandler().respond(respond);
     }
 
     ChannelType getType();

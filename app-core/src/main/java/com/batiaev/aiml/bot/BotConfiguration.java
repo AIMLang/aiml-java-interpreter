@@ -99,6 +99,8 @@ public class BotConfiguration implements BotInfo {
     private Properties loadBotInfo(String path) {
         log.debug("Load system config: " + path);
         Properties prop = new Properties();
+        if (!new File(path).exists()) return prop;
+
         try (FileInputStream in = new FileInputStream(path)) {
             prop.load(in);
         } catch (IOException e) {
