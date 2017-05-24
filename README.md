@@ -7,7 +7,7 @@ cd ./scripts && ./checkout.sh && cd -
 gradle clean build
 
 ## Bots
-https://github.com/AIML-Bots/aiml-bots.git
+https://github.com/AIMLang/aiml-bots.git
 
 ## Dependencies
 - Spring Boot (1.5.3.RELEASE)
