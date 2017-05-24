@@ -32,7 +32,7 @@ public class App {
     public void init() {
         botRepository.setRootPath("./app-core/aiml-bots/bots");
 //        BotImpl bot = (BotImpl) botRepository.get();
-        BotImpl bot = (BotImpl) botRepository.get("jokebot");
+        BotImpl bot = (BotImpl) botRepository.get("alice2");
         Provider provider = new ConsoleChannel(bot);
 
         Channel consoleChannel = new ConsoleChannel(bot);

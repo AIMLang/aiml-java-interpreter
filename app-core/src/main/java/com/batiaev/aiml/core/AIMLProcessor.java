@@ -2,7 +2,6 @@ package com.batiaev.aiml.core;
 
 import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.consts.AimlTag;
-import com.batiaev.aiml.consts.WildCard;
 import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.utils.AppUtils;
 import org.w3c.dom.NamedNodeMap;
@@ -13,6 +12,7 @@ import java.util.*;
 import java.util.regex.Pattern;
 
 import static com.batiaev.aiml.consts.AimlTag.*;
+import static com.batiaev.aiml.consts.WildCard.*;
 
 /**
  * The core AIML parser and interpreter.
@@ -62,23 +62,27 @@ public class AIMLProcessor {
     public String match(final String input, String topic, String that) {
         String request = input.toUpperCase();
         Set<String> patterns = patterns(topic);
+        if (!AimlConst.default_topic.equals(topic))
+            patterns.addAll(patterns(AimlConst.default_topic));
+
+        String result = OneMore.get();
         for (String pattern : patterns) {
-            if (isMatching(request, pattern))
+            if (OneMore.get().equals(pattern)
+                    || OneMorePriority.get().equals(pattern)
+                    || ZeroMore.get().equals(pattern)
+                    || ZeroMorePriority.get().equals(pattern))
+                result = pattern;
+            else if (isMatching(request, pattern))
                 return pattern;
         }
-        patterns = patterns(AimlConst.default_topic);
-        for (String pattern : patterns) {
-            if (isMatching(request, pattern))
-                return pattern;
-        }
-        return WildCard.OneMore.get();
+        return result;
     }
 
     public String template(String pattern, String topic, String that, Map<String, String> predicates) {
         this.predicates = predicates;
         AimlCategory category = category(topic, pattern);
         if (category == null)
-            category = category(AimlConst.default_topic, WildCard.OneMore.get());
+            category = category(AimlConst.default_topic, OneMore.get());
         return category == null ? AimlConst.default_bot_response : getTemplateValue(category.getTemplate());
     }
 
@@ -93,11 +97,12 @@ public class AIMLProcessor {
     private boolean isMatching(String input, String pattern) {
         input = input.trim();
         String regex_pattern = pattern.trim();
-        regex_pattern = regex_pattern.replace(WildCard.OneMorePriority.get(), ".+");
-        regex_pattern = regex_pattern.replace(WildCard.OneMore.get(), ".+");
-        regex_pattern = regex_pattern.replace(WildCard.ZeroMorePriority.get(), ".*");
-        regex_pattern = regex_pattern.replace(WildCard.ZeroMore.get(), ".*");
-        regex_pattern = regex_pattern.replace(" ", "\\s*");
+        System.out.println(pattern);
+
+        regex_pattern = regex_pattern.replace(OneMorePriority.get(), ".+");
+        regex_pattern = regex_pattern.replace(OneMore.get(), ".+");
+        regex_pattern = regex_pattern.replace(ZeroMorePriority.get(), ".*");
+        regex_pattern = regex_pattern.replace(ZeroMore.get(), ".*");
         return Pattern.matches(regex_pattern, input);
     }
 

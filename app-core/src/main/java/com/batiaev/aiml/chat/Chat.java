@@ -16,6 +16,7 @@ public class Chat {
     private final Provider provider;
     private String nickname = DEFAULT_NICKNAME;
     private ChatContext state;
+    private boolean started;
 
     public Chat(BotImpl bot, Provider provider) {
         this.bot = bot;
@@ -24,10 +25,11 @@ public class Chat {
 
     public void start() {
         provider.write("Hello! Welcome to chat with " + bot.getName() + ".\n");
+        started = true;
         state = new ChatContext(nickname);
 
         String message;
-        while (true) {
+        while (started) {
             message = read();
             if (message.startsWith("/")) {
                 parseCommand(message);
@@ -39,10 +41,15 @@ public class Chat {
         }
     }
 
+    public void stop() {
+        started = false;
+    }
+
     private void parseCommand(final String command) {
         switch (command) {
             case ChatCommand.exit:
             case ChatCommand.quit:
+                stop();
                 System.exit(0);
             case ChatCommand.stat:
                 write(bot.getBrainStats());
