@@ -4,4 +4,4 @@ jdk:
 #install: cd scripts && ./checkout.sh
 script:
  - ./gradlew clean assemble
- - mvn clean complile
+ - mvn clean compile
