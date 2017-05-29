@@ -1,17 +1,8 @@
 *.class
-
-# Mobile Tools for Java (J2ME)
-.mtj.tmp/
-
-# Package Files #
 *.jar
 *.war
 *.ear
-
-# virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-
-# OS generated files #
 .DS_Store
 .DS_Store?
 ._*
@@ -22,9 +13,10 @@ Thumbs.db
 aiml-java-interpreter.ipr
 aiml-java-interpreter.iml
 aiml-java-interpreter.iws
-app-core/build
-app-core/app-core.iml
 .gradle
 .idea
-/app-core/build/
 /build/
+/app-core/app-core.iml
+/app-core/build
+/app-core/build/
+/app-core/target/
