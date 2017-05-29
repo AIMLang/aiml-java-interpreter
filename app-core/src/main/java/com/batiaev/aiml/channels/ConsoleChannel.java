@@ -1,7 +1,6 @@
 package com.batiaev.aiml.channels;
 
 import com.batiaev.aiml.bot.Bot;
-import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
@@ -19,13 +18,17 @@ import static com.batiaev.aiml.channels.ChannelType.CONSOLE;
 public class ConsoleChannel implements Provider, Channel {
 
     private BufferedReader reader;
-    @Getter
     private Bot bot;
 
     @Autowired
     public ConsoleChannel(Bot bot) {
         this.bot = bot;
         reader = new BufferedReader(new InputStreamReader(System.in));
+    }
+
+    @Override
+    public Bot getBot() {
+        return bot;
     }
 
     @Override

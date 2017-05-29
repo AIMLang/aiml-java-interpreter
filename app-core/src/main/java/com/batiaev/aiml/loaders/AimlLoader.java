@@ -4,7 +4,7 @@ import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.consts.AimlTag;
 import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.utils.AppUtils;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -14,14 +14,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 /**
  * Aiml loader
  *
  * @author anton
  * @since 21/06/15
  */
-@Slf4j
 public class AimlLoader {
+    private static final Logger log = getLogger(AimlLoader.class);
 
     private final XmlLoader loader;
 

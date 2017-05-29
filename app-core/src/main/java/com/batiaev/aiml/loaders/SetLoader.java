@@ -1,7 +1,7 @@
 package com.batiaev.aiml.loaders;
 
 import com.batiaev.aiml.entity.AimlSet;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -13,14 +13,16 @@ import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 /**
  * Set loader
  *
  * @author anton
  * @since 19/10/16
  */
-@Slf4j
 public class SetLoader implements FileLoader<AimlSet> {
+    private static final Logger log = getLogger(SetLoader.class);
 
     @Override
     public AimlSet load(File file) {

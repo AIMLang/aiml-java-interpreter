@@ -1,9 +1,7 @@
 package com.batiaev.aiml.loaders;
 
 import com.batiaev.aiml.entity.AimlMap;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.IOException;
@@ -12,14 +10,16 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 /**
  * Map loader
  *
- * @author anton
+ * @author antonF
  * @since 19/10/16
  */
-@Slf4j
 public class MapLoader<T extends AimlMap> implements FileLoader<T> {
+    private static final Logger log = getLogger(MapLoader.class);
 
     @Override
     public T load(File file) {

@@ -9,9 +9,7 @@ import com.batiaev.aiml.entity.AimlMap;
 import com.batiaev.aiml.entity.AimlSet;
 import com.batiaev.aiml.entity.AimlSubstitution;
 import com.batiaev.aiml.loaders.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,24 +22,22 @@ import java.util.List;
 import java.util.Map;
 
 import static com.batiaev.aiml.channels.ChannelType.CONSOLE;
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Class representing the AIML bot
  *
  * @author batiaev
  */
-@Slf4j
 @Component
 public class BotImpl implements Bot {
+    private static final Logger log = getLogger(BotImpl.class);
 
     private GraphMaster brain;
     private BotInfo botInfo;
     private String rootDir;
     private String name;
-
-    @Getter
     private ChatContextStorage chatContextStorage;
-    @Setter
     private ChatContext chatContext;
 
     @Autowired
@@ -55,8 +51,28 @@ public class BotImpl implements Bot {
     }
 
     @Override
+    public ChatContextStorage getChatContextStorage() {
+        return chatContextStorage;
+    }
+
+    @Override
+    public void setChatContext(ChatContext chatContext) {
+        this.chatContext = chatContext;
+    }
+
+    @Override
     public String getName() {
         return name;
+    }
+
+    @Override
+    public boolean wakeUp() {
+        return validate(getRootDir()) && validate(getAimlFolder());
+    }
+
+    @Override
+    public String getRespond(String phrase) {
+        return multisentenceRespond(phrase, chatContext);
     }
 
     public void setName(String name) {
@@ -78,11 +94,6 @@ public class BotImpl implements Bot {
     public String respond(String request, ChatContext state) {
         String pattern = brain.match(request, state.topic(), state.that());
         return brain.respond(pattern, state.topic(), state.that(), state.getPredicates());
-    }
-
-    @Override
-    public boolean wakeUp() {
-        return validate(getRootDir()) && validate(getAimlFolder());
     }
 
     private List<AimlCategory> loadAiml() {
@@ -184,10 +195,5 @@ public class BotImpl implements Bot {
 
     private String getSkillsFolder() {
         return getRootDir() + "skills";
-    }
-
-    @Override
-    public String getRespond(String phrase) {
-        return multisentenceRespond(phrase, chatContext);
     }
 }

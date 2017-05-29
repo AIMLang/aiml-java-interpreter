@@ -1,6 +1,6 @@
 package com.batiaev.aiml.loaders;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -13,14 +13,16 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
+import static org.slf4j.LoggerFactory.getLogger;
+
 /**
  * Load root element from xml file
  *
  * @author batiaev
  * @since 25/10/16
  */
-@Slf4j
 public class XmlLoader implements FileLoader<Element> {
+    private static final Logger log = getLogger(XmlLoader.class);
 
     @Override
     public Element load(File file) {

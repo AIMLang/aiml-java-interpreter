@@ -13,7 +13,6 @@ https://github.com/AIMLang/aiml-bots.git
 - Spring Boot (1.5.3.RELEASE)
 - Logback (1.2.3)
 - Slf4j (1.7.25)
-- Lombok (1.16.16)
 - Gradle (3.5)
 - JUnit (4.12)
 

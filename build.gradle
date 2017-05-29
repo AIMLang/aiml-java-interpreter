@@ -19,7 +19,6 @@ ext {
     junitVersion = '4.12'
     logbackVersion = '1.2.3'
     slf4jVersion = '1.7.25'
-    lombokVersion = '1.16.16'
     springBootVersion = '1.5.3.RELEASE'
 }
 
@@ -43,7 +42,6 @@ configure(project(':app-core')) {
 
         compile "org.slf4j:jcl-over-slf4j:${slf4jVersion}"
         compile "ch.qos.logback:logback-classic:${logbackVersion}"
-        compileOnly "org.projectlombok:lombok:${lombokVersion}"
         testCompile "junit:junit:$junitVersion"
     }
 }
