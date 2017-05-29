@@ -97,8 +97,6 @@ public class AIMLProcessor {
     private boolean isMatching(String input, String pattern) {
         input = input.trim();
         String regex_pattern = pattern.trim();
-        System.out.println(pattern);
-
         regex_pattern = regex_pattern.replace(OneMorePriority.get(), ".+");
         regex_pattern = regex_pattern.replace(OneMore.get(), ".+");
         regex_pattern = regex_pattern.replace(ZeroMorePriority.get(), ".*");
