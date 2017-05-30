@@ -29,7 +29,6 @@ import static org.slf4j.LoggerFactory.getLogger;
  *
  * @author batiaev
  */
-@Component
 public class BotImpl implements Bot {
     private static final Logger log = getLogger(BotImpl.class);
 
@@ -40,7 +39,6 @@ public class BotImpl implements Bot {
     private ChatContextStorage chatContextStorage;
     private ChatContext chatContext;
 
-    @Autowired
     public BotImpl(String name, String rootDir, ChatContextStorage chatContextStorage) {
         this.name = name;
         this.rootDir = rootDir;
