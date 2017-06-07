@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration scan="true" scanPeriod="30 seconds">
+    <property name="PATH" value="./log"/>
+    <property name="ENCODER_PATTERN" value="%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n" />
+    <property name="ROLLING_PATTERN" value="%d{yyyy-MM-dd}.log.gz" />
+
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+        <encoder>
+            <pattern>${ENCODER_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <file>${PATH}/console.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <fileNamePattern>${PATH}/console_${ROLLING_PATTERN}</fileNamePattern>
+            <maxHistory>15</maxHistory>
+        </rollingPolicy>
+        <append>true</append>
+        <encoder>
+            <pattern>${ENCODER_PATTERN}</pattern>
+            <charset>UTF-8</charset>
+            <immediateFlush>true</immediateFlush>
+        </encoder>
+    </appender>
+
+    <!--<appender name="EMAIL_ERROR_APPENDER" class="ch.qos.logback.classic.net.SMTPAppender">-->
+        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
+            <!--<level>ERROR</level>-->
+            <!--<onMatch>NEUTRAL</onMatch>-->
+            <!--<onMismatch>DENY</onMismatch>-->
+        <!--</filter>-->
+
+        <!--<filter class="com.batiaev.commons.logging.HostFilter">-->
+            <!--<hostNames>prod</hostNames>-->
+        <!--</filter>-->
+
+        <!--<smtpHost>localhost</smtpHost>-->
+        <!--<to>anton@batiaev.com</to>-->
+        <!--<from>noreply@aimlang.org</from>-->
+
+        <!--<subject>[ERROR] %m</subject>-->
+
+        <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
+            <!--<pattern>${ENCODER_PATTERN}</pattern>-->
+        <!--</layout>-->
+    <!--</appender>-->
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="CONSOLE" />
+        <!--<appender-ref ref="EMAIL_ERROR_APPENDER" />-->
+    </root>
+
+    <logger name="com.batiaev.aiml" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT" />
+    </logger>
+</configuration>

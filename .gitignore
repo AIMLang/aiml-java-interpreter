@@ -20,3 +20,4 @@ aiml-java-interpreter.iws
 /app-core/build
 /app-core/build/
 /app-core/target/
+/log/

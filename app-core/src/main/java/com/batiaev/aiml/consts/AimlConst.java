@@ -10,9 +10,10 @@ import java.io.File;
  */
 public class AimlConst {
 
+    public static final String AIML_FILE_SUFFIX = ".aiml";
+    
     private static String root_path = System.getProperty("user.dir") + File.separator + "bots/";
     public static final String default_bot_name = "russian";
-    public static final String aiml_file_suffix = ".aiml";
     public static final String error_bot_response = "Something is wrong with my brain.";
     public static final String default_bot_response = "I have no answer for that.";
     public static final String default_topic = "unknown";

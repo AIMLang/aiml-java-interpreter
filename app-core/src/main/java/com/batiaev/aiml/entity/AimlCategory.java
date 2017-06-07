@@ -70,10 +70,10 @@ public class AimlCategory implements AimlElement {
 
     public int hashCode() {
         int result = 1;
-        result = 37 * result + (topic == null ? 0 : topic.hashCode());
-        result = 37 * result + (pattern == null ? 0 : pattern.hashCode());
-        result = 37 * result + (template == null ? 0 : template.hashCode());
-        result = 37 * result + (that == null ? 0 : that.hashCode());
+        result = 31 * result + (topic == null ? 0 : topic.hashCode());
+        result = 31 * result + (pattern == null ? 0 : pattern.hashCode());
+        result = 31 * result + (template == null ? 0 : template.hashCode());
+        result = 31 * result + (that == null ? 0 : that.hashCode());
         return result;
     }
 
