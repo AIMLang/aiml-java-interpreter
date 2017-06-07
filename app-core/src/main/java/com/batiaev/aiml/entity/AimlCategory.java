@@ -3,6 +3,8 @@ package com.batiaev.aiml.entity;
 import com.batiaev.aiml.consts.AimlTag;
 import org.w3c.dom.Node;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -15,6 +17,7 @@ public class AimlCategory implements AimlElement {
     private String topic = "";
     private String pattern = "";
     private Node template = null;
+    private List<AimlToken> templateData = new ArrayList<>();
     private String that = "";
 
     @Override

@@ -3,7 +3,6 @@ package com.batiaev.aiml.loaders;
 import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.consts.AimlTag;
 import com.batiaev.aiml.entity.AimlCategory;
-import com.batiaev.aiml.utils.AppUtils;
 import org.slf4j.Logger;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.batiaev.aiml.utils.AppUtils.node2String;
 import static org.slf4j.LoggerFactory.getLogger;
 
 /**
@@ -94,7 +94,7 @@ public class AimlLoader {
                     break;
                 case AimlTag.category:
                     if (!categories.add(parseCategory(node)))
-                        log.debug(AppUtils.node2String(node));
+                        log.debug(node2String(node));
                     break;
                 default:
                     log.warn("Wrong structure: <aiml> tag contain " + nodeName + " tag");
@@ -135,22 +135,24 @@ public class AimlLoader {
         category.setTopic(topic);
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) {
-            String childNodeName = childNodes.item(i).getNodeName();
+            Node childNode = childNodes.item(i);
+            childNode.normalize();
+            String childNodeName = childNode.getNodeName();
             switch (childNodeName) {
                 case AimlTag.text:
                 case AimlTag.comment:
                     break;
                 case AimlTag.pattern:
-                    category.setPattern(AppUtils.node2String(childNodes.item(i)));
+                    category.setPattern(node2String(childNode));
                     break;
                 case AimlTag.template:
-                    category.setTemplate(childNodes.item(i));
+                    category.setTemplate(childNode);
                     break;
                 case AimlTag.topic:
-                    category.setTopic(AppUtils.node2String(childNodes.item(i)));
+                    category.setTopic(node2String(childNode));
                     break;
                 case AimlTag.that:
-                    category.setThat(AppUtils.node2String(childNodes.item(i)));
+                    category.setThat(node2String(childNode));
                     break;
                 default:
                     log.warn("Wrong structure: <category> tag contain " + childNodeName + " tag");
