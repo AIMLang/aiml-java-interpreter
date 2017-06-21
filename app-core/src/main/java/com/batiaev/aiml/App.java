@@ -21,7 +21,12 @@ import javax.annotation.PostConstruct;
 @SpringBootApplication
 public class App {
 
+    private static boolean debug = false;
+
     public static void main(String[] args) throws Exception {
+        if (args.length > 0 && "debug".equals(args[0]))
+            debug = true;
+
         SpringApplication.run(App.class, args);
     }
 
@@ -30,9 +35,9 @@ public class App {
 
     @PostConstruct
     public void init() {
-        botRepository.setRootPath("./app-core/aiml-bots/bots");
-//        BotImpl bot = (BotImpl) botRepository.get();
-        BotImpl bot = (BotImpl) botRepository.get("alice2");
+        if (debug) botRepository.setRootPath("./app-core/aiml-bots/bots");
+        BotImpl bot = (BotImpl) botRepository.get();
+//        BotImpl bot = (BotImpl) botRepository.get("russian");
         Provider provider = new ConsoleChannel(bot);
 
         Channel consoleChannel = new ConsoleChannel(bot);

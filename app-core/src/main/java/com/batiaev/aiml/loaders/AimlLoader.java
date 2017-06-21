@@ -43,7 +43,7 @@ public class AimlLoader {
         File aimls = new File(aimlDir);
         File[] files = aimls.listFiles();
         if (files == null || files.length == 0) {
-            log.warn("Not files in folder {} ", aimls.getAbsolutePath());
+            log.warn("Not files in folder {} ", aimlDir);
             return categories;
         }
         int countNotAimlFiles = 0;
