@@ -35,9 +35,13 @@ public class App {
 
     @PostConstruct
     public void init() {
-        if (debug) botRepository.setRootPath("./app-core/aiml-bots/bots");
-        BotImpl bot = (BotImpl) botRepository.get();
-//        BotImpl bot = (BotImpl) botRepository.get("russian");
+        BotImpl bot;
+        if (debug) {
+            botRepository.setRootPath("./app-core/aiml-bots/bots");
+            bot = (BotImpl) botRepository.get("russian");
+        } else {
+            bot = (BotImpl) botRepository.get();
+        }
         Provider provider = new ConsoleChannel(bot);
 
         Channel consoleChannel = new ConsoleChannel(bot);
