@@ -98,6 +98,11 @@ public class BotConfiguration implements BotInfo {
         return getValue("botmaster");
     }
 
+    @Override
+    public String getValue(String key) {
+        return prop == null ? "" : prop.getProperty(key, "");
+    }
+
     private Properties loadBotInfo(String path) {
         log.debug("Load system config: " + path);
         Properties prop = new Properties();
@@ -113,9 +118,5 @@ public class BotConfiguration implements BotInfo {
 
     private String getSystemConfig() {
         return rootDir + "system" + File.separator + PROPERTIES;
-    }
-
-    private String getValue(String key) {
-        return prop == null ? "" : prop.getProperty(key, "");
     }
 }

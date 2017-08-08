@@ -35,4 +35,6 @@ public interface BotInfo {
     String getReligion();
 
     String getBotmaster();
+
+    String getValue(String param);
 }

@@ -1,5 +1,6 @@
 package com.batiaev.aiml.core;
 
+import com.batiaev.aiml.bot.BotInfo;
 import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.consts.AimlTag;
 import com.batiaev.aiml.entity.AimlCategory;
@@ -37,11 +38,13 @@ public class AIMLProcessor {
     private final List<AimlCategory> categories;
     private final Map<String, Map<String, AimlCategory>> topics;
     private Map<String, String> predicates;
+    private BotInfo botInfo;
 
-    public AIMLProcessor(List<AimlCategory> categories) {
+    public AIMLProcessor(List<AimlCategory> categories, BotInfo botInfo) {
         this.predicates = new HashMap<>();
         this.topics = convert(categories);
         this.categories = categories;
+        this.botInfo = botInfo;
     }
 
     private Map<String, Map<String, AimlCategory>> convert(List<AimlCategory> categories) {
@@ -105,14 +108,16 @@ public class AIMLProcessor {
     }
 
     private String getTemplateValue(Node node) {
-        String result = "";
+        StringBuilder result = new StringBuilder();
         NodeList childNodes = node.getChildNodes();
-        for (int i = 0; i < childNodes.getLength(); ++i)
-            result += recurseParse(childNodes.item(i));
-        return result.isEmpty() ? AimlConst.default_bot_response : result;
+        for (int i = 0; i < childNodes.getLength(); ++i) {
+            result.append(recurseParse(childNodes.item(i)));
+        }
+        return (result.length() == 0) ? AimlConst.default_bot_response : result.toString();
     }
 
     private String recurseParse(Node node) {
+        node.normalize();
         String nodeName = node.getNodeName();
         switch (nodeName) {
             case text:
@@ -126,11 +131,24 @@ public class AIMLProcessor {
             case set:
                 setParse(node);
                 return "";
+            case bot:
+                return botInfoParse(node);
+            case star:
+                return starParse(node);
             case think:
                 getTemplateValue(node);
                 return "";
         }
         return "";
+    }
+
+    private String starParse(Node node) {
+        return ""; //FIXME unresolved yet
+    }
+
+    private String botInfoParse(Node node) {
+        String param = node.getAttributes().getNamedItem("name").getNodeValue();
+        return botInfo.getValue(param);
     }
 
     private String textParse(Node node) {

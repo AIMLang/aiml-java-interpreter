@@ -1,5 +1,6 @@
 package com.batiaev.aiml.core;
 
+import com.batiaev.aiml.bot.BotInfo;
 import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.entity.AimlMap;
 import com.batiaev.aiml.entity.AimlSet;
@@ -23,11 +24,11 @@ public class GraphMaster {
     private final AIMLProcessor processor;
 
     public GraphMaster(List<AimlCategory> categories, Map<String, AimlSet> sets, Map<String, AimlMap> maps,
-                       Map<String, AimlSubstitution> substitutions) {
+                       Map<String, AimlSubstitution> substitutions, BotInfo botInfo) {
         this.sets = sets;
         this.maps = maps;
         this.substitutions = substitutions;
-        this.processor = new AIMLProcessor(categories);
+        this.processor = new AIMLProcessor(categories, botInfo);
     }
 
     public String getStat() {

@@ -36,17 +36,12 @@ public class App {
     @PostConstruct
     public void init() {
         if (debug) botRepository.setRootPath("./app-core/aiml-bots/bots");
-        BotImpl bot = (BotImpl) botRepository.get();
-//        BotImpl bot = (BotImpl) botRepository.get("russian");
+//        BotImpl bot = (BotImpl) botRepository.get();
+        BotImpl bot = (BotImpl) botRepository.get("russian");
         Provider provider = new ConsoleChannel(bot);
 
         Channel consoleChannel = new ConsoleChannel(bot);
         consoleChannel.startChat("Tony");
-        try {
-            consoleChannel.send("Hello!");
-        } catch (ChatNotStartedException | BotNotInitializedException e) {
-            e.printStackTrace();
-        }
 
         if (!bot.wakeUp())
             return;

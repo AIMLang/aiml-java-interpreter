@@ -45,7 +45,7 @@ public class BotImpl implements Bot {
         this.botInfo = new BotConfiguration(rootDir);
         this.chatContextStorage = chatContextStorage;
         this.chatContext = this.chatContextStorage.getContext(name, CONSOLE);
-        brain = new GraphMaster(loadAiml(), loadSets(), loadMaps(), loadSubstitutions());
+        brain = new GraphMaster(loadAiml(), loadSets(), loadMaps(), loadSubstitutions(), botInfo);
     }
 
     @Override
@@ -83,10 +83,10 @@ public class BotImpl implements Bot {
 
     public String multisentenceRespond(String request, ChatContext state) {
         String[] sentences = brain.sentenceSplit(request);
-        String response = "";
+        StringBuilder response = new StringBuilder();
         for (String sentence : sentences)
-            response += " " + respond(sentence, state);
-        return response.isEmpty() ? AimlConst.error_bot_response : response;
+            response.append(" ").append(respond(sentence, state));
+        return (response.length() == 0) ? AimlConst.error_bot_response : response.toString().trim();
     }
 
     public String respond(String request, ChatContext state) {
