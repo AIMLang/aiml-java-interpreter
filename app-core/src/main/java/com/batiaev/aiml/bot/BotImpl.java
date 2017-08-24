@@ -10,16 +10,17 @@ import com.batiaev.aiml.entity.AimlSet;
 import com.batiaev.aiml.entity.AimlSubstitution;
 import com.batiaev.aiml.loaders.*;
 import org.slf4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.batiaev.aiml.channels.ChannelType.CONSOLE;
 import static org.slf4j.LoggerFactory.getLogger;
@@ -45,7 +46,34 @@ public class BotImpl implements Bot {
         this.botInfo = new BotConfiguration(rootDir);
         this.chatContextStorage = chatContextStorage;
         this.chatContext = this.chatContextStorage.getContext(name, CONSOLE);
-        brain = new GraphMaster(loadAiml(), loadSets(), loadMaps(), loadSubstitutions(), botInfo);
+        Map<String, AimlSet> aimlSets = loadSets();
+        Map<String, AimlMap> aimlMaps = loadMaps();
+        List<AimlCategory> aimlCategories = loadAiml();
+        brain = new GraphMaster(preprocess(aimlCategories, aimlSets), aimlSets, aimlMaps, loadSubstitutions(), botInfo);
+    }
+
+    private List<AimlCategory> preprocess(List<AimlCategory> categories, Map<String, AimlSet> aimlSets) {
+        List<AimlCategory> processed = new ArrayList<>();
+        categories.forEach(aimlCategory -> {
+            String pattern = aimlCategory.getPattern();
+            final Pattern regexp = Pattern.compile("<set>(.+?)</set>");
+            final Matcher matcher = regexp.matcher(pattern);
+            if (matcher.find()) {
+                String setName = matcher.group(1);
+                AimlSet setValues = aimlSets.get(setName + ".txt");
+                if (setValues != null) {
+                    setValues.forEach(s -> {
+                        String first = matcher.replaceFirst(s);
+                        AimlCategory cloned = aimlCategory.clone();
+                        cloned.setPattern(first);
+                        processed.add(cloned);
+                    });
+                }
+            } else {
+                processed.add(aimlCategory);
+            }
+        });
+        return processed;
     }
 
     @Override

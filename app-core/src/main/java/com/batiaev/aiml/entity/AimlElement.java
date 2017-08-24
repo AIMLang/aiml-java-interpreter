@@ -6,6 +6,6 @@ package com.batiaev.aiml.entity;
  * @author anton
  * @since 21/10/16
  */
-public interface AimlElement {
+public interface AimlElement extends Cloneable {
     String getType();
 }

@@ -37,6 +37,10 @@ public class AimlCategory implements AimlElement {
         return template;
     }
 
+    public List<AimlToken> getTemplateData() {
+        return templateData;
+    }
+
     public String getThat() {
         return that;
     }
@@ -51,6 +55,10 @@ public class AimlCategory implements AimlElement {
 
     public void setTemplate(Node template) {
         this.template = template;
+    }
+
+    public void setTemplateData(List<AimlToken> templateData) {
+        this.templateData = templateData;
     }
 
     public void setThat(String that) {
@@ -69,6 +77,17 @@ public class AimlCategory implements AimlElement {
                     && Objects.equals(template, other.getTemplate())
                     && Objects.equals(that, other.getThat());
         }
+    }
+
+    @Override
+    public AimlCategory clone() {
+        AimlCategory category = new AimlCategory();
+        category.setTopic(topic);
+        category.setPattern(pattern);
+        category.setTemplate(template);
+        category.setTemplateData(templateData);
+        category.setThat(that);
+        return category;
     }
 
     public int hashCode() {

@@ -34,4 +34,12 @@ public class AimlTag {
     public static final String comment = "#comment";
     //Attributes
     public static final String name = "name";
+
+    public static String getCloseTag(String name) {
+        return "</" + name + ">";
+    }
+
+    public static String getOpenTag(String name) {
+        return "<" + name + ">";
+    }
 }
