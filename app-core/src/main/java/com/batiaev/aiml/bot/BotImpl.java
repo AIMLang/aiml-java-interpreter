@@ -15,10 +15,7 @@ import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -117,9 +114,10 @@ public class BotImpl implements Bot {
         return (response.length() == 0) ? AimlConst.error_bot_response : response.toString().trim();
     }
 
-    public String respond(String request, ChatContext state) {
-        String pattern = brain.match(request, state.topic(), state.that());
-        return brain.respond(pattern, state.topic(), state.that(), state.getPredicates());
+    public String respond(final String request, ChatContext state) {
+        List<String> stars = new ArrayList<>();
+        String pattern = brain.match(request, state.topic(), state.that(), stars);
+        return brain.respond(stars, pattern, state.topic(), state.that(), state.getPredicates());
     }
 
     private List<AimlCategory> loadAiml() {

@@ -5,7 +5,7 @@
 AIML 2.0 Interpreter for Java
 
 ## Build
-cd ./scripts && ./checkout.sh && cd -
+./checkout.sh
 ### Gradle
 gradle clean build
 

@@ -5,15 +5,19 @@ import com.batiaev.aiml.consts.AimlConst;
 import com.batiaev.aiml.consts.AimlTag;
 import com.batiaev.aiml.entity.AimlCategory;
 import com.batiaev.aiml.utils.AppUtils;
+import org.slf4j.Logger;
+import org.w3c.dom.Element;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
 import java.util.*;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.batiaev.aiml.consts.AimlTag.*;
 import static com.batiaev.aiml.consts.WildCard.*;
+import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * The core AIML parser and interpreter.
@@ -28,13 +32,11 @@ import static com.batiaev.aiml.consts.WildCard.*;
  *
  * @author anton
  * @author Marco
- *         Implementation SET tag processing on 19/08/2016
- *         Topic managment improvement on 20/08/2016
- *         Parsing THINK tag
- *         Reimplemented isMatching method
  * @since 19/10/16
  */
 public class AIMLProcessor {
+    private static final Logger log = getLogger(AIMLProcessor.class);
+
     private final List<AimlCategory> categories;
     private final Map<String, Map<String, AimlCategory>> topics;
     private Map<String, String> predicates;
@@ -62,7 +64,7 @@ public class AIMLProcessor {
         return topics;
     }
 
-    public String match(final String input, String topic, String that) {
+    public String match(final String input, String topic, String that, List<String> stars) {
         String request = input.toUpperCase();
         Set<String> patterns = patterns(topic);
         if (!AimlConst.default_topic.equals(topic))
@@ -75,18 +77,18 @@ public class AIMLProcessor {
                     || ZeroMore.get().equals(pattern)
                     || ZeroMorePriority.get().equals(pattern))
                 result = pattern;
-            else if (isMatching(request, pattern))
+            else if (isMatching(request, pattern, stars))
                 return pattern;
         }
         return result;
     }
 
-    public String template(String pattern, String topic, String that, Map<String, String> predicates) {
+    public String template(List<String> stars, String pattern, String topic, String that, Map<String, String> predicates) {
         this.predicates = predicates;
         AimlCategory category = category(topic, pattern);
         if (category == null)
             category = category(AimlConst.default_topic, OneMore.get());
-        return category == null ? AimlConst.default_bot_response : getTemplateValue(category.getTemplate());
+        return category == null ? AimlConst.default_bot_response : getTemplateValue(category.getTemplate(), stars);
     }
 
     public int getTopicCount() {
@@ -97,53 +99,89 @@ public class AIMLProcessor {
         return categories.size();
     }
 
-    private boolean isMatching(String input, String pattern) {
+    private boolean isMatching(String input, String pattern, List<String> stars) {
         input = input.trim();
-        String regex_pattern = pattern.trim();
-        regex_pattern = regex_pattern.replace(OneMorePriority.get(), ".+");
-        regex_pattern = regex_pattern.replace(OneMore.get(), ".+");
-        regex_pattern = regex_pattern.replace(ZeroMorePriority.get(), ".*");
-        regex_pattern = regex_pattern.replace(ZeroMore.get(), ".*");
-        return Pattern.matches(regex_pattern, input);
+        String regex = pattern.trim();
+        regex = regex.replace(OneMorePriority.get(), "(.+)");
+        regex = regex.replace(OneMore.get(), "(.+)");
+        regex = regex.replace(ZeroMorePriority.get(), "(.*)");
+        regex = regex.replace(ZeroMore.get(), "(.*)");
+
+        Pattern p = Pattern.compile(regex);
+        Matcher m = p.matcher(input);
+        if (m.matches()) {
+            for (int i = 0; i <= m.groupCount(); i++) {
+                if (i > 0) //skip first group because that is contain full input
+                    stars.add(m.group(i).toLowerCase());
+            }
+            return true;
+        }
+        return false;
     }
 
-    private String getTemplateValue(Node node) {
+    private String getTemplateValue(Node node, List<String> stars) {
         StringBuilder result = new StringBuilder();
         NodeList childNodes = node.getChildNodes();
         for (int i = 0; i < childNodes.getLength(); ++i) {
-            result.append(recurseParse(childNodes.item(i)));
+            result.append(recurseParse(childNodes.item(i), stars));
         }
         return (result.length() == 0) ? AimlConst.default_bot_response : result.toString();
     }
 
-    private String recurseParse(Node node) {
+    private String recurseParse(Node node, List<String> stars) {
         node.normalize();
         String nodeName = node.getNodeName();
         switch (nodeName) {
             case text:
                 return textParse(node);
             case template:
-                return getTemplateValue(node);
+                return getTemplateValue(node, stars);
             case random:
                 return randomParse(node);
             case srai:
-                return sraiParse(node);
+                return sraiParse(node, stars);
             case set:
-                setParse(node);
-                return "";
+                setParse(node, stars);
+                return "";//FIXME?
             case bot:
                 return botInfoParse(node);
             case star:
-                return starParse(node);
+                return starParse(node, stars);
             case think:
-                getTemplateValue(node);
+                getTemplateValue(node, stars);
                 return "";
         }
         return "";
     }
 
-    private String starParse(Node node) {
-        return ""; //FIXME unresolved yet
+    private String starParse(Node node, List<String> stars) {
+        if (stars.isEmpty()) return "";
+        if (node.hasAttributes()) {
+            Element element = (Element) node;
+            try {
+                int index = Integer.parseInt(element.getAttribute("index")) - 1;
+                if (stars.size() > index)
+                    return stars.get(index);
+            } catch (Exception e) {
+                log.error("Invalid index format {}: {}", element.getAttribute("index"), e.getLocalizedMessage());
+            }
+        } else if (node.hasChildNodes()) {
+            NodeList childNodes = node.getChildNodes();
+            if (childNodes.getLength() == 1) {
+                Node item = childNodes.item(0);
+                if (index.equals(item.getNodeName())) {
+                    String sIndex = item.getNodeValue();
+                    try {
+                        int index = Integer.parseInt(sIndex) - 1;
+                        if (stars.size() > index)
+                            return stars.get(index);
+                    } catch (Exception e) {
+                        log.error("Invalid index format {}: {}", sIndex, e.getLocalizedMessage());
+                    }
+                }
+            }
+        }
+        return stars.get(0);
     }
 
     private String botInfoParse(Node node) {
@@ -155,20 +193,20 @@ public class AIMLProcessor {
         return node.getNodeValue().replaceAll("(\r\n|\n\r|\r|\n)", "").replaceAll("  ", " ");
     }
 
-    private void setParse(Node node) {
+    private void setParse(Node node, List<String> stars) {
         NamedNodeMap attributes = node.getAttributes();
         if (attributes.getLength() > 0) {
             Node node1 = attributes.getNamedItem("getName");
             if (node1 == null) return;
             String key = node1.getNodeValue();
-            String value = getTemplateValue(node);
+            String value = getTemplateValue(node, stars);
             predicates.put(key, value);
         }
     }
 
-    private String sraiParse(Node node) {
+    private String sraiParse(Node node, List<String> stars) {
         AimlCategory category = category(AimlConst.default_topic, AppUtils.node2String(node));
-        return category != null ? getTemplateValue(category.getTemplate()) : AimlConst.error_bot_response;
+        return category != null ? getTemplateValue(category.getTemplate(), stars) : AimlConst.error_bot_response;
     }
 
     private String randomParse(Node node) {

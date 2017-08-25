@@ -17,6 +17,7 @@ public class AimlTag {
     public static final String random = "random";
     public static final String li = "li";
     public static final String star = "star";
+    public static final String index = "index";
     public static final String bot = "bot";
     public static final String set = "set";
     public static final String get = "get";

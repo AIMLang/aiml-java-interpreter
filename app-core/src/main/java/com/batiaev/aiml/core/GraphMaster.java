@@ -6,6 +6,8 @@ import com.batiaev.aiml.entity.AimlMap;
 import com.batiaev.aiml.entity.AimlSet;
 import com.batiaev.aiml.entity.AimlSubstitution;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.List;
 import java.util.Map;
 
@@ -57,11 +59,11 @@ public class GraphMaster {
         return result;
     }
 
-    public String respond(String pattern, String topic, String that, Map<String, String> predicates) {
-        return processor.template(pattern, topic, that, predicates);
+    public String respond(List<String> stars, String pattern, String topic, String that, Map<String, String> predicates) {
+        return processor.template(stars, pattern, topic, that, predicates);
     }
 
-    public String match(String request, String topic, String that) {
-        return processor.match(request, topic, that);
+    public String match(String request, String topic, String that, List<String> stars) {
+        return processor.match(request, topic, that, stars);
     }
 }
