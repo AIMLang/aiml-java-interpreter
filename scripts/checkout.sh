@@ -7,5 +7,4 @@ fi
 
 cd ../../
 git clone https://github.com/AIMLang/aiml-bots.git
-cd aiml-java-interpreter/
-ln -s ../aiml-bots/ ./
+ln -s ./aiml-bots/ ~/.aiml-bots

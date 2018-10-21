@@ -5,13 +5,17 @@
 AIML 2.0 Interpreter for Java
 
 It is not contains full implementation of specification, basically it is still pet project for aimlang spec implementation.
-So please keep it in mind.  
+So please keep it in mind.
 
-## Build
-./checkout.sh
+## Build with Maven
+`./checkout.sh && mvn clean package`
 
-### Maven
-mvn clean package
+## Run
+`./scripts/run.sh`
+
+or
+
+`mvn clean package && java -jar ./target/aiml-java-interpreter-1.0.0-SNAPSHOT.jar`
 
 ## Bots
 https://github.com/AIMLang/aiml-bots.git
