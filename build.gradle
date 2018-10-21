@@ -1,0 +1,61 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+apply plugin: 'com.github.johnrengelman.shadow'
+
+idea {
+    project {
+        jdkName = '1.8'
+        languageLevel = '1.8'
+        vcs = 'Git'
+    }
+}
+
+group = 'com.batiaev.aiml'
+version = '1.0.0-SNAPSHOT'
+
+ext {
+    junitVersion = '4.12'
+    logbackVersion = '1.2.3'
+    lombokVersion = '1.18.2'
+    slf4jVersion = '1.7.25'
+}
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+jar {
+    manifest.attributes("Main-Class": "com.batiaev.aiml.App")
+    manifest.attributes("Manifest-Version": 1.0)
+}
+
+task fatJar(type: Jar) {
+    manifest.attributes("Main-Class": "com.batiaev.aiml.App")
+    manifest.attributes("Manifest-Version": 1.0)
+    baseName = 'aiml'
+    version = ''
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+repositories {
+    mavenLocal()
+    mavenCentral()
+}
+project.buildDir = 'target'
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.github.jengelman.gradle.plugins:shadow:2.0.1'
+    }
+}
+
+dependencies {
+    compile "ch.qos.logback:logback-classic:$logbackVersion"
+    compile "org.projectlombok:lombok:$lombokVersion"
+    testCompile "junit:junit:$junitVersion"
+}

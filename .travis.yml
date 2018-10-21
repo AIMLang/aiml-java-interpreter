@@ -1,6 +1,6 @@
 language: java
 jdk:
 - oraclejdk8
-#install: cd scripts && ./checkout.sh
+install: cd scripts && ./checkout.sh
 script:
  - mvn clean package

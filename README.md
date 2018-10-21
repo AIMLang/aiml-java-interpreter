@@ -7,16 +7,21 @@ AIML 2.0 Interpreter for Java
 It is not contains full implementation of specification, basically it is still pet project for aimlang spec implementation.
 So please keep it in mind.
 
-## Build with Maven
-`./checkout.sh && mvn clean package`
+## 1. Checkout bots and add symlink at homedir
+Bots repo - https://github.com/AIMLang/aiml-bots.git
 
-## Run
+`./checkout.sh`
+
+## 2. Build
+### 2.1 Using Maven
+`mvn clean package`
+## 2. Using Gradle
+`gradle clean fatJar`
+
+## 3.Run
 1. `./scripts/run.sh`
 2. `java -jar ./target/aiml.jar`
 3. `java -jar ./target/aiml.jar russian`
-
-## Bots
-https://github.com/AIMLang/aiml-bots.git
 
 ## Dependencies
 - Logback (1.2.3)
