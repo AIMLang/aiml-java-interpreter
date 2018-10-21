@@ -6,8 +6,6 @@ import com.batiaev.aiml.channels.Channel;
 import com.batiaev.aiml.channels.ConsoleChannel;
 import com.batiaev.aiml.channels.Provider;
 import com.batiaev.aiml.chat.Chat;
-import com.batiaev.aiml.exception.BotNotInitializedException;
-import com.batiaev.aiml.exception.ChatNotStartedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

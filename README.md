@@ -4,6 +4,9 @@
 
 AIML 2.0 Interpreter for Java
 
+It is not contains full implementation of specification, basically it is still pet project for aimlang spec implementation.
+So please keep it in mind.  
+
 ## Build
 ./checkout.sh
 ### Gradle
@@ -16,7 +19,7 @@ mvn clean package
 https://github.com/AIMLang/aiml-bots.git
 
 ## Dependencies
-- Spring Boot (1.5.3.RELEASE)
+- Spring Boot (2.0.6.RELEASE)
 - Logback (1.2.3)
 - Slf4j (1.7.25)
 - JUnit (4.12)
