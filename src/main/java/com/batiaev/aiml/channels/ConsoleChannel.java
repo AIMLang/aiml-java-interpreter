@@ -1,7 +1,6 @@
 package com.batiaev.aiml.channels;
 
 import com.batiaev.aiml.bot.Bot;
-import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +19,6 @@ public class ConsoleChannel implements Provider, Channel {
     private BufferedReader reader;
     private Bot bot;
 
-    @Autowired
     public ConsoleChannel(Bot bot) {
         this.bot = bot;
         reader = new BufferedReader(new InputStreamReader(System.in));

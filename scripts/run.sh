@@ -7,4 +7,4 @@ fi
 
 cd ../
 mvn clean package
-java -jar ./target/aiml-java-interpreter-1.0.0-SNAPSHOT.jar
+java -jar ./target/aiml.jar

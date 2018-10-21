@@ -3,7 +3,6 @@ package com.batiaev.aiml.channels;
 import com.batiaev.aiml.bot.Bot;
 import com.batiaev.aiml.exception.BotNotInitializedException;
 import com.batiaev.aiml.exception.ChatNotStartedException;
-import org.springframework.stereotype.Component;
 
 /**
  * Channel
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Component;
  * @author anton
  * @since 18/04/17
  */
-@Component
 public interface Channel {
 
     default void startChat(String userId) {

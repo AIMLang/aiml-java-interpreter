@@ -11,17 +11,14 @@ So please keep it in mind.
 `./checkout.sh && mvn clean package`
 
 ## Run
-`./scripts/run.sh`
-
-or
-
-`mvn clean package && java -jar ./target/aiml-java-interpreter-1.0.0-SNAPSHOT.jar`
+1. `./scripts/run.sh`
+2. `java -jar ./target/aiml.jar`
+3. `java -jar ./target/aiml.jar russian`
 
 ## Bots
 https://github.com/AIMLang/aiml-bots.git
 
 ## Dependencies
-- Spring Boot (2.0.6.RELEASE)
 - Logback (1.2.3)
 - Slf4j (1.7.25)
 - JUnit (4.12)

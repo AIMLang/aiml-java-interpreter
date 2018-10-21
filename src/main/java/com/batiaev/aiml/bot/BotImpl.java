@@ -9,29 +9,30 @@ import com.batiaev.aiml.entity.AimlMap;
 import com.batiaev.aiml.entity.AimlSet;
 import com.batiaev.aiml.entity.AimlSubstitution;
 import com.batiaev.aiml.loaders.*;
-import org.slf4j.Logger;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.batiaev.aiml.channels.ChannelType.CONSOLE;
-import static org.slf4j.LoggerFactory.getLogger;
 
 /**
  * Class representing the AIML bot
  *
  * @author batiaev
  */
+@Slf4j
 public class BotImpl implements Bot {
-    private static final Logger log = getLogger(BotImpl.class);
 
     private GraphMaster brain;
-    private BotInfo botInfo;
     private String rootDir;
     private String name;
     private ChatContextStorage chatContextStorage;
@@ -40,13 +41,13 @@ public class BotImpl implements Bot {
     public BotImpl(String name, String rootDir, ChatContextStorage chatContextStorage) {
         this.name = name;
         this.rootDir = rootDir;
-        this.botInfo = new BotConfiguration(rootDir);
         this.chatContextStorage = chatContextStorage;
         this.chatContext = this.chatContextStorage.getContext(name, CONSOLE);
         Map<String, AimlSet> aimlSets = loadSets();
         Map<String, AimlMap> aimlMaps = loadMaps();
         List<AimlCategory> aimlCategories = loadAiml();
-        brain = new GraphMaster(preprocess(aimlCategories, aimlSets), aimlSets, aimlMaps, loadSubstitutions(), botInfo);
+        brain = new GraphMaster(preprocess(aimlCategories, aimlSets), aimlSets, aimlMaps, loadSubstitutions(),
+                new BotConfiguration(rootDir));
     }
 
     private List<AimlCategory> preprocess(List<AimlCategory> categories, Map<String, AimlSet> aimlSets) {

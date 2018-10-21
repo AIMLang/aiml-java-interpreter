@@ -1,7 +1,6 @@
 package com.batiaev.aiml.chat;
 
 import com.batiaev.aiml.channels.ChannelType;
-import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -12,7 +11,6 @@ import java.util.Map;
  * @author batiaev
  * @since 24/05/17
  */
-@Repository
 public class InMemoryChatContextStorage implements ChatContextStorage {
     private Map<String, Map<ChannelType, ChatContext>> contexts;
 

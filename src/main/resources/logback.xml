@@ -32,32 +32,9 @@
         </encoder>
     </appender>
 
-    <!--<appender name="EMAIL_ERROR_APPENDER" class="ch.qos.logback.classic.net.SMTPAppender">-->
-        <!--<filter class="ch.qos.logback.classic.filter.LevelFilter">-->
-            <!--<level>ERROR</level>-->
-            <!--<onMatch>NEUTRAL</onMatch>-->
-            <!--<onMismatch>DENY</onMismatch>-->
-        <!--</filter>-->
-
-        <!--<filter class="com.batiaev.commons.logging.HostFilter">-->
-            <!--<hostNames>prod</hostNames>-->
-        <!--</filter>-->
-
-        <!--<smtpHost>localhost</smtpHost>-->
-        <!--<to>anton@batiaev.com</to>-->
-        <!--<from>noreply@aimlang.org</from>-->
-
-        <!--<subject>[ERROR] %m</subject>-->
-
-        <!--<layout class="ch.qos.logback.classic.PatternLayout">-->
-            <!--<pattern>${ENCODER_PATTERN}</pattern>-->
-        <!--</layout>-->
-    <!--</appender>-->
-
     <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="CONSOLE" />
-        <!--<appender-ref ref="EMAIL_ERROR_APPENDER" />-->
     </root>
 
     <logger name="com.batiaev.aiml" level="DEBUG" additivity="false">
