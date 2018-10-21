@@ -3,5 +3,4 @@ jdk:
 - oraclejdk8
 #install: cd scripts && ./checkout.sh
 script:
- - ./gradlew clean assemble
- - mvn clean compile
+ - mvn clean package
