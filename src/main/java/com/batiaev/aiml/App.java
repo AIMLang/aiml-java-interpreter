@@ -7,6 +7,7 @@ import com.batiaev.aiml.channels.ConsoleChannel;
 import com.batiaev.aiml.channels.Provider;
 import com.batiaev.aiml.chat.Chat;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -19,23 +20,25 @@ import javax.annotation.PostConstruct;
 @SpringBootApplication
 public class App {
 
-    private static boolean debug = false;
+    @Value("app.debug")
+    private static boolean debug;
+    private final BotRepository botRepository;
 
-    public static void main(String[] args) throws Exception {
+    public App(BotRepository botRepository) {
+        this.botRepository = botRepository;
+    }
+
+    public static void main(String[] args) {
         if (args.length > 0 && "debug".equals(args[0]))
             debug = true;
 
         SpringApplication.run(App.class, args);
     }
 
-    @Autowired
-    private BotRepository botRepository;
-
     @PostConstruct
     public void init() {
         BotImpl bot;
         if (debug) {
-            botRepository.setRootPath("./app-core/aiml-bots/bots");
             bot = (BotImpl) botRepository.get("russian");
         } else {
             bot = (BotImpl) botRepository.get();

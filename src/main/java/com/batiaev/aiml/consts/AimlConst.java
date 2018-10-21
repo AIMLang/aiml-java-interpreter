@@ -11,8 +11,8 @@ import java.io.File;
 public class AimlConst {
 
     public static final String AIML_FILE_SUFFIX = ".aiml";
-    
-    private static String root_path = System.getProperty("user.dir") + File.separator + "bots";
+
+    private static String root_path = System.getProperty("user.home") + File.separator + ".aiml-bots" + File.separator + "bots";
     public static final String default_bot_name = "alice2";
     public static final String error_bot_response = "Something is wrong with my brain.";
     public static final String default_bot_response = "I have no answer for that.";

@@ -13,25 +13,25 @@ import org.junit.Test;
 public class ChatContextTest extends Assert {
 
     @Test
-    public void testTopic() throws Exception {
+    public void testTopic() {
         ChatContext state = new ChatContext("test");
-        assertTrue("Default Topic = unknown, result = " + state.topic(), state.topic().equals(AimlConst.default_topic));
+        assertEquals("Default Topic = unknown, result = " + state.topic(), state.topic(), AimlConst.default_topic);
         String newTopic = "new topic";
         state.setTopic(newTopic);
-        assertTrue("Topic = " + newTopic + ", result = " + state.topic(), state.topic().equals(newTopic));
+        assertEquals("Topic = " + newTopic + ", result = " + state.topic(), state.topic(), newTopic);
     }
 
     @Test
-    public void testThat() throws Exception {
+    public void testThat() {
         ChatContext state = new ChatContext("test");
-        assertTrue("Default That = unknown, result = " + state.that(), state.that().equals(AimlConst.default_that));
+        assertEquals("Default That = unknown, result = " + state.that(), state.that(), AimlConst.default_that);
         String newThat = "new topic";
         state.setTopic(newThat);
-        assertTrue("That = " + newThat + ", result = " + state.topic(), state.topic().equals(newThat));
+        assertEquals("That = " + newThat + ", result = " + state.topic(), state.topic(), newThat);
     }
 
     @Test
-    public void testNewState() throws Exception {
+    public void testNewState() {
         ChatContext state = new ChatContext("test");
         String testRequest = "test request";
         String testRespond = "test respond";
@@ -42,44 +42,44 @@ public class ChatContextTest extends Assert {
     }
 
     @Test
-    public void testRequest() throws Exception {
+    public void testRequest() {
         ChatContext state = new ChatContext("test");
-        assertTrue("Default Request = \"\", result = " + state.request(), state.request().equals(""));
+        assertEquals("Default Request = \"\", result = " + state.request(), "", state.request());
         String newRequest = "new Request";
         state.setRequest(newRequest);
-        assertTrue("Request = " + newRequest + ", result = " + state.request(), state.request().equals(newRequest));
+        assertEquals("Request = " + newRequest + ", result = " + state.request(), state.request(), newRequest);
     }
 
     @Test
-    public void testRespond() throws Exception {
+    public void testRespond() {
         ChatContext state = new ChatContext("test");
-        assertTrue("Default Respond = unknown, result = " + state.respond(), state.respond().equals(AimlConst.default_that));
+        assertEquals("Default Respond = unknown, result = " + state.respond(), state.respond(), AimlConst.default_that);
         String newRespond = "new Respond";
         state.setRespond(newRespond);
-        assertTrue("Respond = " + newRespond + ", result = " + state.respond(), state.respond().equals(newRespond));
+        assertEquals("Respond = " + newRespond + ", result = " + state.respond(), state.respond(), newRespond);
     }
 
     @Test
-    public void testSetTopic() throws Exception {
+    public void testSetTopic() {
         ChatContext state = new ChatContext("test");
         String newTopic = "new topic";
         state.setTopic(newTopic);
-        assertTrue("Set topic = " + newTopic + ", result = " + state.topic(), state.topic().equals(newTopic));
+        assertEquals("Set topic = " + newTopic + ", result = " + state.topic(), state.topic(), newTopic);
     }
 
     @Test
-    public void testSetRespond() throws Exception {
+    public void testSetRespond() {
         ChatContext state = new ChatContext("test");
         String newRespond = "new respond";
         state.setRespond(newRespond);
-        assertTrue("Set respond = " + newRespond + ", result = " + state.respond(), state.respond().equals(newRespond));
+        assertEquals("Set respond = " + newRespond + ", result = " + state.respond(), state.respond(), newRespond);
     }
 
     @Test
-    public void testSetRequest() throws Exception {
+    public void testSetRequest() {
         ChatContext state = new ChatContext("test");
         String newRequest = "new request";
         state.setRequest(newRequest);
-        assertTrue("Set request = " + newRequest + ", result = " + state.request(), state.request().equals(newRequest));
+        assertEquals("Set request = " + newRequest + ", result = " + state.request(), state.request(), newRequest);
     }
 }

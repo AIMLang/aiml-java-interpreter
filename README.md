@@ -9,8 +9,6 @@ So please keep it in mind.
 
 ## Build
 ./checkout.sh
-### Gradle
-gradle clean build
 
 ### Maven
 mvn clean package
