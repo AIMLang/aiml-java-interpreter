@@ -1,1 +1,5 @@
 rootProject.name = 'aiml-java-interpreter'
+
+include 'core'
+include 'app'
+include 'bots'

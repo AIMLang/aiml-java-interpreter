@@ -4,16 +4,21 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.batiaev.aiml</groupId>
-    <artifactId>aiml-java-interpreter</artifactId>
+    <groupId>org.aimlang</groupId>
+    <artifactId>java-interpreter</artifactId>
     <version>1.0.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <modules>
+        <module>core</module>
+        <module>app</module>
+        <module>bots</module>
+    </modules>
+    <packaging>pom</packaging>
 
     <properties>
-        <java.version>1.8</java.version>
+        <java.version>11</java.version>
         <slf4j.version>1.7.25</slf4j.version>
-        <lombok.version>1.18.2</lombok.version>
-        <junit.version>4.12</junit.version>
+        <lombok.version>1.18.16</lombok.version>
+        <junit.version>5.1.0</junit.version>
         <logback.version>1.2.3</logback.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
@@ -28,8 +33,8 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
             <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
@@ -69,7 +74,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4.1</version>
+                <version>3.3.0</version>
                 <configuration>
                     <finalName>aiml</finalName>
                     <appendAssemblyId>false</appendAssemblyId>
@@ -78,7 +83,7 @@
                     </descriptorRefs>
                     <archive>
                         <manifest>
-                            <mainClass>com.batiaev.aiml.App</mainClass>
+                            <mainClass>org.aimlang.app.App</mainClass>
                         </manifest>
                     </archive>
                 </configuration>

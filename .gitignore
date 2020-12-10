@@ -17,5 +17,6 @@ Thumbs.db
 .idea
 /build/
 /target/
+**/target/
 /log/
 aiml-bots
