@@ -2,6 +2,7 @@ package org.aimlang.core.bot;
 
 import lombok.extern.slf4j.Slf4j;
 import org.aimlang.core.channels.ChannelType;
+import org.aimlang.core.channels.Channel;
 import org.aimlang.core.chat.Chat;
 import org.aimlang.core.chat.ChatContext;
 import org.aimlang.core.chat.ChatContextStorage;
@@ -25,8 +26,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import static org.aimlang.core.channels.ConsoleChannel.chatWith;
-
 /**
  * Class representing the AIML bot
  *
@@ -35,11 +34,11 @@ import static org.aimlang.core.channels.ConsoleChannel.chatWith;
 @Slf4j
 public class BotImpl implements Bot {
 
-    private GraphMaster brain;
-    private String rootDir;
-    private String name;
-    private ChatContextStorage chatContextStorage;
+    private final GraphMaster brain;
+    private final String rootDir;
+    private final ChatContextStorage chatContextStorage;
     private ChatContext chatContext;
+    private String name;
 
     public BotImpl(String name, String rootDir, ChatContextStorage chatContextStorage) {
         this.name = name;
@@ -103,8 +102,9 @@ public class BotImpl implements Bot {
     }
 
     @Override
-    public Chat buildChat() {
-        return new Chat(this, chatWith(this));
+    public Chat buildChat(Channel channel) {
+        setChatContext(getChatContextStorage().getContext(null, channel.getType()));
+        return new Chat(this, channel);
     }
 
     public void setName(String name) {

@@ -18,7 +18,7 @@ import java.util.Random;
  * @since 21/10/16
  */
 public class AppUtils {
-    private static Random random = new Random();
+    private static final Random random = new Random();
 
     public static <E> E getRandom(List<E> collection) {
         return collection.get(random.nextInt(collection.size()));

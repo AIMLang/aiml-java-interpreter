@@ -15,12 +15,12 @@ import java.util.UUID;
  * @since 18/06/15
  */
 public class ChatContext {
-    private UUID chatUid;
-    private ChatHistory history;
+    private final UUID chatUid;
+    private final ChatHistory history;
     private String request = "";
     private String topic = AimlConst.default_topic;
     private String that = AimlConst.default_that;
-    private Map<String, String> predicates = new HashMap<>();
+    private final Map<String, String> predicates = new HashMap<>();
 
     public ChatContext(String userName) {
         chatUid = UUID.randomUUID();

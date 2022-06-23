@@ -1,8 +1,12 @@
 package org.aimlang.core.chat;
 
 import org.aimlang.core.bot.BotImpl;
-import org.aimlang.core.channels.Provider;
+import org.aimlang.core.channels.Channel;
 import org.aimlang.core.consts.AimlConst;
+
+import java.util.Optional;
+
+import static java.lang.String.format;
 
 /**
  * Chat
@@ -13,83 +17,85 @@ import org.aimlang.core.consts.AimlConst;
 public class Chat {
     private final static String DEFAULT_NICKNAME = "Human";
     private final BotImpl bot;
-    private final Provider provider;
-    private String nickname = DEFAULT_NICKNAME;
+    private final Channel channel;
     private ChatContext state;
     private boolean started;
 
-    public Chat(BotImpl bot, Provider provider) {
+    public Chat(BotImpl bot, Channel channel) {
         this.bot = bot;
-        this.provider = provider;
+        this.channel = channel;
     }
 
     public void start() {
-        provider.write("Welcome to chat with " + bot.getName() + ".\n");
+        start(DEFAULT_NICKNAME);
+    }
+
+    public void start(String nickname) {
+        String chatId = "";
+        channel.write(new ChatMessage(nickname, chatId, "Welcome to chat with " + bot.getName() + ".\n" + nickname + ": "));
         started = true;
         state = new ChatContext(nickname);
+        channel.subscribe(this::handle);
+    }
 
-        String message;
-        while (started) {
-            message = read();
-            if (message.startsWith("/")) {
-                parseCommand(message);
-            } else {
-                String response = bot.multisentenceRespond(message, state);
-                state.newState(message, response);
-                write(response);
-            }
+    private void handle(ChatMessage message) {
+        if (started)
+            process(message)
+                    .ifPresent(channel::write);
+    }
+
+    private Optional<ChatMessage> process(ChatMessage msg) {
+        var textLine = msg.getMessage();
+        var message = textLine == null || textLine.isEmpty() ? AimlConst.null_input : textLine.trim();
+        msg = msg.response(message);
+        if (message.startsWith("/")) {
+            return parseCommand(msg);
+        } else {
+            String response = bot.multisentenceRespond(message, state);
+            state.newState(message, response);
+            return Optional.of(new ChatMessage(msg.getUserId(), msg.getChatId(), response));
         }
     }
 
     public void stop() {
         started = false;
+        channel.close();
     }
 
-    private void parseCommand(final String command) {
+    private Optional<ChatMessage> parseCommand(final ChatMessage msg) {
+        var command = msg.getMessage();
         switch (command) {
             case ChatCommand.exit:
             case ChatCommand.quit:
                 stop();
                 System.exit(0);
             case ChatCommand.stat:
-                write(bot.getBrainStats());
-                break;
+                return Optional.of(msg.response(bot.getBrainStats()));
             case ChatCommand.reload:
                 bot.wakeUp();
-                break;
+                return Optional.of(msg.response(format("Bot %s reloaded", bot.getName())));
             case "/connect russian":
             case "/c russian":
                 bot.setName("russian");
                 bot.wakeUp();
-                break;
+                return Optional.of(msg.response(format("Connected to bot %s", bot.getName())));
             case "/connect alice2":
             case "/c alice2":
                 bot.setName("alice2");
                 bot.wakeUp();
-                break;
+                return Optional.of(msg.response(format("Connected to bot %s", bot.getName())));
             case "/debug on":
             case "/debug true":
                 AimlConst.debug = true;
-                break;
+                return Optional.empty();
             case "/debug off":
             case "/debug false":
                 AimlConst.debug = false;
-                break;
+                return Optional.empty();
             default:
                 var response = bot.multisentenceRespond(command, state);
                 state.newState(command, response);
-                write(response);
-                break;
+                return Optional.of(msg.response(response));
         }
-    }
-
-    private String read() {
-        provider.write(nickname + ": ");
-        var textLine = provider.read();
-        return textLine == null || textLine.isEmpty() ? AimlConst.null_input : textLine.trim();
-    }
-
-    private void write(String message) {
-        provider.write(bot.getName() + ": " + message + "\n");
     }
 }

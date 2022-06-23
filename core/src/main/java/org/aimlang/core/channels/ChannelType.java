@@ -6,6 +6,11 @@ package org.aimlang.core.channels;
  * @author anton
  * @since 19/04/17
  */
-public enum  ChannelType {
-    CONSOLE, VK, FACEBOOK, REST, WEBSOCKET
+public enum ChannelType {
+    CONSOLE,
+    VK,
+    FACEBOOK,
+    REST,
+    WEBSOCKET,
+    TELEGRAM
 }

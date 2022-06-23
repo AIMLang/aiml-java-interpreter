@@ -14,9 +14,9 @@ import static org.aimlang.core.chat.ChatContextStorageFactory.inMemory;
  * @since 19/10/16
  */
 public class BotBuilder {
+    private final String botName;
     private ChatContextStorage context = inMemory();
     private String rootPath = AimlConst.getRootPath();
-    private String botName;
 
     private BotBuilder(String botName) {
         this.botName = botName;

@@ -1,6 +1,6 @@
 package org.aimlang.core.bot;
 
-import org.aimlang.core.channels.ChannelType;
+import org.aimlang.core.channels.Channel;
 import org.aimlang.core.chat.Chat;
 import org.aimlang.core.chat.ChatContext;
 import org.aimlang.core.chat.ChatContextStorage;
@@ -15,12 +15,7 @@ import org.aimlang.core.core.Named;
 public interface Bot extends Named {
     String getRespond(String phrase);
 
-    default void startChat(String userId, ChannelType channelType) {
-        setChatContext(getChatContextStorage().getContext(userId, channelType));
-        buildChat().start();
-    }
-
-    Chat buildChat();
+    Chat buildChat(Channel channel);
 
     ChatContextStorage getChatContextStorage();
 

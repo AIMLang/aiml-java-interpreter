@@ -1,10 +1,12 @@
 package org.aimlang.core.channels;
 
 import org.aimlang.core.bot.Bot;
+import org.aimlang.core.chat.ChatMessage;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.function.Consumer;
 
 import static org.aimlang.core.channels.ChannelType.CONSOLE;
 
@@ -14,48 +16,40 @@ import static org.aimlang.core.channels.ChannelType.CONSOLE;
  * @author batiaev
  * @since 18/10/16
  */
-public class ConsoleChannel implements Provider, Channel {
+public class ConsoleChannel implements Channel {
 
-    private BufferedReader reader;
-    private Bot bot;
+    private final BufferedReader reader;
+    private final String botName;
 
     public static ConsoleChannel chatWith(Bot bot) {
-        return new ConsoleChannel(bot);
+        return new ConsoleChannel(bot.getName());
     }
 
-    public ConsoleChannel(Bot bot) {
-        this.bot = bot;
+    public ConsoleChannel(String botName) {
+        this.botName = botName;
         reader = new BufferedReader(new InputStreamReader(System.in));
     }
 
     @Override
-    public Bot getBot() {
-        return bot;
-    }
-
-    @Override
-    public String read() {
-        String textLine = null;
-        try {
-            textLine = reader.readLine();
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void subscribe(Consumer<ChatMessage> messageHandler) {
+        while (true) {
+            String textLine = null;
+            try {
+                textLine = reader.readLine();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            messageHandler.accept(new ChatMessage("console", "default", textLine));
         }
-        return textLine;
     }
 
     @Override
-    public void write(String message) {
-        System.out.print(message);
+    public void write(ChatMessage message) {
+        System.out.println(botName + ": " + message.getMessage());
     }
 
     @Override
     public ChannelType getType() {
         return CONSOLE;
-    }
-
-    @Override
-    public ResponseHandler getResponseHandler() {
-        return System.out::println;
     }
 }

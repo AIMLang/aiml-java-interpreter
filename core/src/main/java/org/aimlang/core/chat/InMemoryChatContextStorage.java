@@ -12,7 +12,7 @@ import java.util.Map;
  * @since 24/05/17
  */
 public class InMemoryChatContextStorage implements ChatContextStorage {
-    private Map<String, Map<ChannelType, ChatContext>> contexts;
+    private final Map<String, Map<ChannelType, ChatContext>> contexts;
 
     public InMemoryChatContextStorage() {
         contexts = new HashMap<>();

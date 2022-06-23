@@ -17,8 +17,8 @@ import java.util.Properties;
 public class BotConfiguration implements BotInfo {
     private static final String PROPERTIES = "bot.properties";
 
-    private String rootDir;
-    private Properties prop;
+    private final String rootDir;
+    private final Properties prop;
 
     public BotConfiguration(String rootDir) {
         this.rootDir = rootDir;
